@@ -42,10 +42,10 @@ class LeptonEtaPtCorrFactors(TreeCloner):
     def checkOptions(self,opts):
 
         self.cmssw = opts.cmssw
-        print " cmssw = ", self.cmssw
+        print(" cmssw = ", self.cmssw)
         cmssw_base = os.getenv('CMSSW_BASE')
         self.WPdic = cmssw_base+'/src/'+opts.WPdic
-        print self.WPdic
+        print(self.WPdic)
         if os.path.exists(self.WPdic) :
           handle = open(self.WPdic,'r')
           exec(handle)
@@ -53,7 +53,7 @@ class LeptonEtaPtCorrFactors(TreeCloner):
           self.ElectronWP = ElectronWP
           self.MuonWP = MuonWP
         else:
-          print 'ERROR: No WP'
+          print('ERROR: No WP')
           exit()
 
     def process(self,**kwargs):
@@ -130,8 +130,8 @@ class LeptonEtaPtCorrFactors(TreeCloner):
         # START TREE LOOP
         nentries = self.itree.GetEntries()
         savedentries = 0
-        print 'Total number of entries: ',nentries
-        print '- Starting eventloop'
+        print('Total number of entries: ',nentries)
+        print('- Starting eventloop')
         step = 5000
 
         # avoid dots to go faster
@@ -144,7 +144,7 @@ class LeptonEtaPtCorrFactors(TreeCloner):
             itree.GetEntry(i)
 
             if i > 0 and i%step == 0.:
-                print i,'events processed :: ', nentries
+                print(i,'events processed :: ', nentries)
 
             # Clear all vectors
             for bname, bvector in self.oldBranchesToBeModifiedVector.iteritems() : bvector.clear()
@@ -366,6 +366,6 @@ class LeptonEtaPtCorrFactors(TreeCloner):
             savedentries+=1
 
         self.disconnect()
-        print '- Eventloop completed'
-        print '   Saved: ', savedentries, ' events'
+        print('- Eventloop completed')
+        print('   Saved: ', savedentries, ' events')
 
