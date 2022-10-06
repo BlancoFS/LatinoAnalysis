@@ -268,7 +268,7 @@ class Pruner(TreeCloner):
                 checkBranchExists = 0
                 for j in xrange(branches.size()):
                     if (keeps_string.at(q)==branches.at(j)):
-                        print 'keep this:', keeps_string.at(q)
+                        print('keep this:', keeps_string.at(q))
                         branches.erase(branches.begin()+j)
                         missingBranch += 1
                         checkBranchExists = 1
