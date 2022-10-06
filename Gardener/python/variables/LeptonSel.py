@@ -23,8 +23,8 @@ from collections import OrderedDict
 class LeptonWP():
 
     def __init__ (self,cmssw,WPDic,WPType,WP):
-      print "-------- LeptonWP init() ---------"  
-      print WPType,WP
+      print("-------- LeptonWP init() ---------")
+      print(WPType,WP)
       self.WPType = WPType
       self.WP     = WP
 
@@ -44,11 +44,11 @@ class LeptonWP():
 
         self.WP[iCond] = Cut    
 
-      print self.WP
+      print(self.WP)
 
     def passWP(self,itree,iLep):
 
-       #print 'Applying', self.WPType , self.WP
+       #print('Applying', self.WPType , self.WP)
 
        # Create variables if needed
        for iVar in self.Variables : exec (iVar+'='+self.Variables[iVar].replace('[]','[iLep]'))
@@ -103,16 +103,16 @@ class LeptonSel(TreeCloner):
     def checkOptions(self,opts):
         
         self.cmssw = opts.cmssw
-        print " cmssw = ", self.cmssw
+        print(" cmssw = ", self.cmssw)
         cmssw_base = os.getenv('CMSSW_BASE')
         self.WPdic = cmssw_base+'/src/'+opts.WPdic
-        print self.WPdic 
+        print(self.WPdic)
         if os.path.exists(self.WPdic) :
           handle = open(self.WPdic,'r')
           exec(handle)
           handle.close()
         else:
-          print 'ERROR: No WP'
+          print('ERROR: No WP')
           exit()  
 
         # Lepton cleaning options
@@ -161,12 +161,12 @@ class LeptonSel(TreeCloner):
 
         # What to do if more than 1 Fake Obj definition ?
         if  len(self.FakeObjMuonWPs) > 1 or len(self.FakeObjElectronWPs) > 1 :
-          print 'ERROR: Can not handle more than 1 FakeObj definition'
+          print('ERROR: Can not handle more than 1 FakeObj definition')
           exit()
 
         # What to do if more than 1 WgStar Obj definition ?
         if  len(self.WgStarObjMuonWPs) > 1 or len(self.WgStarObjElectronWPs) > 1 :
-          print 'ERROR: Can not handle more than 1 WgStarObj definition'
+          print('ERROR: Can not handle more than 1 WgStarObj definition')
           exit()
 
 
@@ -176,14 +176,14 @@ class LeptonSel(TreeCloner):
         
         #for i in range( len(getattr(self.otree, vectorname)) ) :
           #pass
-          #print " --> before ", vectorname, "[", i, "] = ", getattr(self.otree, vectorname)[i]
+          #print(" --> before ", vectorname, "[", i, "] = ", getattr(self.otree, vectorname)[i])
 
         # take vector and clone vector
         # equivalent of: temp_vector = itree."vector"
         temp_vector = getattr(self.itree, vectorname)
         # remix the order of vector picking from the clone
         for i in range( len(goodleptonslist) ) :
-          #print " --> [", i, " :: ", len(goodleptonslist) ,"] :::>> ", len(temp_vector), " --> ", goodleptonslist[i]      
+          #print(" --> [", i, " :: ", len(goodleptonslist) ,"] :::>> ", len(temp_vector), " --> ", goodleptonslist[i])      
           # otree."vectorname"[i] = temp_vector[goodleptonslist[i]] <--- that is the "itree" in the correct position
           # setattr(self.otree, vector + "[" + str(i) + "]", temp_vector[ goodleptonslist[i] ])
           vector.push_back ( temp_vector[ goodleptonslist[i] ] )
@@ -307,11 +307,11 @@ class LeptonSel(TreeCloner):
 
         # Loop
         nentries = self.itree.GetEntries()
-        print 'Total number of entries: ',nentries
+        print('Total number of entries: ',nentries)
         savedentries = 0
 
         #----------------------------------------------------------------------------------------------------
-        print '- Starting eventloop'
+        print('- Starting eventloop')
         step = 5000
 
         for i in xrange(nentries):
@@ -319,7 +319,7 @@ class LeptonSel(TreeCloner):
             itree.GetEntry(i)
 
             if i > 0 and i%step == 0.:
-                print i,'events processed :: ', nentries
+                print(i,'events processed :: ', nentries)
 
             # Gep Letpon Tags: 
 
@@ -376,7 +376,7 @@ class LeptonSel(TreeCloner):
             if   self.kindLep == 2 : CleanTag = 'Loose'
             elif self.kindLep == 3 : CleanTag = 'WgStar'  
             else:
-              print 'ERROR: kindLep unavailable : ',self.kindLep
+              print('ERROR: kindLep unavailable : ',self.kindLep)
               exit() 
 
             # Lepton Cuts
@@ -504,10 +504,10 @@ class LeptonSel(TreeCloner):
               # met filters: "bool" (as weight)  -- This is used prior to Full2016 Only I think (Xavier)
               if self.cmssw == '763' or self.cmssw == 'ICHEP2016' or self.cmssw == 'Rereco2016' or self.cmssw == 'Full2016' :
                 pass_met_filters = 1.
-                #print " min =", min( 8 , len(itree.std_vector_trigger_special) )
+                #print(" min =", min( 8 , len(itree.std_vector_trigger_special) ))
                 for metfilters in range( min( 8 , len(itree.std_vector_trigger_special) ) ) :
                   if itree.std_vector_trigger_special[metfilters] == 0. : pass_met_filters = 0.
-                  #print " i: ", i, " :: metfilters ", metfilters, " --> ", itree.std_vector_trigger_special[metfilters]
+                  #print(" i: ", i, " :: metfilters ", metfilters, " --> ", itree.std_vector_trigger_special[metfilters])
                 self.oldBranchesToBeModifiedSpecialSimpleVariable['metFilter'][0] = pass_met_filters
 
               # closest veto di-lepton mass to Z
@@ -529,8 +529,8 @@ class LeptonSel(TreeCloner):
               otree.Fill()
 
         self.disconnect()
-        print '- Eventloop completed'
-        print '   Saved: ', savedentries, ' events'
+        print('- Eventloop completed')
+        print('   Saved: ', savedentries, ' events')
 
  
 
