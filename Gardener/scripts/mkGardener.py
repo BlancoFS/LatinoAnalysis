@@ -111,7 +111,7 @@ CMSSW=os.environ["CMSSW_BASE"]
 #if options.cmssw == '74x' :
 #  Steps['bPogSF']['command'] = 'gardener.py btagPogScaleFactors '  
 #  Steps['bPogSF']['do4MC'] = False
-#  print Steps['bPogSF']['command']  
+#  print(Steps['bPogSF']['command'])  
 
 #if options.cmssw == '763' :
 #eosTargBaseIn = '/eos/user/j/jgarciaf/'
@@ -186,7 +186,7 @@ for iProd in prodList :
         for iOldName in Productions[iProd]['reName']: 
           iLineMod=iLineMod.replace(iOldName, Productions[iProd]['reName'][iOldName])
       exec(iLineMod)  
-    #print samples.keys()
+    #print(samples.keys())
     if 'config.Data.outLFNDirBase' in iLine : prodDir=iLine.split('=')[1].replace('\'','').replace(' ','')
     if 'dir' in Productions[iProd] : prodDir=Productions[iProd]['dir']
   handle.close()
@@ -247,7 +247,7 @@ for iProd in prodList :
   # Loop on Steps
   for iStep in stepList:
     if ( not Productions[iProd]['isData'] and Steps[iStep]['do4MC'] ) or ( Productions[iProd]['isData'] and Steps[iStep]['do4Data'] ) :
-      print '---------------- for Step : ',iStep
+      print('---------------- for Step : ',iStep)
       targetList={}
       # Validate targets tree
       if 'iihe' in os.uname()[1]:
@@ -282,7 +282,7 @@ for iProd in prodList :
         selectSample=True
         # ... from options
         if len(options.selTree) > 0 :
-          #if 'DYJetsToLL_M-50' in iSample : print iSample
+          #if 'DYJetsToLL_M-50' in iSample : print(iSample)
           #print('iSample', iSample ,'selTree',options.selTree)
           if not iSample in options.selTree: selectSample=False
           #print(selectSample)
@@ -316,13 +316,13 @@ for iProd in prodList :
           #  else:
           #    if not iTree in FileExistList and selectSample: targetList[iSample] = 'NOSPLIT'
         #else: 
-        #if 'ttDM' in iSample: print iSample, selectSample 
+        #if 'ttDM' in iSample: print(iSample, selectSample) 
         for iFile in FileInList:
-            #if 'DYJetsToLL_M-50_00' in iFile and iSample == 'DYJetsToLL_M-50': print iFile , options.redo ,  iFile in FileExistList 
+            #if 'DYJetsToLL_M-50_00' in iFile and iSample == 'DYJetsToLL_M-50': print(iFile , options.redo ,  iFile in FileExistList) 
           if options.redo or not iFile in FileExistList or iStep == 'hadd' :
             #print('iSample', iSample, 'iFile', iFile)
             if selectSample and iSample.replace('_25ns','') in iFile :
-              #if 'MuonEG' in iFile : print iFile
+              #if 'MuonEG' in iFile : print(iFile)
               iKey = iFile.replace('latino_','').replace('.root','')
               if '_000' in iKey :
                 aSample = iKey.split('_000')[0]
@@ -334,7 +334,7 @@ for iProd in prodList :
                 #if iSample.replace('_25ns','') in iTarget : iTargetOri = iSample
               else:
                 aSample = iKey
-              #print 'aSample',aSample,'iSample',iSample
+              #print('aSample',aSample,'iSample',iSample)
               if aSample.replace('_25ns','') == iSample.replace('_25ns','') :
                 if 'iihe' in os.uname()[1]:
                   if options.iniStep == 'Prod' :
@@ -446,8 +446,8 @@ for iProd in prodList :
       #   isNotFirstinChain = False
       #   targetList = targetListChain
       #targetListChain=targetList
-      print "targetList check 1: ", targetList
-      #for i in targetList : print i
+      print("targetList check 1: ", targetList)
+      #for i in targetList : print(i)
       #quit() 
       # Create Output Directory on eos
       if 'iihe' in os.uname()[1]:
@@ -538,7 +538,7 @@ for iProd in prodList :
                 del targetGroupList[jKey]
 
         targetList = targetGroupList 
-        #print targetList
+        #print(targetList)
       # Check job in not already running before allowing it ? 
       keysToDel=[] 
       for iTarget in targetList:
@@ -613,7 +613,7 @@ for iProd in prodList :
             print('--> HADD: Some jobs stil running/not done : '+iTarget)
             del targetList[iTarget]
 
-      print "targetList check 2: ", targetList
+      print("targetList check 2: ", targetList)
       # Create Jobs Dictionary
       list=[]
       list.append(iStep)
@@ -823,7 +823,7 @@ for iProd in prodList :
           puData='/u/user/salee/Latino/PUdata/PileupHistogram_Full2016_271036-284044_69p2mb_31Jan17.root'
         if 'sdfarm' in os.uname()[1]:
           puData=puData.replace('/afs/cern.ch/user/x/xjanssen/public','/cms/ldap_home/salee/Latino/PUdata')
-        print 'PU Data : ', puData
+        print('PU Data : ', puData)
         command = command.replace('RPLME_puData',puData)  
 
         # Stage Out
@@ -885,7 +885,7 @@ for iProd in prodList :
         # Fix dcap for IIHE
         command = command.replace(' /pnfs/iihe',' dcap://maite.iihe.ac.be/pnfs/iihe')        
 
-        if options.pretend : print "The command is : ", command
+        if options.pretend : print("The command is : ", command)
         else :
           if  options.runBatch: jobs.Add(stepBatch,iTarget,command)
           else:
@@ -897,9 +897,9 @@ for iProd in prodList :
         previousStep=startingStep+'__'+iStep
         targetListKeep=targetList
       else:
-        print "Gone batching ..."
+        print("Gone batching ...")
         if options.runBatch and not options.pretend: jobs.Sub(options.queue,options.IiheWallTime)
 
   if options.chain :
-    print "Gone batching for Chain ..."
+    print("Gone batching for Chain ...")
     if options.runBatch and not options.pretend: jobs.Sub(options.queue,options.IiheWallTime)
