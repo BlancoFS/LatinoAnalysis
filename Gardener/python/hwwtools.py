@@ -38,7 +38,7 @@ def confirm(prompt=None, resp=False):
         if not ans:
             return resp
         if ans not in ['y', 'Y', 'n', 'N']:
-            print 'please enter y or n.'
+            print('please enter y or n.')
             continue
         if ans == 'y' or ans == 'Y':
             return True
@@ -106,7 +106,7 @@ def getChain( sample, mass, path, tag='Data2011', tname='latino' ):
         all = hwwinfo.samples(mass, tag)
         files = all[sample]
     except Exception as e:
-        print 'Exception',e
+        print('Exception',e)
         return None
 
     chain = ROOT.TChain(tname)
@@ -120,10 +120,10 @@ def setDebugLevel(opt):
     if not opt.debug:
         pass
     elif opt.debug >= 2:
-        print 'Logging level set to DEBUG (%d)' % opt.debug
+        print('Logging level set to DEBUG (%d)' % opt.debug)
         logging.basicConfig(level=logging.DEBUG)
     elif opt.debug == 1:
-        print 'Logging level set to INFO (%d)' % opt.debug
+        print('Logging level set to INFO (%d)' % opt.debug)
         logging.basicConfig(level=logging.INFO)
 
 #---
@@ -141,7 +141,7 @@ def loadOptDefaults(parser, pycfg=None, quiet=False):
     The new defaults options shall be written in python, as they are interpreted
     '''
 
-    print " loadOptDefaults::pycfg = ", pycfg
+    print(" loadOptDefaults::pycfg = ", pycfg)
 
     if not pycfg:
         import sys
@@ -162,7 +162,7 @@ def loadOptDefaults(parser, pycfg=None, quiet=False):
 
         pycfg = opt.pycfg
 
-    #print " pycfg = ", pycfg
+    #print(" pycfg = ", pycfg)
     
     if os.path.exists(pycfg):
         handle = open(pycfg,'r')
@@ -170,12 +170,12 @@ def loadOptDefaults(parser, pycfg=None, quiet=False):
         exec(handle,vars)
         handle.close()
 
-        #print " vars = ", vars
+        #print(" vars = ", vars)
         for opt_name, opt_value in vars.iteritems():
             if opt_name[0] == '-': continue
 
-            #print " opt_name[0] = ", opt_name[0]
-            #print " opt_name    = ", opt_name
+            #print(" opt_name[0] = ", opt_name[0])
+            #print(" opt_name    = ", opt_name)
             
             o = findopt(parser, opt_name)
             if o is None: continue
@@ -185,7 +185,7 @@ def loadOptDefaults(parser, pycfg=None, quiet=False):
             # it modifies the default values
             # if then not defined, these ones will be used
             
-            if not quiet: print ' - new default value:',opt_name,'=',opt_value
+            if not quiet: print(' - new default value:',opt_name,'=',opt_value)
         return
 
 
@@ -207,7 +207,7 @@ class list_maker:
            setattr(parser.values, self._var, array)
 
         except:
-           print 'Malformed option (comma separated list expected):',value
+           print('Malformed option (comma separated list expected):',value)
 
 
 # def make_cat_list(option, opt_str, value, parser):
@@ -220,7 +220,7 @@ class list_maker:
 #         parser.values.cats = cats
 
 #     except:
-#         print 'Malformed option (comma separated list expected):',value
+#         print('Malformed option (comma separated list expected):',value)
 
 
 def addOptions(parser):
