@@ -26,7 +26,7 @@ def GetBaseW(inTreeList,iTarget,id_iTarget,isData,db,baseWInfo,version='74x'):
   else:
     xs = db.get(iTarget) 
     if xs == '' : 
-      print 'WARNING: X-section not found for sample: ',iTarget,' !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+      print('WARNING: X-section not found for sample: ',iTarget,' !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
       baseWInfo['xs']     = ''
       baseWInfo['baseW']  = '-1'
       baseWInfo['nEvt']   = ''
@@ -39,14 +39,14 @@ def GetBaseW(inTreeList,iTarget,id_iTarget,isData,db,baseWInfo,version='74x'):
       nPos = 0
       nNeg = 0
       for inTree in inTreeList: 
-        print 'Opening: ',inTree
+        print('Opening: ',inTree)
         #fileIn = ROOT.TFile.Open("dcap://maite.iihe.ac.be"+inTree, "READ")
         fileIn = ROOT.TFile.Open(inTree, "READ")
 #        fileIn.ls()
         if version == '74x' : 
           h_mcWhgt = fileIn.Get('mcWhgt')
           if h_mcWhgt.__nonzero__() :
-            #print 'Using h_mcWhgt'
+            #print('Using h_mcWhgt')
             nEvt += h_mcWhgt.GetBinContent(1) 
           else:
             nEvt += fileIn.Get('totalEvents').GetBinContent(1) 
@@ -58,14 +58,14 @@ def GetBaseW(inTreeList,iTarget,id_iTarget,isData,db,baseWInfo,version='74x'):
             nEvt += h_mcWeightPos.GetBinContent(1) - h_mcWeightNeg.GetBinContent(1)
             nPos += h_mcWeightPos.GetBinContent(1)
             nNeg += h_mcWeightNeg.GetBinContent(1) 
-            print 'Pos, Neg = ',h_mcWeightPos.GetBinContent(1),h_mcWeightNeg.GetBinContent(1)
+            print('Pos, Neg = ',h_mcWeightPos.GetBinContent(1),h_mcWeightNeg.GetBinContent(1))
           else:
             nEvt += fileIn.Get('totalEvents').GetBinContent(1)
             nPos += fileIn.Get('totalEvents').GetBinContent(1)
         nTot += fileIn.Get('totalEvents').GetBinContent(1)
         fileIn.Close()
       baseW = float(xs)*1000./nEvt
-      print 'baseW: xs,N -> W', xs, nEvt , baseW , ' nTot= ', nTot
+      print('baseW: xs,N -> W', xs, nEvt , baseW , ' nTot= ', nTot)
       baseWInfo['xs']     = str(xs)
       baseWInfo['baseW']  = str(baseW) 
       baseWInfo['nEvt']   = str(nEvt)
@@ -125,9 +125,9 @@ if options.outputTarget != None:
   eosTargBaseOut=options.outputTarget
 
 
-print "eosProdBase    = ", eosProdBase
-print "eosTargBaseIn  = ", eosTargBaseIn
-print "eosTargBaseOut = ", eosTargBaseOut 
+print("eosProdBase    = ", eosProdBase)
+print("eosTargBaseIn  = ", eosTargBaseIn)
+print("eosTargBaseOut = ", eosTargBaseOut) 
 
 if 'knu' in os.uname()[1] or 'sdfarm' in os.uname()[1]:
   #inDirBase = options.inputTarget
@@ -155,7 +155,7 @@ if "/eos/cms" in eosTargBaseOut:
 
 # Compile all root macros before sending jobs
 if options.runBatch:
-  print "Batch mode"
+  print("Batch mode")
   pathRootMacro = CMSSW + '/src/LatinoAnalysis/Gardener/python/variables/'
   for fn in os.listdir(pathRootMacro):
     if os.path.isfile(pathRootMacro+fn) and ( fn.endswith('.C') or fn.endswith('.cc') ):
@@ -173,13 +173,13 @@ for iProd in prodList :
 
   samples = {}
   prodDir = 'NONE'
-  print '----------- Running on production: '+iProd
+  print('----------- Running on production: '+iProd)
 
   # Load sample DB
   prodFile=CMSSW+'/src/'+Productions[iProd]['samples']
   handle = open(prodFile,'r')
   for iLine in handle.read().split('\n') : 
-    #print iLine
+    #print(iLine)
     if 'samples' in iLine : 
       iLineMod=iLine
       if 'reName' in Productions[iProd]:
@@ -233,11 +233,11 @@ for iProd in prodList :
     else:
       fileCmd = 'ls '+eosTargBaseIn+'/'+iProd+'/'+options.iniStep
 
-  print "input file fileCmd is: ", fileCmd
+  print("input file fileCmd is: ", fileCmd)
   proc=subprocess.Popen(fileCmd, stderr = subprocess.PIPE,stdout = subprocess.PIPE, shell = True)
   out, err = proc.communicate()
   FileInList=string.split(out)
-  print "Listing input files: ", FileInList
+  print("Listing input files: ", FileInList)
 
   isFirstinChain = True
   replaceStep=''
@@ -270,22 +270,22 @@ for iProd in prodList :
           fileCmd = 'ls '+eosTargBaseOut+'/'+iProd+'/'+'Prod__'+iStep
         else:
           fileCmd = 'ls '+eosTargBaseOut+'/'+iProd+'/'+options.iniStep+'__'+iStep
-      print 'output file fileCmd', fileCmd
+      print('output file fileCmd', fileCmd)
       proc=subprocess.Popen(fileCmd, stderr = subprocess.PIPE,stdout = subprocess.PIPE, shell = True)
       out, err = proc.communicate()
       FileExistList=string.split(out)
-      #print "FileExistList: ", FileExistList
-      #print 'samples',samples
-      #print samples.keys()
+      #print("FileExistList: ", FileExistList)
+      #print('samples',samples)
+      #print(samples.keys())
       for iSample in samples : 
         # Tree selector
         selectSample=True
         # ... from options
         if len(options.selTree) > 0 :
           #if 'DYJetsToLL_M-50' in iSample : print iSample
-          #print 'iSample', iSample ,'selTree',options.selTree
+          #print('iSample', iSample ,'selTree',options.selTree)
           if not iSample in options.selTree: selectSample=False
-          #print selectSample
+          #print(selectSample)
         if len(options.excTree) > 0 :
           if iSample in options.excTree : selectSample=False
         # ... From Production
@@ -306,7 +306,7 @@ for iProd in prodList :
         if iStep in ['mcweights'] : # ,'mcwghtcount' ]  :
           if not 'doMCweights=True' in samples[iSample][1] : 
             selectSample=False
-        #print 'iSample',iSample,'selectSample',selectSample
+        #print('iSample',iSample,'selectSample',selectSample)
         # And Now add trees
         #if not Productions[iProd]['isData'] :
           #iTree = 'latino_'+iSample+'.root'
@@ -320,7 +320,7 @@ for iProd in prodList :
         for iFile in FileInList:
             #if 'DYJetsToLL_M-50_00' in iFile and iSample == 'DYJetsToLL_M-50': print iFile , options.redo ,  iFile in FileExistList 
           if options.redo or not iFile in FileExistList or iStep == 'hadd' :
-            #print 'iSample', iSample, 'iFile', iFile
+            #print('iSample', iSample, 'iFile', iFile)
             if selectSample and iSample.replace('_25ns','') in iFile :
               #if 'MuonEG' in iFile : print iFile
               iKey = iFile.replace('latino_','').replace('.root','')
@@ -362,14 +362,14 @@ for iProd in prodList :
                   else:
                     targetList[iKey] = eosTargBaseIn+'/'+iProd+'/'+options.iniStep+'/'+iFile
 
-      print "targetList: ", targetList  
+      print("targetList: ", targetList)
 
 
       # Safeguard against partial run on splitted samples -> Re-include all files from that sample
       #if  iStep in ['mcwghtcount'] and not Productions[iProd]['isData']: 
       if not Productions[iProd]['isData']: 
         targetListBaseW = copy.deepcopy(targetList)
-        #print "printing targetListBaseW", targetListBaseW
+        #print("printing targetListBaseW", targetListBaseW)
         lSample = []
         for iTarget in targetListBaseW.keys(): 
           if   '_000' in iTarget :
@@ -378,9 +378,9 @@ for iProd in prodList :
           elif '__part' in iTarget:
             aSample = iTarget.split('__part')[0]
             if not aSample in lSample : lSample.append(aSample)
-        #print "lSample", lSample  
+        #print("lSample", lSample)  
         for iSample in lSample:
-          #print iSample
+          #print(iSample)
           for iFile in FileInList:
             iKey = iFile.replace('latino_','').replace('.root','')
             aSample = iKey
@@ -388,10 +388,10 @@ for iProd in prodList :
               aSample = iKey.split('_000')[0]
             elif '__part' in iKey :
               aSample = iKey.split('__part')[0] 
-            #print aSample, iSample
+            #print(aSample, iSample)
             if aSample == iSample:
               if not iKey in targetListBaseW.keys():
-                print 'Re-Adding split tree: ', iKey, iFile
+                print('Re-Adding split tree: ', iKey, iFile)
 
                 if 'iihe' in os.uname()[1]:
                   if options.iniStep == 'Prod' :
@@ -424,11 +424,11 @@ for iProd in prodList :
       startingStep = options.iniStep
       if options.chain :
         if not isFirstinChain: 
-          print "Gone hacking targetList for chain"
-          print startingStep,replaceStep,previousStep
-          print 'targetList',targetList
+          print("Gone hacking targetList for chain")
+          print(startingStep,replaceStep,previousStep)
+          print('targetList',targetList)
           targetList = targetListKeep
-          print 'targetList',targetList
+          print('targetList',targetList)
           for i in targetList :
             if not replaceStep:
               if 'sdfarm' in os.uname()[1]:
@@ -451,7 +451,7 @@ for iProd in prodList :
       #quit() 
       # Create Output Directory on eos
       if 'iihe' in os.uname()[1]:
-        print 'Using LCG ...'
+        print('Using LCG ...')
       elif 'knu' in os.uname()[1]:
         if iStep == 'UEPS' :
           for iUEPS in Steps[iStep]['cpMap'] :
@@ -498,7 +498,7 @@ for iProd in prodList :
           else:
             iKey = iTarget
 
-          #print iKey , iTarget , remoteFileSize(targetList[iTarget])
+          #print(iKey , iTarget , remoteFileSize(targetList[iTarget]))
 
           if not Steps['hadd']['SizeMethod'] :
             if options.redo or not 'latino_'+iKey+'.root' in FileExistList :
@@ -526,7 +526,7 @@ for iProd in prodList :
               jKey  = iKey+'__part'+str(iPart) 
               iFile = 'latino_'+iKey+'__part'+str(iPart)+'.root'
               if options.redo or not iFile in FileExistList : 
-                  #print iTarget, iSize , iFile
+                  #print(iTarget, iSize , iFile)
                 if not jKey in targetGroupList: targetGroupList[jKey] = []
                 targetGroupList[jKey].append(targetList[iTarget])  
             if iPart == 0 :
@@ -534,7 +534,7 @@ for iProd in prodList :
               if options.redo or not iFile in FileExistList :         
                 targetGroupList[iKey] = targetGroupList.pop(jKey)
               else:
-                #print iFile, " exist"
+                #print(iFile, " exist")
                 del targetGroupList[jKey]
 
         targetList = targetGroupList 
@@ -548,14 +548,14 @@ for iProd in prodList :
         if not startingStep == 'Prod' : pidFile+='____'+startingStep
         pidFile+='.jid'
         if os.path.isfile(pidFile) :
-          print "pidFile", pidFile
-          print '--> Job Running already : '+iTarget
+          print("pidFile", pidFile)
+          print('--> Job Running already : '+iTarget)
           keysToDel.append(iTarget)
       for iTarget in keysToDel:
         del targetList[iTarget]
       # For hadd, we need to check that all jobs are done !
       if iStep == 'hadd' :
-        #print targetList
+        #print(targetList)
         keysToDel=[]
         for iTarget in targetList:
           FileTarget=[]
@@ -595,7 +595,7 @@ for iProd in prodList :
           if   '_000'   in targetList[iTarget][0] : fileCmd += '_000*.root'
           elif '__part' in targetList[iTarget][0] : fileCmd += '__part*.root'
           else : fileCmd += '.root'
-          #print fileCmd 
+          #print(fileCmd)
           proc=subprocess.Popen(fileCmd, stderr = subprocess.PIPE,stdout = subprocess.PIPE, shell = True)
           out, err = proc.communicate()
           FileOriList=string.split(out)
@@ -604,13 +604,13 @@ for iProd in prodList :
           for jFile in FileTarget : FileTargetStrip.append(os.path.basename(jFile))  
           for jFile in FileOriList:
             if not (os.path.basename(jFile)) in FileTargetStrip : 
-              print jFile , os.path.basename(jFile) , iTarget
+              print(jFile , os.path.basename(jFile) , iTarget)
               haddTest=False
           if not haddTest : keysToDel.append(iTarget)
         for iTarget in keysToDel:
           iKey = iTarget.split('_000')[0].split('__part')[0]
           if not iKey in Steps['hadd']['bigSamples'] or Steps['hadd']['SizeMethod']:
-            print '--> HADD: Some jobs stil running/not done : '+iTarget 
+            print('--> HADD: Some jobs stil running/not done : '+iTarget)
             del targetList[iTarget]
 
       print "targetList check 2: ", targetList
@@ -625,7 +625,7 @@ for iProd in prodList :
           if isFirstinChain:
             list=[iStep+'_Chain']
             stepBatch=iStep+'_Chain'
-            print "crating jobs :",'Gardening',iProd,list,targetList.keys(),options.batchSplit,bpostFix
+            print("crating jobs :",'Gardening',iProd,list,targetList.keys(),options.batchSplit,bpostFix)
             jobs = batchJobs('Gardening',iProd,list,targetList.keys(),options.batchSplit,bpostFix)
 
         else:
@@ -636,7 +636,7 @@ for iProd in prodList :
 
       # And now do/create to job for each target
       for iTarget in targetList.keys(): 
-        print "DOING : ",iTarget
+        print("DOING : ",iTarget)
         GarbageCollector=[]
         if '_000' in iTarget :
           iTargetOri = iTarget.split('_000')[0]
@@ -647,14 +647,14 @@ for iProd in prodList :
             if iSample.replace('_25ns','') in iTarget : iTargetOri = iSample
         else:
           iTargetOri = iTarget
-        #print iTargetOri
+        #print(iTargetOri)
         if Productions[iProd]['isData'] :
           id_iTarget='0'
         else:
           id_iTarget=samples[iTargetOri][1][1].replace('id=','')
-        #print iTarget , iTargetOri , id_iTarget
+        #print(iTarget , iTargetOri , id_iTarget)
         # Stage in   
-        #print targetList[iTarget] 
+        #print(targetList[iTarget])
         inTree = targetList[iTarget]  # Pointing to File in case of Split
         oriTree = inTree
         wDir  =workDir+'/Gardening__'+iProd+'__'+iStep
@@ -708,9 +708,9 @@ for iProd in prodList :
           for iUEPS in Steps[iStep]['cpMap'] :
             if iTarget in Steps[iStep]['cpMap'][iUEPS] :
               for i in range(len(Steps[iStep]['cpMap'][iUEPS][iTarget])):
-                print iUEPS, iTarget , '--->' , Steps[iStep]['cpMap'][iUEPS][iTarget][i]
+                print(iUEPS, iTarget , '--->' , Steps[iStep]['cpMap'][iUEPS][iTarget][i])
                 outTree = os.path.dirname(inTree)+'__'+iUEPS+'/'+'latino_'+Steps[iStep]['cpMap'][iUEPS][iTarget][i]+'.root'
-                print inTree , '--->', outTree 
+                print(inTree , '--->', outTree)
                 command +='lcg-cp srm://maite.iihe.ac.be:8443'+inTree+' srm://maite.iihe.ac.be:8443'+outTree+' '
                 if i <  len(Steps[iStep]['cpMap'][iUEPS][iTarget])-1 : command += ' ; '
 
@@ -728,7 +728,7 @@ for iProd in prodList :
             # ... From iStep
             if 'onlySample' in Steps[iSubStep] : # and not options.ignoreOnlySamples :
               if len(Steps[iSubStep]['onlySample']) > 0 :
-                #print Steps[iSubStep]['onlySample'] , iSample , iTargetOri
+                #print(Steps[iSubStep]['onlySample'] , iSample , iTargetOri)
                 if not iTargetOri in Steps[iSubStep]['onlySample'] : selectSample=False
             if 'excludeSample' in Steps[iSubStep] :
               if len(Steps[iSubStep]['excludeSample']) > 0 :
@@ -756,10 +756,10 @@ for iProd in prodList :
               elif 'xrootd' in inTree:
                 command+=Steps[iSubStep]['command']+' '+rootReadPath(inTree.split('xrootd')[1])+' '+outTree +' ; '
               else: command+=Steps[iSubStep]['command']+' '+inTree+' '+outTree +' ; '  
-              #print 'isChain-------------------------------------------'
-              #print 'inTree', inTree
-              #print 'outTree',outTree
-              #print 'command',command
+              #print('isChain-------------------------------------------')
+              #print('inTree', inTree)
+              #print('outTree',outTree)
+              #print('command',command)
               finalTree=outTree
               GarbageCollector.append(outTree)
 
@@ -774,10 +774,10 @@ for iProd in prodList :
           elif 'sdfarm' in os.uname()[1]:
             command+=Steps[iStep]['command']+' '+rootReadPath(inTree.split('xrootd')[1])+' '+outTree +' ; '
           else: command+=Steps[iStep]['command']+' '+inTree+' '+outTree +' ; '
-          #print 'single Target-------------------------------------------'
-          #print 'inTree', inTree
-          #print 'outTree',outTree
-          #print 'command',command
+          #print('single Target-------------------------------------------')
+          #print('inTree', inTree)
+          #print('outTree',outTree)
+          #print('command',command)
 
           GarbageCollector.append(outTree)
 
@@ -797,13 +797,13 @@ for iProd in prodList :
               kTargetOri = kTarget.split('__part')[0]
             if iTargetOri == kTargetOri : 
               oriTreeList.append(os.path.dirname(oriTree)+'/latino_'+kTarget+'.root')
-          #print oriTreeList
+          #print(oriTreeList)
           baseWInfo = {}
           baseW = GetBaseW(oriTreeList,iTargetOri,id_iTarget,Productions[iProd]['isData'],xsDB,baseWInfo,cmssw)
           if baseW == '-1' : 
             #xsDB.Print()
             exit()
-          print baseWInfo
+          print(baseWInfo)
           f = open(wDir+'/baseWInfo.txt', 'a')
           f.write(iProd+' '+iTargetOri+' : ')
           f.write(str(baseWInfo))
