@@ -78,8 +78,8 @@ class genVariablesFiller(TreeCloner):
 
         # now actually connect the branches
         for bname, bvariable in self.oldBranchesToBeModifiedSimpleVariable.iteritems():
-            #print " bname   = ", bname
-            #print " bvariable = ", bvariable
+            #print(" bname   = ", bname)
+            #print(" bvariable = ", bvariable)
             self.otree.Branch(bname,bvariable,bname+'/F')
 
         # input tree and output tree
@@ -99,10 +99,10 @@ class genVariablesFiller(TreeCloner):
 
         # get some information 
         nentries = self.itree.GetEntries()
-        print 'Total number of entries: ',nentries 
+        print('Total number of entries: ',nentries)
         savedentries = 0
         
-        print '- Starting eventloop'
+        print('- Starting eventloop')
         step = 5000
 
         for i in xrange(nentries):
@@ -111,7 +111,7 @@ class genVariablesFiller(TreeCloner):
             itree.GetEntry(i)
 
             if i > 0 and i%step == 0.:
-                print i,'events processed.'
+                print(i,'events processed.')
 
             GenVar = ROOT.GenVar()
             # if no gen information, don't fill the variable
@@ -148,9 +148,9 @@ class genVariablesFiller(TreeCloner):
             
 
         self.disconnect()
-        print '- Eventloop completed'
-        print '   Saved: ', savedentries, ' events'
-        print '   Total: ', nentries 
+        print('- Eventloop completed')
+        print('   Saved: ', savedentries, ' events')
+        print('   Total: ', nentries)
 
 
 
