@@ -46,14 +46,14 @@ class btagPogScaleFactors(TreeCloner):
         efficienciesMC = {}
         efffile_path = cmssw_base+'/src/LatinoAnalysis/Gardener/python/'+opts.efficiencyMCFile
         if opts.efficiencyMCFile == None :
-          print " Please provide an input file with the MC efficiencies "
+          print(" Please provide an input file with the MC efficiencies ")
            
         elif os.path.exists(efffile_path) :
           handle = open(efffile_path,'r')
           exec(handle)
           handle.close()
         else:  
-          print "cannot find file", opts.efficiencyMCFile
+          print("cannot find file", opts.efficiencyMCFile)
 
         #print " isoidScaleFactors = ", isoidScaleFactors
         
@@ -73,7 +73,7 @@ class btagPogScaleFactors(TreeCloner):
         except RuntimeError:
             ROOT.gROOT.LoadMacro(cmssw_base+'/src/LatinoAnalysis/Gardener/python/variables/BTagCalibrationStandalone.cc++g')
         #ROOT.gROOT.ProcessLine('.L BTagCalibrationStandalone.cc+') 
-        print "scale factors from", cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/'+opts.sfFile
+        print("scale factors from", cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/'+opts.sfFile)
 
         wp = int(opts.workingPoint)
         self.calib = ROOT.BTagCalibration("cMVAv2", cmssw_base+'/src/LatinoAnalysis/Gardener/python/'+opts.sfFile)
@@ -105,7 +105,7 @@ class btagPogScaleFactors(TreeCloner):
         elif wp == 2:
           self.cut =0.875
         else:
-          print "WP", opts.workingPoint, " is not supported"
+          print("WP", opts.workingPoint, " is not supported")
 
 
 
@@ -123,7 +123,7 @@ class btagPogScaleFactors(TreeCloner):
           eta = self.maxeta
 
 
-        if kindJet in self.efficienciesMC.keys() : 
+        if kindJet in list(self.efficienciesMC.keys()) : 
           # get the efficiency
           for point in self.efficienciesMC[kindJet] : 
             #   pt           eta          eff 
@@ -133,7 +133,7 @@ class btagPogScaleFactors(TreeCloner):
                 return point[2]
 
           # default ... it should never happen!
-          print " default ???", pt, eta, kindJet
+          print(" default ???", pt, eta, kindJet)
           return 1.0
  
         # not a lepton ... like some default value
@@ -219,19 +219,19 @@ class btagPogScaleFactors(TreeCloner):
 
 
         nentries = self.itree.GetEntries()
-        print 'Total number of entries: ',nentries 
+        print('Total number of entries: ',nentries) 
                 
         # avoid dots to go faster
         itree     = self.itree
         otree     = self.otree
 
-        print '- Starting eventloop'
+        print('- Starting eventloop')
         step = 5000
-        for i in xrange(nentries):
+        for i in range(nentries):
             itree.GetEntry(i)
             ## print event count
             if i > 0 and i%step == 0.:
-              print i,'events processed.'
+              print(i,'events processed.')
 
 
             pData         = 1.
@@ -246,7 +246,7 @@ class btagPogScaleFactors(TreeCloner):
 
             njet 	  = 0
 
-            for iJet in xrange(len(itree.std_vector_jet_pt)) :
+            for iJet in range(len(itree.std_vector_jet_pt)) :
              
               pt      = itree.std_vector_jet_pt [iJet]
               eta     = itree.std_vector_jet_eta [iJet]
@@ -267,7 +267,7 @@ class btagPogScaleFactors(TreeCloner):
                   kindJet = 'b'
                   idJet = 0
                 else:
-                  print "BIG PROBLEM! Hadron Flavor is neither 0, 4 or 5"
+                  print("BIG PROBLEM! Hadron Flavor is neither 0, 4 or 5")
                 #print "pt, eta, idJet, kindJet", pt, eta, idJet, kindJet 
                 if idJet != 2:
                   sf      = self.readerCentral.evaluate(idJet, eta, pt)
@@ -337,5 +337,5 @@ class btagPogScaleFactors(TreeCloner):
             otree.Fill()
 
         self.disconnect()
-        print '- Eventloop completed'
+        print('- Eventloop completed')
 

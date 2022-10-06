@@ -68,15 +68,15 @@ class chargeFlipWeight(TreeCloner):
         self.otree.Branch('chFlipProba',  chFlipProba,  'chFlipProba/F')
 
         nentries = self.itree.GetEntries()
-        print 'Total number of entries: ',nentries 
+        print('Total number of entries: ',nentries) 
 
         # avoid dots to go faster
         itree     = self.itree
         otree     = self.otree
 
-        print '- Starting eventloop'
+        print('- Starting eventloop')
         step = 5000
-        for i in xrange(nentries):
+        for i in range(nentries):
             itree.GetEntry(i)
             chFlipProba[0] = 1.
 
@@ -99,5 +99,5 @@ class chargeFlipWeight(TreeCloner):
   
             
         self.disconnect()
-        print '- Eventloop completed'
+        print('- Eventloop completed')
 

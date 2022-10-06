@@ -49,8 +49,8 @@ def getHHkinematics(bjets, wjets,lepton, met, other_jets_eta, other_jets_pts, de
         b_phis.append(j.Phi())
         b_pts.append(j.Pt())
     if debug:
-        print("b-jets pts", b_pts)
-        print("b-jets etas", b_etas)
+        print(("b-jets pts", b_pts))
+        print(("b-jets etas", b_etas))
     deltaeta_b = abs(b_etas[0]- b_etas[1])
     mean_eta_b = sum(b_etas) / 2 
     output["b_pt_high"] = b_pts[0]
@@ -74,8 +74,8 @@ def getHHkinematics(bjets, wjets,lepton, met, other_jets_eta, other_jets_pts, de
         wjet_phis.append(j.Phi())
         wjet_pts.append(j.Pt())
     if debug:
-        print("Wjet pts", wjet_pts)
-        print("Wjet etas", wjet_etas)
+        print(("Wjet pts", wjet_pts))
+        print(("Wjet etas", wjet_etas))
     output["Wjet_pt_high"] = wjet_pts[0]
     output["Wjet_pt_low"] = wjet_pts[1]
     output["mjj_Wjet"] = total_wjet.M()
@@ -203,7 +203,7 @@ class HHjjlnu_kin(TreeCloner):
        
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         # avoid dots to go faster
         itree     = self.itree
@@ -211,10 +211,10 @@ class HHjjlnu_kin(TreeCloner):
 
         print('- Starting eventloop')
         step = 5000
-        for i in xrange(nentries):
+        for i in range(nentries):
             itree.GetEntry(i)
             if i > 0 and i%step == 0.:
-                print(i,'events processed :: ', nentries)
+                print((i,'events processed :: ', nentries))
 
             # Check if we have at least 4 jets with pt > ptmin
             # and VBSjets and Vjets are all associated
@@ -224,8 +224,8 @@ class HHjjlnu_kin(TreeCloner):
                     variables[var][0] = -9999
             else:
                 if self.debug:
-                    print("Hjets", [i for i in itree.H_jets])
-                    print("Wjets", [j for j in itree.W_jets])
+                    print(("Hjets", [i for i in itree.H_jets]))
+                    print(("Wjets", [j for j in itree.W_jets]))
 
                 bjets = utils.get_jets_byindex(itree, itree.H_jets, self.ptmin_jet, self.debug)
                 wjets = utils.get_jets_byindex(itree, itree.W_jets, self.ptmin_jet, self.debug)
@@ -251,7 +251,7 @@ class HHjjlnu_kin(TreeCloner):
                 if self.debug:
                     print(output)
 
-                for vk, vvalue in variables.items():
+                for vk, vvalue in list(variables.items()):
                     vvalue[0] = output[vk]
                 
             otree.Fill()

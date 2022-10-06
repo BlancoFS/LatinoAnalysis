@@ -70,20 +70,20 @@ class JetPairingGenVBS(TreeCloner):
         self.otree.Branch('PartonJetMatchFlag', PartonJetMatchFlag, 'PartonJetMatchFlag/I')
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         # avoid dots to go faster
         itree     = self.itree
         otree     = self.otree
 
-        print("Matching radius:", self.radius)
+        print(("Matching radius:", self.radius))
 
         print('- Starting eventloop')
         step = 5000
-        for i in xrange(nentries):
+        for i in range(nentries):
             itree.GetEntry(i)
             if i > 0 and i%step == 0.:
-                print(i,'events processed :: ', nentries)
+                print((i,'events processed :: ', nentries))
 
             partons, pids = utils.get_hard_partons(itree, self.debug)
 

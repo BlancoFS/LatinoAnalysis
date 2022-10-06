@@ -40,8 +40,8 @@ class MetXYshiftTreeMaker(TreeCloner) :
         self.paraFile  = opts.paraFile
         self.sample  = opts.sample
         self.cmssw_base= os.getenv('CMSSW_BASE')
-        print "  cmssw =", self.cmssw
-        print "  paraFile ="+self.cmssw_base+"/src/LatinoAnalysis/Gardener/python/data/met/"+self.paraFile
+        print("  cmssw =", self.cmssw)
+        print("  paraFile ="+self.cmssw_base+"/src/LatinoAnalysis/Gardener/python/data/met/"+self.paraFile)
 
     def deltaphi(self, phi1, phi2) :
         dphi = abs(phi1 - phi2)
@@ -82,7 +82,7 @@ class MetXYshiftTreeMaker(TreeCloner) :
         self.connect(tree,input)
 
         nentries = self.itree.GetEntries()
-        print ' - Input entries:', nentries 
+        print(' - Input entries:', nentries) 
         savedentries = 0
 
 	#print "cmssw_base =", cmssw_base
@@ -117,7 +117,7 @@ class MetXYshiftTreeMaker(TreeCloner) :
         itree = self.itree
 
         #-----------------------------------------------------------------------
-        print ' - Starting event loop'
+        print(' - Starting event loop')
         step = 50000
 
         corx = ROOT.Double(0)
@@ -133,7 +133,7 @@ class MetXYshiftTreeMaker(TreeCloner) :
         varType = {"multiplicity":0, "ngoodVertices":1, "sumPt":2, "pfType1":3, "ptcMet":4, 0:"multiplicity",1:"ngoodVertices", 2:"sumPt", 3:"pfType1", 4:"ptcMet"}
 
 	#nentries = 10
-        for i in xrange(nentries) :
+        for i in range(nentries) :
           itree.GetEntry(i)
 
 	  nGoodVtx = itree.nGoodVtx
@@ -208,7 +208,7 @@ class MetXYshiftTreeMaker(TreeCloner) :
           self.otree.Fill()
           savedentries+=1
         self.disconnect()
-        print ' - Event loop completed'
-        print ' - Saved entries:', savedentries
+        print(' - Event loop completed')
+        print(' - Saved entries:', savedentries)
 
 

@@ -78,15 +78,15 @@ class BWEwkSingletReweighter(TreeCloner):
  
         self.decayWeightsFile = cmssw_base+'/src/LatinoAnalysis/Gardener/python/'+opts.decayWeightsFile
         self.fileNameFormat    = opts.fileNameFormat
-        print("c' start", self.cprimemin)
-        print("c' stop", self.cprimemax)
-        print("c' step", self.cprimestep)
-        print("BRnew start", self.brnewmin)
-        print("BRnew stop", self.brnewmax)
-        print("BRnew step", self.brnewstep)
-        print("global shift for GG from file", self.shiftfileGG)
-        print("global shift for VBF from file", self.shiftfileVBF)
-        print("Decay weights from file", self.decayWeightsFile)
+        print(("c' start", self.cprimemin))
+        print(("c' stop", self.cprimemax))
+        print(("c' step", self.cprimestep))
+        print(("BRnew start", self.brnewmin))
+        print(("BRnew stop", self.brnewmax))
+        print(("BRnew step", self.brnewstep))
+        print(("global shift for GG from file", self.shiftfileGG))
+        print(("global shift for VBF from file", self.shiftfileVBF))
+        print(("Decay weights from file", self.decayWeightsFile))
         if self.undoCPS:
           print("Undoing Complex Pole Scheme before applying the BW weights")
         cmssw_base = os.getenv('CMSSW_BASE')
@@ -138,14 +138,14 @@ class BWEwkSingletReweighter(TreeCloner):
         filename = (input.split("/"))[-1]
         pattern = re.match(self.fileNameFormat, filename)
         if pattern == None:
-          print("cannot parse filename",filename, "Expected pattern is", self.fileNameFormat)
+          print(("cannot parse filename",filename, "Expected pattern is", self.fileNameFormat))
           return
         if pattern.group(1) == "VBF":
           productionProcess = "VBF"
         elif pattern.group(1) == "GluGlu":
           productionProcess = "GG"
         else:
-          print(pattern.group(1), "is an unknown production process")
+          print((pattern.group(1), "is an unknown production process"))
           return
         
         self.isNewJHU = pattern.group(2)
@@ -153,13 +153,13 @@ class BWEwkSingletReweighter(TreeCloner):
         self.mH  = float(pattern.group(3))
         self.gsm = self.g.GetBinContent(self.g.FindBin(self.mH))
         self.gsmCPS = self.gCPS.GetBinContent(self.gCPS.FindBin(self.mH))
-        print("Mass", self.mH, " with SM width", self.gsm, " and CPS width ", self.gsmCPS)
+        print(("Mass", self.mH, " with SM width", self.gsm, " and CPS width ", self.gsmCPS))
 
         # does that work so easily and give new variable itree and otree?
         self.connect(tree,input)
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         self.namesOldBranchesToBeModifiedSimpleVariable = []
         rangecprime = np.arange(self.cprimemin, self.cprimemax, self.cprimestep).tolist()
@@ -168,8 +168,8 @@ class BWEwkSingletReweighter(TreeCloner):
           rangecprime.append(self.cprimemax)
         if (self.brnewmin) not in rangeBRnew:
           rangeBRnew.insert(0, self.brnewmin)
-        print("cprimes", rangecprime)
-        print("BRnews", rangeBRnew)
+        print(("cprimes", rangecprime))
+        print(("BRnews", rangeBRnew))
 
         for cprime in rangecprime:
           for BRnew in rangeBRnew:
@@ -190,7 +190,7 @@ class BWEwkSingletReweighter(TreeCloner):
           self.oldBranchesToBeModifiedSimpleVariable[bname] = bvariable
 
         # now actually connect the branches
-        for bname, bvariable in self.oldBranchesToBeModifiedSimpleVariable.iteritems():
+        for bname, bvariable in self.oldBranchesToBeModifiedSimpleVariable.items():
             #print(" bname   = ", bname)
             #print(" bvariable = ", bvariable)
             self.otree.Branch(bname,bvariable,bname+'/F')
@@ -204,7 +204,7 @@ class BWEwkSingletReweighter(TreeCloner):
         elif productionProcess == "VBF":
           shiftfile = self.shiftfileVBF
         else:
-          print("Unknown process", productionProcess)
+          print(("Unknown process", productionProcess))
           return
 
         # only with the old JHU samples, which did not have proper decay weights for WW, we need to load the decay weights file.
@@ -213,14 +213,14 @@ class BWEwkSingletReweighter(TreeCloner):
           shiftfile = shiftfile.replace(".pkl", "_JHU698.pkl")
         else:
           print("This is old JHU, good for you.")
-        print("using the following shiftfile:", shiftfile)
+        print(("using the following shiftfile:", shiftfile))
         if self.isNewJHU=="":
           with open (self.decayWeightsFile) as decayWeightsFile:
             allparams = pickle.load(decayWeightsFile)
             decayWeightFunction = interp1d(**allparams[str(int(self.mH))]["decayWeight"])
             minmass = min(allparams[str(int(self.mH))]["decayWeight"]['x'])
             maxmass = max(allparams[str(int(self.mH))]["decayWeight"]['x'])
-            print("decay weights for mass", str(int(self.mH)), " available between", minmass, " and", maxmass)
+            print(("decay weights for mass", str(int(self.mH)), " available between", minmass, " and", maxmass))
         if shiftfile != "":
           with open (shiftfile) as shiftfile_stream:
             shifts = pickle.load(shiftfile_stream)
@@ -240,13 +240,13 @@ class BWEwkSingletReweighter(TreeCloner):
         print('- Starting eventloop')
         step = 5000 
 
-        for i in xrange(nentries):
+        for i in range(nentries):
         #for i in xrange(1):
 
             itree.GetEntry(i)
 
             if i > 0 and i%step == 0.:
-                print(i,'events processed :: ', nentries)
+                print((i,'events processed :: ', nentries))
             
             mass = itree.higgsLHEmass
             #mass = itree.higgsLHEMass
