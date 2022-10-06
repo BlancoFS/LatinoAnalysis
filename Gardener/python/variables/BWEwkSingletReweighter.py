@@ -78,17 +78,17 @@ class BWEwkSingletReweighter(TreeCloner):
  
         self.decayWeightsFile = cmssw_base+'/src/LatinoAnalysis/Gardener/python/'+opts.decayWeightsFile
         self.fileNameFormat    = opts.fileNameFormat
-        print "c' start", self.cprimemin
-        print "c' stop", self.cprimemax
-        print "c' step", self.cprimestep
-        print "BRnew start", self.brnewmin
-        print "BRnew stop", self.brnewmax
-        print "BRnew step", self.brnewstep
-        print "global shift for GG from file", self.shiftfileGG
-        print "global shift for VBF from file", self.shiftfileVBF
-        print "Decay weights from file", self.decayWeightsFile
+        print("c' start", self.cprimemin)
+        print("c' stop", self.cprimemax)
+        print("c' step", self.cprimestep)
+        print("BRnew start", self.brnewmin)
+        print("BRnew stop", self.brnewmax)
+        print("BRnew step", self.brnewstep)
+        print("global shift for GG from file", self.shiftfileGG)
+        print("global shift for VBF from file", self.shiftfileVBF)
+        print("Decay weights from file", self.decayWeightsFile)
         if self.undoCPS:
-          print "Undoing Complex Pole Scheme before applying the BW weights"
+          print("Undoing Complex Pole Scheme before applying the BW weights")
         cmssw_base = os.getenv('CMSSW_BASE')
         cmssw_arch = os.getenv('SCRAM_ARCH')
         complexpoleLib = cmssw_base+'/src/LatinoAnalysis/Gardener/python/variables/libcpHTO.so'
@@ -138,28 +138,28 @@ class BWEwkSingletReweighter(TreeCloner):
         filename = (input.split("/"))[-1]
         pattern = re.match(self.fileNameFormat, filename)
         if pattern == None:
-          print "cannot parse filename",filename, "Expected pattern is", self.fileNameFormat
+          print("cannot parse filename",filename, "Expected pattern is", self.fileNameFormat)
           return
         if pattern.group(1) == "VBF":
           productionProcess = "VBF"
         elif pattern.group(1) == "GluGlu":
           productionProcess = "GG"
         else:
-          print pattern.group(1), "is an unknown production process"
+          print(pattern.group(1), "is an unknown production process")
           return
         
         self.isNewJHU = pattern.group(2)
-        #print "ciaoooo", self.isNewJHU
+        #print("ciaoooo", self.isNewJHU)
         self.mH  = float(pattern.group(3))
         self.gsm = self.g.GetBinContent(self.g.FindBin(self.mH))
         self.gsmCPS = self.gCPS.GetBinContent(self.gCPS.FindBin(self.mH))
-        print "Mass", self.mH, " with SM width", self.gsm, " and CPS width ", self.gsmCPS
+        print("Mass", self.mH, " with SM width", self.gsm, " and CPS width ", self.gsmCPS)
 
         # does that work so easily and give new variable itree and otree?
         self.connect(tree,input)
 
         nentries = self.itree.GetEntries()
-        print 'Total number of entries: ',nentries 
+        print('Total number of entries: ',nentries) 
 
         self.namesOldBranchesToBeModifiedSimpleVariable = []
         rangecprime = np.arange(self.cprimemin, self.cprimemax, self.cprimestep).tolist()
@@ -168,8 +168,8 @@ class BWEwkSingletReweighter(TreeCloner):
           rangecprime.append(self.cprimemax)
         if (self.brnewmin) not in rangeBRnew:
           rangeBRnew.insert(0, self.brnewmin)
-        print "cprimes", rangecprime
-        print "BRnews", rangeBRnew
+        print("cprimes", rangecprime)
+        print("BRnews", rangeBRnew)
 
         for cprime in rangecprime:
           for BRnew in rangeBRnew:
@@ -191,8 +191,8 @@ class BWEwkSingletReweighter(TreeCloner):
 
         # now actually connect the branches
         for bname, bvariable in self.oldBranchesToBeModifiedSimpleVariable.iteritems():
-            #print " bname   = ", bname
-            #print " bvariable = ", bvariable
+            #print(" bname   = ", bname)
+            #print(" bvariable = ", bvariable)
             self.otree.Branch(bname,bvariable,bname+'/F')
 
         # input tree and output tree
@@ -204,27 +204,27 @@ class BWEwkSingletReweighter(TreeCloner):
         elif productionProcess == "VBF":
           shiftfile = self.shiftfileVBF
         else:
-          print "Unknown process", productionProcess
+          print("Unknown process", productionProcess)
           return
 
         # only with the old JHU samples, which did not have proper decay weights for WW, we need to load the decay weights file.
         if "JHUGen698" in self.isNewJHU:
-          print "This is new JHU, good for you."
+          print("This is new JHU, good for you.")
           shiftfile = shiftfile.replace(".pkl", "_JHU698.pkl")
         else:
-          print "This is old JHU, good for you."
-        print "using the following shiftfile:", shiftfile
+          print("This is old JHU, good for you.")
+        print("using the following shiftfile:", shiftfile)
         if self.isNewJHU=="":
           with open (self.decayWeightsFile) as decayWeightsFile:
             allparams = pickle.load(decayWeightsFile)
             decayWeightFunction = interp1d(**allparams[str(int(self.mH))]["decayWeight"])
             minmass = min(allparams[str(int(self.mH))]["decayWeight"]['x'])
             maxmass = max(allparams[str(int(self.mH))]["decayWeight"]['x'])
-            print "decay weights for mass", str(int(self.mH)), " available between", minmass, " and", maxmass 
+            print("decay weights for mass", str(int(self.mH)), " available between", minmass, " and", maxmass)
         if shiftfile != "":
           with open (shiftfile) as shiftfile_stream:
             shifts = pickle.load(shiftfile_stream)
-            #print shifts[str(int(self.mH))]
+            #print(shifts[str(int(self.mH))])
 
 
 
@@ -237,7 +237,7 @@ class BWEwkSingletReweighter(TreeCloner):
         mela.resetMCFM_EWKParameters(1.16637e-5, 1./128., 80.398, 91.1876, 0.22264585341299603)
 
         #----------------------------------------------------------------------------------------------------
-        print '- Starting eventloop'
+        print('- Starting eventloop')
         step = 5000 
 
         for i in xrange(nentries):
@@ -246,7 +246,7 @@ class BWEwkSingletReweighter(TreeCloner):
             itree.GetEntry(i)
 
             if i > 0 and i%step == 0.:
-                print i,'events processed :: ', nentries
+                print(i,'events processed :: ', nentries)
             
             mass = itree.higgsLHEmass
             #mass = itree.higgsLHEMass
@@ -284,11 +284,11 @@ class BWEwkSingletReweighter(TreeCloner):
             motherIDs.push_back(int(itree.pdfid1))
             motherIDs.push_back(int(itree.pdfid2))
            
-            #print "incoming:"
-            #print incoming1.Px(), incoming1.Py(), incoming1.Pz(), int(itree.pdfid1)
-            #print incoming2.Px(), incoming2.Py(), incoming2.Pz(), int(itree.pdfid2)
+            #print("incoming:")
+            #print(incoming1.Px(), incoming1.Py(), incoming1.Pz(), int(itree.pdfid1))
+            #print(incoming2.Px(), incoming2.Py(), incoming2.Pz(), int(itree.pdfid2))
 
-            #print "outgoing:"
+            #print("outgoing:")
             for ijet in range(5):
               if itree.std_vector_LHEparton_pt[ijet] > 0.:
                 parton = ROOT.TLorentzVector()
@@ -322,7 +322,7 @@ class BWEwkSingletReweighter(TreeCloner):
                 decayWeight = decayWeightFunction(maxmass)
               else:   
                 decayWeight = decayWeightFunction(mass)
-            #print decayWeight    
+            #print(decayWeight)
             for cprime in rangecprime:
               for BRnew in rangeBRnew:
                 name = 'cprime'+str(cprime)+"BRnew"+str(BRnew)
@@ -365,13 +365,13 @@ class BWEwkSingletReweighter(TreeCloner):
                 self.oldBranchesToBeModifiedSimpleVariable[name+"_I_HB"][0] = self.oldBranchesToBeModifiedSimpleVariable[name][0]*weightInterferenceHB
                 self.oldBranchesToBeModifiedSimpleVariable[name+"_B"][0] = self.oldBranchesToBeModifiedSimpleVariable[name][0]*weightBackground
                 self.oldBranchesToBeModifiedSimpleVariable[name+"_H"][0] = self.oldBranchesToBeModifiedSimpleVariable[name][0]*weightSignalH
-                #print weightInterference,weightInterferenceHonly,weightInterferenceBonly,weightInterferenceHB,weightBackground,weightSignalH
+                #print(weightInterference,weightInterferenceHonly,weightInterferenceBonly,weightInterferenceHB,weightBackground,weightSignalH)
 
 
               
             otree.Fill()
 
         self.disconnect()
-        print '- Eventloop completed'
+        print('- Eventloop completed')
 
 
