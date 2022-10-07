@@ -57,8 +57,8 @@ class NanoProdMaker():
      out, err = proc.communicate()
      # No Proxy at all ?
      if 'Proxy not found' in err :
-       print 'WARNING: No GRID proxy -> Get one first with:'
-       print 'voms-proxy-init -voms cms -rfc --valid 168:0'
+       print('WARNING: No GRID proxy -> Get one first with:')
+       print('voms-proxy-init -voms cms -rfc --valid 168:0')
        exit()
      # More than 24h ?
      timeLeft = 0
@@ -66,8 +66,8 @@ class NanoProdMaker():
        if 'timeleft' in line : timeLeft = int(line.split(':')[1])
 
      if timeLeft < 24 :
-       print 'WARNING: Your proxy is only valid for ',str(timeLeft),' hours -> Renew it with:'
-       print 'voms-proxy-init -voms cms -rfc --valid 168:0'
+       print('WARNING: Your proxy is only valid for ',str(timeLeft),' hours -> Renew it with:')
+       print('voms-proxy-init -voms cms -rfc --valid 168:0')
        exit()
 
 #------------- Samples
@@ -107,12 +107,12 @@ class NanoProdMaker():
         self._taskName='nanoAOD__'+iProd+'__'+iSample
         tidFile = self._jDir+'/'+self._taskName+'.tid'
         if os.path.isfile(tidFile) :
-           print '--> CRAB Task Running already : ',tidFile
-           print '--> Clean if you want ot resubmit'
+           print('--> CRAB Task Running already : ',tidFile)
+           print('--> Clean if you want ot resubmit')
            continue
 
         # prepare cmsDriver python
-        print '---------------------- Sample = ',iSample
+        print('---------------------- Sample = ',iSample)
         cmsDrvCmd = cmsDrvBase 
         self._PyCfg=self._jDir+'/'+self._taskName+'.py'
         cmsDrvCmd += ' --python_filename='+self._PyCfg
@@ -162,13 +162,13 @@ class NanoProdMaker():
         # ... Close
         fCfg.close() 
 
-        print self._crabCfg
+        print(self._crabCfg)
 
         # Submit
         if self._pretend :
-          print "Not Submitting, dry run : " + self._taskName
+          print("Not Submitting, dry run : " + self._taskName)
         else:
-          print "Submitting to CRAB : " + self._taskName
+          print("Submitting to CRAB : " + self._taskName)
           os.system('cd '+self._jDir+' ; source /cvmfs/cms.cern.ch/crab3/crab.sh ; crab submit -c '+os.path.basename(self._crabCfg))
           # Check result
           logFile = self._jDir+'/crab_'+self._taskName+'/crab.log'
@@ -180,7 +180,7 @@ class NanoProdMaker():
             if 'Success: Your task has been delivered to the CRAB3 server' in line : succes=True
             if 'Task name:' in line:
               taskName=line.split()[5]
-          print 'Success = ',succes,' --> TaskName = ',taskName
+          print('Success = ',succes,' --> TaskName = ',taskName)
           # Make .jid files
           if succes:
            # Keep the task ID
@@ -194,7 +194,7 @@ class NanoProdMaker():
    def process(self):
 
      for iProd in self._prodList:
-       print '----------- Running on production: '+iProd
+       print('----------- Running on production: '+iProd)
        self.readSampleFile(iProd)
        self.submitJobs(iProd) 
        self.Reset()
