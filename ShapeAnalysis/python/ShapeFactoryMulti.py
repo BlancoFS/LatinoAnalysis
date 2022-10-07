@@ -54,43 +54,43 @@ class ShapeFactory:
     # _____________________________________________________________________________
     def makeNominals(self, inputDir, outputDir, variables, cuts, samples, nuisances, supercut, number=99999, firstEvent=0, nevents=-1):
 
-        print "======================"
-        print "==== makeNominals ===="
-        print "======================"
+        print("======================")
+        print("==== makeNominals ====")
+        print("======================")
 
         self._variables = variables
         self._samples   = samples
         self._cuts      = cuts
 
         #in case some aliases need a compiled function
-        for aliasName, alias in self.aliases.iteritems():
-          if alias.has_key('linesToAdd'):
+        for aliasName, alias in self.aliases.items():
+          if 'linesToAdd' in alias:
             linesToAdd = alias['linesToAdd']
             for line in linesToAdd:
               ROOT.gROOT.ProcessLineSync(line)
 
         #in case some variables need a compiled function
-        for variableName, variable in self._variables.iteritems():
-          if variable.has_key('linesToAdd'):
+        for variableName, variable in self._variables.items():
+          if 'linesToAdd' in variable:
             linesToAdd = variable['linesToAdd']
             for line in linesToAdd:
               ROOT.gROOT.ProcessLineSync(line)
 
         #in case some samples need a compiled function
-        for sampleName, sample in self._samples.iteritems():
-          if sample.has_key('linesToAdd'):
+        for sampleName, sample in self._samples.items():
+          if 'linesToAdd' in sample:
             linesToAdd = sample['linesToAdd']
             for line in linesToAdd:
               ROOT.gROOT.ProcessLineSync(line)
 
-        print " supercut = ", supercut
+        print(" supercut = ", supercut)
 
         if number != 99999 :
           outputFileName = outputDir+'/plots_'+self._tag+"_"+str(number)+".root"
         else :
           outputFileName = outputDir+'/plots_'+self._tag+".root"
 
-        print " outputFileName = ", outputFileName
+        print(" outputFileName = ", outputFileName)
         os.system ("mkdir -p " + outputDir + "/")
 
         ROOT.TH1.SetDefaultSumw2(True)
@@ -102,29 +102,29 @@ class ShapeFactory:
         # Speed up TFile::Close - see https://root-forum.cern.ch/t/tfile-close-slow/24179
         ROOT.gROOT.GetListOfFiles().Remove(outFile)
 
-        print ''
-        print '  <cuts>'
-        for cutName, cut in self._cuts.iteritems():
-          print "cut = ", cutName, " :: ", self._cuts[cutName]
+        print('')
+        print('  <cuts>')
+        for cutName, cut in self._cuts.items():
+          print("cut = ", cutName, " :: ", self._cuts[cutName])
           if type(cut) is dict and 'categories' in cut:
             for catname in cut['categories']:
               outFile.mkdir(cutName + '_' + catname)
 
-              for variableName, variable in self._variables.iteritems():
+              for variableName, variable in self._variables.items():
                 if 'cuts' not in variable or cutName in variable['cuts'] or cutName + '/' + catname in variable['cuts']:
                   outFile.mkdir(cutName+"_"+catname+"/"+variableName)
 
           else:
             outFile.mkdir(cutName)
 
-            for variableName, variable in self._variables.iteritems():
+            for variableName, variable in self._variables.items():
               if 'cuts' not in variable or cutName in variable['cuts']:
                 outFile.mkdir(cutName+"/"+variableName)
 
         #---- just print the variables
-        print ''
-        print '  <variables>'
-        for variableName, variable in self._variables.iteritems():
+        print('')
+        print('  <variables>')
+        for variableName, variable in self._variables.items():
           line = "    variable = " + variableName + " :: "
           if 'name' in variable:
             line += str(variable['name'])
@@ -132,26 +132,26 @@ class ShapeFactory:
             line += variable['class']
           elif 'tree' in variable:
             line += 'tree (%d branches)' % len(variable['tree'])
-          print line
+          print(line)
           if 'range' in variable:
-            print "      range:", variable['range']
+            print("      range:", variable['range'])
           if 'samples' in variable:
-            print "      samples:", variable['samples']
+            print("      samples:", variable['samples'])
 
-        print ''
-        print '  <nuisances>'
+        print('')
+        print('  <nuisances>')
 
-        for nuisanceName, nuisance in nuisances.iteritems():
+        for nuisanceName, nuisance in nuisances.items():
           line = "    nuisance = " + nuisanceName
           if 'name' in nuisance:
             line += " :: " + nuisance['name']
-          print line
+          print(line)
           if 'kind' in nuisance:
-              print "      kind:", nuisance['kind']
-          print "      type:", nuisance['type']
+              print("      kind:", nuisance['kind'])
+          print("      type:", nuisance['type'])
 
           if nuisanceName == "stat":
-            for item in nuisance["samples"].itervalues():
+            for item in nuisance["samples"].values():
               if "zeroMCError" not in item:
                 item["zeroMCError"] = '0'
 
@@ -162,20 +162,20 @@ class ShapeFactory:
         # Need to keep a python reference to all plot objects (otherwise python will garbage-collect)
         _allplots = set()
 
-        print ''
-        print '  <start histogram filling>'
+        print('')
+        print('  <start histogram filling>')
 
         # One MultiDraw per sample = tree
-        for sampleName, sample in self._samples.iteritems():
-          print "    sample =", sampleName
-          print "    name:", sample['name']
+        for sampleName, sample in self._samples.items():
+          print("    sample =", sampleName)
+          print("    name:", sample['name'])
           #print "    weight:", sample['weight']
 
           if 'outputFormat' in sample:
             outputFormat = sample['outputFormat']
           else:
             outputFormat = '{sample}{subsample}{nuisance}'
-          print "    outputFormat:", outputFormat
+          print("    outputFormat:", outputFormat)
 
           if 'weights' not in sample:
             sample['weights'] = ['1'] * len(sample['name'])
@@ -233,7 +233,7 @@ class ShapeFactory:
 
           basenames = [os.path.basename(s) if '###' in s else s for s in sample['name']]
 
-          for nuisanceName, nuisance in nuisances.iteritems():
+          for nuisanceName, nuisance in nuisances.items():
             if 'kind' not in nuisance:
               continue
 
@@ -278,7 +278,7 @@ class ShapeFactory:
 
               for var in variations:
                 if 'folder' + var in nuisance:
-                  if 'unskimmedFriendTreeDir' in nuisance.keys():
+                  if 'unskimmedFriendTreeDir' in list(nuisance.keys()):
                     unskimmedFriendsDir = nuisance['unskimmedFriendTreeDir']
     
                     try:
@@ -315,15 +315,15 @@ class ShapeFactory:
 
                 ndrawers.append(ndrawer)
             elif nkind.startswith('branch_custom'): ##[jhchoi]pick up sysbranch and sysfiles to replace given nominal
-              print "--branch_custom--"
+              print("--branch_custom--")
               for var in variations:
                 
                 friendAlias = nuisanceName + var
                 ndrawer = nuisanceDrawers[nuisanceName][var] = self._connectInputs(sampleName, sample['name'], inputDir, skipMissingFiles=False, friendsDir=(nuisance['folder' + var], friendAlias))
                 prefix = friendAlias+'.' ##read friendAlias as treename
-                for From,To in nuisance['BrFromTo'+var].items(): ##nuisance['BrFromToUp]  : a dictionary whose key =From , value ; To
+                for From,To in list(nuisance['BrFromTo'+var].items()): ##nuisance['BrFromToUp]  : a dictionary whose key =From , value ; To
                   ndrawer.replaceBranch(From,prefix+To)
-                  print "From=",From,"To",To
+                  print("From=",From,"To",To)
                 ndrawers.append(ndrawer)
           # Filters and aliases
 
@@ -331,7 +331,7 @@ class ShapeFactory:
           for ndrawer in ndrawers:
             ndrawer.setFilter(supercut)
 
-          for aliasName, alias in self.aliases.iteritems():
+          for aliasName, alias in self.aliases.items():
             if 'samples' in alias and sampleName not in alias['samples']:
               continue
 
@@ -357,12 +357,12 @@ class ShapeFactory:
               drawer.setTreeReweight(it, False, w)
 
           # Set overall weights on the nuisance up/down drawers
-          for nuisanceName, ndrawers in nuisanceDrawers.iteritems():
+          for nuisanceName, ndrawers in nuisanceDrawers.items():
             # tree-type nuisances can in addition have weights for up / down
             nuisance = nuisances[nuisanceName]
             sampleVarWeights = nuisance['samples'][sampleName]
 
-            for ivar, (var, ndrawer) in enumerate(ndrawers.iteritems()):
+            for ivar, (var, ndrawer) in enumerate(ndrawers.items()):
               if float(sampleVarWeights[ivar]) != 1.:
                 nuisanceShift = ShapeFactory._make_reweight(sampleVarWeights[ivar])
                 nuisanceweight = ROOT.multidraw.ReweightSource(sampleweight, nuisanceShift)
@@ -383,7 +383,7 @@ class ShapeFactory:
                 if w is not None:
                   ndrawer.setTreeReweight(it, False, w)
                   if warnIfTreeWeight:
-                    print 'Nuisance', nuisanceName, 'tree filler for sample', sampleName, 'has different number of trees from the nominal filler. Tree-based reweighting may cause problems.'
+                    print('Nuisance', nuisanceName, 'tree filler for sample', sampleName, 'has different number of trees from the nominal filler. Tree-based reweighting may cause problems.')
                     warnIfTreeWeight = False
 
           # Set up cuts
@@ -392,9 +392,9 @@ class ShapeFactory:
           if 'subsamples' in sample:
             # If the sample has "subsamples" defined (e.g. signal sample for differential),
             # we multiplex the cuts
-            for ssName in sorted(sample['subsamples'].iterkeys()):
+            for ssName in sorted(sample['subsamples'].keys()):
               ssCut = sample['subsamples'][ssName]
-              for cutName, cut in self._cuts.iteritems():
+              for cutName, cut in self._cuts.items():
                 if type(cut) is dict:
                   if 'samples' not in cut or sampleName in cut['samples'] or (sampleName + '/' + ssName) in cut['samples']:
                     cuts[(ssName, cutName)] = copy.deepcopy(cut)
@@ -402,47 +402,47 @@ class ShapeFactory:
                 else:
                   cuts[(ssName, cutName)] = {'expr': '(%s) * (%s)' % (ssCut, cut)}
           else:
-            for cutName, cut in self._cuts.iteritems():
+            for cutName, cut in self._cuts.items():
               if type(cut) is dict:
                 if 'samples' not in cut or sampleName in cut['samples']:
                   cuts[cutName] = copy.deepcopy(cut)
               else:
                 cuts[cutName] = {'expr': cut}
 
-          print ''
+          print('')
           # Loop over cuts ("cut" is a dict)
-          for cutKey, cut in cuts.iteritems():
+          for cutKey, cut in cuts.items():
             if type(cutKey) is tuple:
               # sample is split into subsamples
               ssName, cutName = cutKey
               slabel = '_' + ssName
               cutFullName = '%s__%s' % cutKey
-              print "    subsample/cut =", '%s/%s' % cutKey, "::", cut['expr']
+              print("    subsample/cut =", '%s/%s' % cutKey, "::", cut['expr'])
             else:
               cutName = cutKey
               slabel = ''
               cutFullName = cutKey
-              print "    cut =", cutFullName, "::", cut['expr']
+              print("    cut =", cutFullName, "::", cut['expr'])
 
             drawer.addCut(cutFullName, cut['expr'])
 
             categoryOrdering = []
             if 'categories' in cut:
               if type(cut['categories']) is dict:
-                print '    categories =', ', '.join(cut['categories'].iterkeys())
-                for catname, expr in cut['categories'].iteritems():
+                print('    categories =', ', '.join(iter(cut['categories'].keys())))
+                for catname, expr in cut['categories'].items():
                   categoryOrdering.append(catname)
                   drawer.addCategory(cutFullName, expr)
               else:
                 # is a list
                 categoryOrdering = list(cut['categories'])
-                print '    categorization =', cut['categorization']
+                print('    categorization =', cut['categorization'])
                 drawer.setCategorization(cutFullName, cut['categorization'])
 
             # keep only the nuisances that are applicable to this cut & sample
             applicableNuisances = {}
 
-            for nuisanceName, nuisance in nuisances.iteritems():
+            for nuisanceName, nuisance in nuisances.items():
               # If "cuts" is not defined in nuisances.py, then it is assumed to affect
               # all the cuts phase spaces
               if (sampleName not in nuisance['samples']) or \
@@ -454,7 +454,7 @@ class ShapeFactory:
 
               # setup cuts for tree-type nuisances
               if nuisanceName in nuisanceDrawers:
-                for ndrawer in nuisanceDrawers[nuisanceName].itervalues():
+                for ndrawer in nuisanceDrawers[nuisanceName].values():
                   ndrawer.addCut(cutFullName, cut['expr'])
                   if 'categorization' in cut:
                     ndrawer.setCategorization(cutFullName, cut['categorization'])
@@ -463,7 +463,7 @@ class ShapeFactory:
                       ndrawer.addCategory(cutFullName, cut['categories'][catname])
 
             # now loop over all the variables ...
-            for variableName, variable in self._variables.iteritems():
+            for variableName, variable in self._variables.items():
               if 'samples' in variable and sampleName not in variable['samples']:
                 continue
 
@@ -511,7 +511,7 @@ class ShapeFactory:
 
                     filler = drawer.addTree(tree, cutFullName)
 
-                  for bname in sorted(variable['tree'].iterkeys()):
+                  for bname in sorted(variable['tree'].keys()):
                     filler.addBranch(bname, variable['tree'][bname])
 
                   if reweight is not None:
@@ -586,14 +586,14 @@ class ShapeFactory:
 
               nominal_filler = setup_filler(drawer, reweight)
 
-              for nuisanceName, nuisance in applicableNuisances.iteritems():
+              for nuisanceName, nuisance in applicableNuisances.items():
                 if nuisanceName == 'stat' or 'kind' not in nuisance:
                   continue
 
                 sampleVarWeights = nuisance['samples'][sampleName]
 
                 if nuisanceName in nuisanceDrawers:
-                  for var, ndrawer in nuisanceDrawers[nuisanceName].iteritems():
+                  for var, ndrawer in nuisanceDrawers[nuisanceName].items():
                     setup_filler(ndrawer, reweight, nuisance['name'] + var)
 
                 else:
@@ -617,7 +617,7 @@ class ShapeFactory:
                       setup_filler(drawer, reweightNuis, nuisance['name'] + var)
 
             # Done setting up one cut
-            print ''
+            print('')
 
           # We now defined all plots for this sample - execute the drawers and fill the histograms
 
@@ -627,37 +627,37 @@ class ShapeFactory:
           tmpROOTFile = ROOT.TFile.Open(tmpfile.name, 'recreate')
           tmpROOTFile.cd()
 
-          print 'Start nominal histogram fill'
+          print('Start nominal histogram fill')
           drawer.execute(nevents, firstEvent)
 
           # tree-type nuisances
-          for nuisanceName in nuisanceDrawers.keys():
+          for nuisanceName in list(nuisanceDrawers.keys()):
             ndrawers = nuisanceDrawers.pop(nuisanceName)
-            for var, ndrawer in ndrawers.iteritems():
-              print 'Start', nuisanceName + var, 'histogram fill'
+            for var, ndrawer in ndrawers.items():
+              print('Start', nuisanceName + var, 'histogram fill')
               ndrawer.execute(nevents, firstEvent)
 
           tmpROOTFile.Close()
           os.unlink(tmpfile.name)
 
-          print 'Postfill'
+          print('Postfill')
 
           # Post-processing
-          for cutKey, cut in cuts.iteritems():
+          for cutKey, cut in cuts.items():
             if type(cutKey) is tuple:
               ssName, cutName = cutKey
               slabel = '_' + ssName
               cutFullName = '%s__%s' % cutKey
-              print "  subsample/cut =", '%s/%s' % cutKey, "::", cut['expr']
+              print("  subsample/cut =", '%s/%s' % cutKey, "::", cut['expr'])
             else:
               cutName = cutKey
               slabel = ''
               cutFullName = cutName
-              print "  cut = ", cutFullName, " :: ", cut['expr']
+              print("  cut = ", cutFullName, " :: ", cut['expr'])
 
             histoName = 'histo_' + outputFormat.format(sample=sampleName, subsample=slabel, nuisance='')
 
-            for variableName, variable in self._variables.iteritems():
+            for variableName, variable in self._variables.items():
               if 'tree' in variable:
                 continue
 
@@ -679,8 +679,8 @@ class ShapeFactory:
 
                 # fold if needed
                 if 'fold' in variable:
-                  print '   ', cutName + catsuffix + '/' + variableName + '/' + histoName
-                  print "    variable[fold] = ", variable['fold']
+                  print('   ', cutName + catsuffix + '/' + variableName + '/' + histoName)
+                  print("    variable[fold] = ", variable['fold'])
                   doFold = variable['fold']
                 else:
                   doFold = 0
@@ -693,7 +693,7 @@ class ShapeFactory:
                 outputsHisto = self._postplot(hTotal, doFold, cutName, sample, True, unroll2d=unroll2d, FixNegativeAfterHadd=self.FixNegativeAfterHadd)
                 _allplots.add(outputsHisto)
 
-                for nuisanceName, nuisance in nuisances.iteritems():
+                for nuisanceName, nuisance in nuisances.items():
                   if sampleName not in nuisance['samples'] or \
                      ('cuts' in nuisance and cutName not in nuisance['cuts']):
                     continue
@@ -728,7 +728,7 @@ class ShapeFactory:
                     elif configurationNuis['typeStat'] == 'bbb' :
                       #print "     >> bin-by-bin"
                       keepNormalization = 'keepNormalization' in configurationNuis and int(configurationNuis['keepNormalization'])
-                      print " keepNormalization = ", keepNormalization
+                      print(" keepNormalization = ", keepNormalization)
                       zeroMC = 'zeroMCError' in configurationNuis and int(configurationNuis['zeroMCError'])
 
                       for iBin in range(1, rnp.hist2array(outputsHisto, copy=False).size + 1):
@@ -794,13 +794,13 @@ class ShapeFactory:
 
 
           # end of one sample
-          print ''
+          print('')
 
         outFile.cd()
         outFile.Write()
         outFile.Close()
 
-        print 'Copying', outFile.GetName(), 'to', outputFileName
+        print('Copying', outFile.GetName(), 'to', outputFileName)
 
         realOutDir = os.path.realpath(os.path.dirname(outputFileName))
 
@@ -808,7 +808,7 @@ class ShapeFactory:
           try:
             if realOutDir.startswith('/eos/cms'):
               cmd = ['xrdcp', '-f', outFile.GetName(), 'root://eoscms.cern.ch/' + realOutDir + '/' + os.path.basename(outputFileName)]
-              print ' '.join(cmd)
+              print(' '.join(cmd))
               subprocess.Popen(cmd).communicate()
             else:
               shutil.copyfile(outFile.GetName(), outputFileName)
@@ -859,7 +859,7 @@ class ShapeFactory:
           tree.SetEntryList(0)
           # get the list
           if len(evlists):
-            print "applying the following event list to the input tree", tree.GetFile().GetName()
+            print("applying the following event list to the input tree", tree.GetFile().GetName())
             evlists[itree].Print()
             tree.SetEventList(evlists[itree])
           myList = ROOT.TEventList('myList'+'_'+str(numTree)+'_'+sampleName+'_'+cutName,"")
@@ -877,7 +877,7 @@ class ShapeFactory:
           #tree.SetEntryList(myList)
           tree.SetEventList(myList)
           #print " AFTER List --> ", tree.GetEntries()
-          print "filtered."
+          print("filtered.")
           numTree += 1
 
     # _____________________________________________________________________________
@@ -1168,9 +1168,9 @@ class ShapeFactory:
 	if "sdfarm" in os.uname()[1]:
 	  inputDir = inputDir.replace("xrootd","xrd")
 
-        print "  connectInputs from", inputDir
+        print("  connectInputs from", inputDir)
 
-        print '  (%d files)' % len(filenames)
+        print('  (%d files)' % len(filenames))
 
         drawer = ROOT.multidraw.MultiDraw(self._treeName)
         drawer.setWeightBranch('')
@@ -1253,7 +1253,7 @@ class ShapeFactory:
 	  cmd = 'xrd cms-xrdr.sdfarm.kr existfile /xrd/store/'+path.split('xrd/store/')[1]
 	  #cmd = 'gfal-ls -l srm://cms-se.sdfarm.kr:8443/srm/v2/server?SFN=/xrootd/store/'+path.split('xrd/store/')[1]
 	else : return False
-	print 'checking ', cmd
+	print('checking ', cmd)
 	if os.system(cmd) == 0 : return True
 	else: return False
       else: return False
@@ -1289,7 +1289,7 @@ class ShapeFactory:
             location = 'local'
 
           if not exists:
-            print 'File '+path+' doesn\'t exist @', location
+            print('File '+path+' doesn\'t exist @', location)
 
           return exists
 
@@ -1323,9 +1323,9 @@ class ShapeFactory:
             time.sleep(10)
 
           else: # exhausted all attempts
-            print 'File '+path+' doesn\'t exist and skipMissingFiles=False in buildChain.'
-            print 'If you are trying to build a chain for a tree-based nuisance which has different number of'\
-                ' files wrt nominal (e.g. UE and PS variations), set "synchronized": False in the nuisance specification.'
+            print('File '+path+' doesn\'t exist and skipMissingFiles=False in buildChain.')
+            print('If you are trying to build a chain for a tree-based nuisance which has different number of'\
+                ' files wrt nominal (e.g. UE and PS variations), set "synchronized": False in the nuisance specification.')
             raise RuntimeError('File '+path+' doesn\'t exist')
 
         if friendtree is not None:
@@ -1347,19 +1347,19 @@ class ShapeFactory:
         self._logger.debug('     '+str(os.path.exists(path))+' '+path)
         if "eoscms.cern.ch" in path or "eosuser.cern.ch" in path:
           if not self._testEosFile(path):
-            print 'File '+path+' doesn\'t exists'
+            print('File '+path+' doesn\'t exists')
             doesFileExist = False
             raise RuntimeError('File '+path+' doesn\'t exists')
         elif "maite.iihe.ac.be" in path:
           if not self._testIiheFile(path):
-            print 'File '+path+' doesn\'t exists @ IIHE'
+            print('File '+path+' doesn\'t exists @ IIHE')
             doesFileExist = False
             raise RuntimeError('File '+path+' doesn\'t exists')
         elif "cluster142.knu.ac.kr" in path:
           pass # already checked the file at mkShape.py
         else:
           if not os.path.exists(path):
-            print 'File '+path+' doesn\'t exists'
+            print('File '+path+' doesn\'t exists')
             doesFileExist = False
             raise RuntimeError('File '+path+' doesn\'t exists')
         self.filesToKeepAround.append(ROOT.TFile(path))
@@ -1432,7 +1432,7 @@ class ShapeFactory:
     def postprocess_nuisance_variations(nuisance, samples, cuts, variables, outFile):
       twosided = ('OneSided' not in nuisance or not nuisance['OneSided'])
 
-      for cutName, cut in cuts.iteritems():
+      for cutName, cut in cuts.items():
         if 'cuts' in nuisance and cutName not in nuisance['cuts']:
           continue
 
@@ -1442,7 +1442,7 @@ class ShapeFactory:
           catsuffixes = ['']
 
         for catsuffix in catsuffixes:
-          for variableName, variable in variables.iteritems():
+          for variableName, variable in variables.items():
             if 'tree' in variable:
               continue
     
@@ -1453,7 +1453,7 @@ class ShapeFactory:
             outDir = outFile.GetDirectory(dname)
             outDir.cd()
 
-            for sampleName, sample in samples.iteritems():
+            for sampleName, sample in samples.items():
               if sampleName not in nuisance['samples']:
                 continue
 
@@ -1468,7 +1468,7 @@ class ShapeFactory:
                 outputFormat = '{sample}{subsample}{nuisance}'
     
               if 'subsamples' in sample:
-                slabels = list('_%s' % ss for ss in sample['subsamples'].iterkeys())
+                slabels = list('_%s' % ss for ss in sample['subsamples'].keys())
               else:
                 slabels = ['']
     
@@ -1516,7 +1516,7 @@ class ShapeFactory:
     def postprocess_NegativeBinAndError(nuisances, sampleName, sample, cuts, variables, outFile):
 
       if 'suppressNegative' in sample:
-        for cutName, cut in cuts.iteritems():
+        for cutName, cut in cuts.items():
           if not (cutName in sample['suppressNegative'] or 'all' in sample['suppressNegative']): continue
 
           if 'categories' in cut:
@@ -1525,7 +1525,7 @@ class ShapeFactory:
             catsuffixes = ['']
 
           for catsuffix in catsuffixes:
-            for variableName, variable in variables.iteritems():
+            for variableName, variable in variables.items():
               if 'tree' in variable: continue
               if 'cuts' in variable and cutName not in variable['cuts']: continue
               if 'samples' in variable and sampleName not in variable['samples']: continue
@@ -1540,7 +1540,7 @@ class ShapeFactory:
                 outputFormat = '{sample}{subsample}{nuisance}'
     
               if 'subsamples' in sample:
-                slabels = list('_%s' % ss for ss in sample['subsamples'].iterkeys())
+                slabels = list('_%s' % ss for ss in sample['subsamples'].keys())
               else:
                 slabels = ['']
     
@@ -1551,13 +1551,13 @@ class ShapeFactory:
                 if ShapeFactory._fixNegativeBinAndError(nominal): nominal.Write()
 
       if 'suppressNegativeNuisances' in sample:
-        for nuisance in nuisances.itervalues():
+        for nuisance in nuisances.values():
           if sampleName not in nuisance['samples']: continue
           #if 'kind' not in nuisance: continue
           #if not (nuisance['kind'].startswith('tree') or nuisance['kind'].startswith('suffix') or nuisance['kind'].startswith('branch_custom')): continue
           if 'type' not in nuisance: continue
           if not nuisance['type'].startswith('shape'): continue
-          for cutName, cut in cuts.iteritems():
+          for cutName, cut in cuts.items():
             if not (cutName in sample['suppressNegativeNuisances'] or 'all' in sample['suppressNegativeNuisances']): continue
 
             twosided = ('OneSided' not in nuisance or not nuisance['OneSided'])
@@ -1570,7 +1570,7 @@ class ShapeFactory:
               catsuffixes = ['']
 
             for catsuffix in catsuffixes:
-              for variableName, variable in variables.iteritems():
+              for variableName, variable in variables.items():
                 if 'tree' in variable: continue
                 if 'cuts' in variable and cutName not in variable['cuts']: continue
                 if 'samples' in variable and sampleName not in variable['samples']: continue
@@ -1585,7 +1585,7 @@ class ShapeFactory:
                   outputFormat = '{sample}{subsample}{nuisance}'
     
                 if 'subsamples' in sample:
-                  slabels = list('_%s' % ss for ss in sample['subsamples'].iterkeys())
+                  slabels = list('_%s' % ss for ss in sample['subsamples'].keys())
                 else:
                   slabels = ['']
     

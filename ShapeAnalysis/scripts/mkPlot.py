@@ -24,7 +24,7 @@ from LatinoAnalysis.ShapeAnalysis.PlotFactory import PlotFactory
 if __name__ == '__main__':
     sys.argv = argv
 
-    print '''
+    print('''
 --------------------------------------------------------------------------------------------------
 
    _ \   |         |         \  |         |                
@@ -33,7 +33,7 @@ if __name__ == '__main__':
  _|     _| \___/  \__|     _|  _| \__,_| _|\_\ \___| _|   
  
 --------------------------------------------------------------------------------------------------
-'''    
+''')    
     usage = 'usage: %prog [options]'
     parser = optparse.OptionParser(usage)
 
@@ -93,32 +93,32 @@ if __name__ == '__main__':
     sys.argv.append( '-b' )
     ROOT.gROOT.SetBatch()
 
-    print ""
-    print "          configuration file =", opt.pycfg
-    print "                        lumi =", opt.lumi
-    print "                   inputFile =", opt.inputFile
-    print "              outputDirPlots =", opt.outputDirPlots
-    print " plotNormalizedDistributions =", opt.plotNormalizedDistributions
-    print "   plotNormalizedIncludeData =", opt.plotNormalizedIncludeData  
-    print " plotNormalizedDistributionsTHstack =", opt.plotNormalizedDistributionsTHstack
-    print "          showIntegralLegend =", opt.showIntegralLegend
-    print "                 scaleToPlot =", opt.scaleToPlot
-    print "                     minLogC =", opt.minLogC
-    print "                     maxLogC =", opt.maxLogC
-    print "                minLogCratio =", opt.minLogCratio
-    print "                maxLogCratio =", opt.maxLogCratio
-    print "           showRelativeRatio =", opt.showRelativeRatio
-    print "        showDataMinusBkgOnly =", opt.showDataMinusBkgOnly
-    print "                removeWeight =", opt.removeWeight
-    print "                    invertXY =", opt.invertXY    
-    print "        skipMissingNuisance  =", opt.skipMissingNuisance
-    print "                    postFit  =", opt.postFit
-    print "               removeMCStat  =", opt.removeMCStat
-    print "                  plotFancy  =", opt.plotFancy
-    print "              NoPreliminary  =", opt.NoPreliminary   
-    print "                RemoveAllMC  =", opt.RemoveAllMC  
-    print "           parallelPlotting  =", opt.parallelPlotting
-    print ""
+    print("")
+    print("          configuration file =", opt.pycfg)
+    print("                        lumi =", opt.lumi)
+    print("                   inputFile =", opt.inputFile)
+    print("              outputDirPlots =", opt.outputDirPlots)
+    print(" plotNormalizedDistributions =", opt.plotNormalizedDistributions)
+    print("   plotNormalizedIncludeData =", opt.plotNormalizedIncludeData)  
+    print(" plotNormalizedDistributionsTHstack =", opt.plotNormalizedDistributionsTHstack)
+    print("          showIntegralLegend =", opt.showIntegralLegend)
+    print("                 scaleToPlot =", opt.scaleToPlot)
+    print("                     minLogC =", opt.minLogC)
+    print("                     maxLogC =", opt.maxLogC)
+    print("                minLogCratio =", opt.minLogCratio)
+    print("                maxLogCratio =", opt.maxLogCratio)
+    print("           showRelativeRatio =", opt.showRelativeRatio)
+    print("        showDataMinusBkgOnly =", opt.showDataMinusBkgOnly)
+    print("                removeWeight =", opt.removeWeight)
+    print("                    invertXY =", opt.invertXY)    
+    print("        skipMissingNuisance  =", opt.skipMissingNuisance)
+    print("                    postFit  =", opt.postFit)
+    print("               removeMCStat  =", opt.removeMCStat)
+    print("                  plotFancy  =", opt.plotFancy)
+    print("              NoPreliminary  =", opt.NoPreliminary)   
+    print("                RemoveAllMC  =", opt.RemoveAllMC)  
+    print("           parallelPlotting  =", opt.parallelPlotting)
+    print("")
 
     opt.scaleToPlot = float(opt.scaleToPlot)
     opt.minLogC = float(opt.minLogC)
@@ -130,16 +130,16 @@ if __name__ == '__main__':
     if not opt.debug:
         pass
     elif opt.debug == 2:
-        print 'Logging level set to DEBUG (%d)' % opt.debug
+        print('Logging level set to DEBUG (%d)' % opt.debug)
         logging.basicConfig( level=logging.DEBUG )
     elif opt.debug == 1:
-        print 'Logging level set to INFO (%d)' % opt.debug
+        print('Logging level set to INFO (%d)' % opt.debug)
         logging.basicConfig( level=logging.INFO )
 
     #samples = {}
     samples = OrderedDict()
     if opt.samplesFile == None :
-      print " Please provide the samples structure (not strictly needed in mkPlot, since list of samples read from plot.py) "    
+      print(" Please provide the samples structure (not strictly needed in mkPlot, since list of samples read from plot.py) ")    
     elif os.path.exists(opt.samplesFile) :
       # This line is needed for mkplot not to look for samples in eos.
       # Imagine the samples have been removed in eos, but the file with histograms
@@ -164,7 +164,7 @@ if __name__ == '__main__':
 
     nuisances = {}
     if opt.nuisancesFile == None :
-      print " Please provide the nuisances structure if you want to add nuisances "
+      print(" Please provide the nuisances structure if you want to add nuisances ")
     elif os.path.exists(opt.nuisancesFile) :
       handle = open(opt.nuisancesFile,'r')
       exec(handle)
@@ -185,23 +185,23 @@ if __name__ == '__main__':
     
     if opt.onlyVariable != None :
       list_to_remove = []
-      for variableName, variable in variables.iteritems():
+      for variableName, variable in variables.items():
          if variableName != opt.onlyVariable :
            list_to_remove.append(variableName)
       for toRemove in list_to_remove:
         del variables[toRemove]
            
-      print  " variables = ", variables
+      print(" variables = ", variables)
 
     if opt.onlyCut != None :
       list_to_remove = []
-      for cutName, cutExtended in cuts.iteritems():
+      for cutName, cutExtended in cuts.items():
          if cutName not in opt.onlyCut :
            list_to_remove.append(cutName)
       for toRemove in list_to_remove:
         del cuts[toRemove]
 
-      print  " cuts = ", cuts
+      print(" cuts = ", cuts)
        
     groupPlot = OrderedDict()
     plot = {}
@@ -265,15 +265,15 @@ if __name__ == '__main__':
     customized_module = None
 
     if opt.customizeScript != None and opt.customizeKey!=None:
-      print "Loading customization script"
+      print("Loading customization script")
       customized_module = imp.load_source('customize_module', opt.customizeScript)
       # Call the script customize method with the key from options
       if hasattr(customized_module, 'customize'):
         customizations_keys = opt.customizeKey.split(',')
         for customization_key in customizations_keys:
-          print "==========================================================="
-          print "Customization:  ", customization_key
-          print "==========================================================="
+          print("===========================================================")
+          print("Customization:  ", customization_key)
+          print("===========================================================")
           samples_c,cuts_c,variables_c,nuisances_c,plot_c,groupPlot_c = customized_module.customize(samples,cuts,
                                                         variables,nuisances,plot,groupPlot, key=customization_key)
           # Run plots for the current customization
@@ -282,7 +282,7 @@ if __name__ == '__main__':
                                                 plot_c, nuisances_c, legend, groupPlot_c) )
           p.start() 
       else:
-          print "Customization script missing *customize* method! skipping it"
+          print("Customization script missing *customize* method! skipping it")
    
     else:
       # parallelize by cut
@@ -297,4 +297,4 @@ if __name__ == '__main__':
 
         
     
-    print '... and now closing ...'
+    print('... and now closing ...')

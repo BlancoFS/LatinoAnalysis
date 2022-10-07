@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from __future__ import print_function
+
 import importlib
 import os
 import sys
@@ -100,11 +100,11 @@ def get_latex(tab, pre_fit, b_only, s_b, do_csv, nDec):
 
     if do_csv:
         with open('yields_table.csv','w') as outfile:
-            outfile.write(pd.DataFrame(formatted)[formatted[0].keys()].to_latex(index=False))
+            outfile.write(pd.DataFrame(formatted)[list(formatted[0].keys())].to_latex(index=False))
 
     else:
         with open('yields_table.tex','w') as outfile:
-            tmp = pd.DataFrame(formatted)[formatted[0].keys()].to_latex(index=False).replace('+/-', '$\pm$')
+            tmp = pd.DataFrame(formatted)[list(formatted[0].keys())].to_latex(index=False).replace('+/-', '$\pm$')
             for expr in ['\\toprule', '\\midrule', '\\bottomrule']:
                 tmp = tmp.replace(expr, '\hline')
             outfile.write(tmp.replace('tabular', 'longtable'))
@@ -159,7 +159,7 @@ def read_input(raw_input):
 
     df = pd.concat([df, pd.DataFrame(hole_filler)], ignore_index=True)
 
-    return df[table[0].keys()]
+    return df[list(table[0].keys())]
 
 
 def get_latex_reduced(tab, do_merged_only, show_prefit, show_unc, do_csv, nDec, sample_order):
