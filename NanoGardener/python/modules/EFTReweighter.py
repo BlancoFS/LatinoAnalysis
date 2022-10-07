@@ -139,7 +139,7 @@ class EFTReweighter(Module):
 
         # Check lnu pairs to catch corrupted pdgid events (in H0L1f05 part0 2016 nAODv7)
 
-        if self.sample is "H0L1f05_ToWWTo2L2Nu":
+        if self.sample == "H0L1f05_ToWWTo2L2Nu":
             if abs(daughterIDs[0]) in [11, 13, 15] and abs(daughterIDs[1]) in [12, 14, 16] and abs(daughterIDs[2]) in [12, 14, 16] and abs(daughterIDs[3]) in [11, 13, 15]:
                 if self.MatchLNuIDs(daughterIDs[0], daughterIDs[1]) is False:
                     print("1st Lep-Nu pair IDs not matching : ",
