@@ -70,7 +70,7 @@ class mcWeightsCounter(TreeCloner):
         step = 5000
         nentries = 15000
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         #what is self.itree? what is self.otree?
         itree     = self.itree
@@ -91,7 +91,7 @@ class mcWeightsCounter(TreeCloner):
   
           if nentriesWeight > 0 :
             myTreeWeight.GetEntry(0)
-            print('Syst vec size: ',str(myTreeWeight.weightsLHE.size()))
+            print(('Syst vec size: ',str(myTreeWeight.weightsLHE.size())))
             for isyst in range(myTreeWeight.weightsLHE.size()) :
               bvector.push_back(0)
           print('Init done')
@@ -99,7 +99,7 @@ class mcWeightsCounter(TreeCloner):
           for i in range(nentriesWeight):
             myTreeWeight.GetEntry(i)
             if i > 0 and i%step == 0.:
-                  print(i,'events processed. / ',nentriesWeight)
+                  print((i,'events processed. / ',nentriesWeight))
             weightSM   = myTreeWeight.weightSM          
             weightsLHE = myTreeWeight.weightsLHE
   
@@ -114,7 +114,7 @@ class mcWeightsCounter(TreeCloner):
             
             #print list(bvector )
    
-          print(' weight = ',  mcWeight, " = ", positive, " - ", negative)      
+          print((' weight = ',  mcWeight, " = ", positive, " - ", negative))      
           mcNegW[0] = 1. * (positive - negative) / (positive + negative)
   
           print('- Starting eventloop')
@@ -126,7 +126,7 @@ class mcWeightsCounter(TreeCloner):
               itree.GetEntry(i)
   
               if i > 0 and i%step == 0.:
-                  print(i,'events processed.')
+                  print((i,'events processed.'))
   
               otree.Fill()
   
@@ -157,7 +157,7 @@ class mcWeightsCounter(TreeCloner):
           for i in range(nentries):
             itree.GetEntry(i)
             if i > 0 and i%step == 0.:
-                  print(i,'events processed.')
+                  print((i,'events processed.'))
             otree.Fill() 
 
         self.disconnect(False)

@@ -54,25 +54,25 @@ class LeptonPtCorrector(TreeCloner):
         if opts.cmssw == 'Full2016' :
           if opts.FileWithPtScaleDataEle == None :
             opts.FileWithPtScaleDataEle = cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/lepton_corrections/Moriond17_23Jan_ele_scales.dat'
-          print(" opts.FileWithPtScaleDataEle = " , opts.FileWithPtScaleDataEle)
+          print((" opts.FileWithPtScaleDataEle = " , opts.FileWithPtScaleDataEle))
           if opts.FileWithPtSmearingMCEle == None :
             opts.FileWithPtSmearingMCEle = cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/lepton_corrections/Moriond17_23Jan_ele_smearings.dat'
-          print(" opts.FileWithPtSmearingMCEle = " , opts.FileWithPtSmearingMCEle)
+          print((" opts.FileWithPtSmearingMCEle = " , opts.FileWithPtSmearingMCEle))
         elif opts.cmssw == 'ICHEP2016' :
           if opts.FileWithPtScaleDataEle == None :
             opts.FileWithPtScaleDataEle = cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/lepton_corrections/80X_DCS05July_plus_Golden22_scales.dat'
             #opts.FileWithPtScaleDataEle = cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/lepton_corrections/80X_28JunPrompt_2016_scales.dat'
-          print(" opts.FileWithPtScaleDataEle = " , opts.FileWithPtScaleDataEle)
+          print((" opts.FileWithPtScaleDataEle = " , opts.FileWithPtScaleDataEle))
           if opts.FileWithPtSmearingMCEle == None :
             opts.FileWithPtSmearingMCEle = cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/lepton_corrections/80X_28JunPrompt_2016_smearings.dat'
-          print(" opts.FileWithPtSmearingMCEle = " , opts.FileWithPtSmearingMCEle)
+          print((" opts.FileWithPtSmearingMCEle = " , opts.FileWithPtSmearingMCEle))
         else :    # 2015 numbers re-reco
           if opts.FileWithPtScaleDataEle == None :
             opts.FileWithPtScaleDataEle = cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/lepton_corrections/76X_16DecRereco_2015_scales.dat'
-          print(" opts.FileWithPtScaleDataEle = " , opts.FileWithPtScaleDataEle)
+          print((" opts.FileWithPtScaleDataEle = " , opts.FileWithPtScaleDataEle))
           if opts.FileWithPtSmearingMCEle == None :
             opts.FileWithPtSmearingMCEle = cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/lepton_corrections/76X_16DecRereco_2015_smearings.dat'
-          print(" opts.FileWithPtSmearingMCEle = " , opts.FileWithPtSmearingMCEle)
+          print((" opts.FileWithPtSmearingMCEle = " , opts.FileWithPtSmearingMCEle))
           
 
 
@@ -96,7 +96,7 @@ class LeptonPtCorrector(TreeCloner):
         #print " leppTsmearing = ", self.leppTsmearing
      
         self.isData = float(opts.isData)
-        print(" self.isData = ", self.isData)
+        print((" self.isData = ", self.isData))
 
     def _getScale (self, kindLep, pt, eta, run, r9_lep):
         
@@ -161,7 +161,7 @@ class LeptonPtCorrector(TreeCloner):
         self.connect(tree,input)
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
         savedevents = 0
 
         # met branches to be changed
@@ -191,7 +191,7 @@ class LeptonPtCorrector(TreeCloner):
           self.oldBranchesToBeModifiedVector[bname] = bvector
          # print "debug 0 ", bname
          # connect branches for vectors
-        for bname, bvector in self.oldBranchesToBeModifiedVector.items():
+        for bname, bvector in list(self.oldBranchesToBeModifiedVector.items()):
           self.otree.Branch(bname,bvector)            
 
         self.oldBranchesToBeModifiedSimpleVariable = {}
@@ -200,7 +200,7 @@ class LeptonPtCorrector(TreeCloner):
           self.oldBranchesToBeModifiedSimpleVariable[bname] = bvariable
 
         # now actually connect the branches for floats
-        for bname, bvariable in self.oldBranchesToBeModifiedSimpleVariable.items():
+        for bname, bvariable in list(self.oldBranchesToBeModifiedSimpleVariable.items()):
                         #print " bvariable = ", bvariable
             self.otree.Branch(bname,bvariable,bname+'/F')         
         # input tree  
@@ -214,7 +214,7 @@ class LeptonPtCorrector(TreeCloner):
             itree.GetEntry(i)
 
             if i > 0 and i%step == 0.:
-              print(i,'events processed :: ', nentries)
+              print((i,'events processed :: ', nentries))
                 
             # scale lepton pt
             # Scale Up
@@ -290,7 +290,7 @@ class LeptonPtCorrector(TreeCloner):
 
 
 
-            for bname, bvector in self.oldBranchesToBeModifiedVector.items():
+            for bname, bvector in list(self.oldBranchesToBeModifiedVector.items()):
                 bvector.clear()
              
                 if 'std_vector_lepton_pt' in bname:
@@ -311,5 +311,5 @@ class LeptonPtCorrector(TreeCloner):
             
         self.disconnect()
         print('- Eventloop completed')
-        print('- Saved:', savedevents, 'events')
+        print(('- Saved:', savedevents, 'events'))
 

@@ -47,7 +47,7 @@ class XWWVarFiller(TreeCloner):
         self.otree.Branch('m2l'  , m2l  , 'm2l/F')
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         #what is self.itree? what is self.otree?
         itree     = self.itree
@@ -68,7 +68,7 @@ class XWWVarFiller(TreeCloner):
             itree.GetEntry(i)
 
             if i > 0 and i%step == 0.:
-                print(i,'events processed.')
+                print((i,'events processed.'))
 
             pt1 = itree.pt1
             pt2 = itree.pt2

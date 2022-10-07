@@ -39,7 +39,7 @@ class ggHUncertaintyMaker(TreeCloner) :
 
     def checkOptions(self,opts) :
         self.cmssw = opts.cmssw
-        print(" cmssw =", self.cmssw)
+        print((" cmssw =", self.cmssw))
 
     def process(self,**kwargs) :
         tree   = kwargs['tree']
@@ -49,7 +49,7 @@ class ggHUncertaintyMaker(TreeCloner) :
         self.connect(tree,input)
 
         nentries = self.itree.GetEntries()
-        print(' - Input entries:', nentries) 
+        print((' - Input entries:', nentries)) 
         savedentries = 0
 
         # Create branches for otree, the ones that will be modified
@@ -138,7 +138,7 @@ class ggHUncertaintyMaker(TreeCloner) :
 
           
           if (i > 0 and i%step == 0.):
-                print(i,'events processed ::', nentries, ' ggH_mu:', ggH_mu[0], " int(Njets30): ", int(Njets30) , "  itree.HTXS_ptHiggs: ", itree.HTXS_ptHiggs, "  int(itree.HTXS_stage1_pTjet30GeV): ", int(itree.HTXS_stage1_pTjet30GeV))
+                print((i,'events processed ::', nentries, ' ggH_mu:', ggH_mu[0], " int(Njets30): ", int(Njets30) , "  itree.HTXS_ptHiggs: ", itree.HTXS_ptHiggs, "  int(itree.HTXS_stage1_pTjet30GeV): ", int(itree.HTXS_stage1_pTjet30GeV)))
                 
                 
       
@@ -147,4 +147,4 @@ class ggHUncertaintyMaker(TreeCloner) :
           
         self.disconnect()
         print(' - Event loop completed')
-        print(' - Saved entries:', savedentries)
+        print((' - Saved entries:', savedentries))

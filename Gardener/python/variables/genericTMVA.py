@@ -90,7 +90,7 @@ class GenericTMVAFiller(TreeCloner):
         self.createMVA()
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         # avoid dots to go faster
         itree     = self.itree
@@ -104,7 +104,7 @@ class GenericTMVAFiller(TreeCloner):
 
             ## print event count
             if i > 0 and i%step == 0.:
-                print(i,'events processed.')
+                print((i,'events processed.'))
 
             for iv in range(len(self.vars)):
               self.vars[iv][0] = eval(self.inputFormulas[iv])

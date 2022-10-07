@@ -369,7 +369,7 @@ class Grafter(TreeCloner):
 
         self.connect(tree,input)
 
-        vars = [ ( value, type, ROOT.TTreeFormula(name,formula, self.itree)) for name, (value, type, formula) in self.variables.items() ]
+        vars = [ ( value, type, ROOT.TTreeFormula(name,formula, self.itree)) for name, (value, type, formula) in list(self.variables.items()) ]
 
 
         print('Adding/replacing the following branches')
@@ -450,7 +450,7 @@ class AliasGrafter(Grafter):
         self.connect(tree,input)
         self.clone(output)
 
-        for name, (value, type, formula) in self.variables.items():
+        for name, (value, type, formula) in list(self.variables.items()):
             self.otree.SetAlias(name,formula)
 
         self.disconnect()

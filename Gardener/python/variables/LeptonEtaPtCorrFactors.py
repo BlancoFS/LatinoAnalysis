@@ -118,13 +118,13 @@ class LeptonEtaPtCorrFactors(TreeCloner):
         for bname in self.namesOldBranchesToBeModified:
           bvariable = numpy.ones(1, dtype=numpy.float32)
           self.oldBranchesToBeModified[bname] = bvariable
-        for bname, bvariable in self.oldBranchesToBeModified.items(): self.otree.Branch(bname,bvariable,bname+'/F') 
+        for bname, bvariable in list(self.oldBranchesToBeModified.items()): self.otree.Branch(bname,bvariable,bname+'/F') 
 
         self.oldBranchesToBeModifiedVector = {}
         for bname in self.namesOldBranchesToBeModifiedVector:
           bvector =  ROOT.std.vector(float) ()
           self.oldBranchesToBeModifiedVector[bname] = bvector
-        for bname, bvector in self.oldBranchesToBeModifiedVector.items(): self.otree.Branch(bname,bvector)
+        for bname, bvector in list(self.oldBranchesToBeModifiedVector.items()): self.otree.Branch(bname,bvector)
 
         #----------------------------------------------------------------------------------------------------
         # START TREE LOOP
@@ -147,8 +147,8 @@ class LeptonEtaPtCorrFactors(TreeCloner):
                 print((i,'events processed :: ', nentries))
 
             # Clear all vectors
-            for bname, bvector in self.oldBranchesToBeModifiedVector.items() : bvector.clear()
-            for bname, bvariable in self.oldBranchesToBeModified.items(): bvariable[0] = 1.
+            for bname, bvector in list(self.oldBranchesToBeModifiedVector.items()) : bvector.clear()
+            for bname, bvariable in list(self.oldBranchesToBeModified.items()): bvariable[0] = 1.
 
             # Loop on leptons
             Nelec=0 

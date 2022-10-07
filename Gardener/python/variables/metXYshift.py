@@ -40,8 +40,8 @@ class MetXYshiftTreeMaker(TreeCloner) :
         self.paraFile  = opts.paraFile
         self.sample  = opts.sample
         self.cmssw_base= os.getenv('CMSSW_BASE')
-        print("  cmssw =", self.cmssw)
-        print("  paraFile ="+self.cmssw_base+"/src/LatinoAnalysis/Gardener/python/data/met/"+self.paraFile)
+        print(("  cmssw =", self.cmssw))
+        print(("  paraFile ="+self.cmssw_base+"/src/LatinoAnalysis/Gardener/python/data/met/"+self.paraFile))
 
     def deltaphi(self, phi1, phi2) :
         dphi = abs(phi1 - phi2)
@@ -82,7 +82,7 @@ class MetXYshiftTreeMaker(TreeCloner) :
         self.connect(tree,input)
 
         nentries = self.itree.GetEntries()
-        print(' - Input entries:', nentries) 
+        print((' - Input entries:', nentries)) 
         savedentries = 0
 
 	#print "cmssw_base =", cmssw_base
@@ -209,6 +209,6 @@ class MetXYshiftTreeMaker(TreeCloner) :
           savedentries+=1
         self.disconnect()
         print(' - Event loop completed')
-        print(' - Saved entries:', savedentries)
+        print((' - Saved entries:', savedentries))
 
 

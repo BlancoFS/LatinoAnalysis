@@ -68,15 +68,15 @@ class MuccaMonoHVarFiller(TreeCloner):
         if not (hasattr(opts,'kind')):
             raise RuntimeError('Missing parameter')
         self.kind        = opts.kind
-        print(" kind     = ", self.kind)
+        print((" kind     = ", self.kind))
         self.signal      = opts.signal
-        print(" signal   = ", self.signal)
+        print((" signal   = ", self.signal))
         self.training    = opts.training
-        print(" training = ", self.training)
+        print((" training = ", self.training))
         self.channel     = opts.channel
-        print(" channel  = ", self.channel)
+        print((" channel  = ", self.channel))
         self.model       = opts.model
-        print(" model  = ", self.model)
+        print((" model  = ", self.model))
 
 
     def process(self,**kwargs):
@@ -105,7 +105,7 @@ class MuccaMonoHVarFiller(TreeCloner):
         self.createMuccaMonoH()
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         # avoid dots to go faster
         itree = self.itree
@@ -119,7 +119,7 @@ class MuccaMonoHVarFiller(TreeCloner):
 
             ## print event count
             if i > 0 and i%step == 0.:
-                print(i,'events processed.')
+                print((i,'events processed.'))
 
             muccamva[0] = -9999.
             

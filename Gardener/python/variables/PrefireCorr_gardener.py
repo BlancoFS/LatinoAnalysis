@@ -58,7 +58,7 @@ class PrefCorr(TreeCloner):
 
         self.connect(tree,input)
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
         savedentries = 0
 
         self.branchnames = ["PrefireWeight", "PrefireWeight_Up", "PrefireWeight_Down"]
@@ -81,7 +81,7 @@ class PrefCorr(TreeCloner):
           itree.GetEntry(i)
 
           if i > 0 and i%step == 0.:
-            print(i,'events processed :: ', nentries)
+            print((i,'events processed :: ', nentries))
 
           # Options
           self.JetMinPt = 30 # Min/Max Values may need to be fixed for new maps
@@ -122,7 +122,7 @@ class PrefCorr(TreeCloner):
 
         self.disconnect()
         print('- Eventloop completed')
-        print('- Saved:', savedentries, 'events')
+        print(('- Saved:', savedentries, 'events'))
 
     def EGvalue(self, jetphi, jeteta):
       itree = self.itree

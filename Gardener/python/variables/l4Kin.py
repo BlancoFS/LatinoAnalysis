@@ -38,7 +38,7 @@ class L4KinFiller(TreeCloner):
     def checkOptions(self,opts):
 
         self.cmssw = opts.cmssw
-        print(" cmssw = ", self.cmssw)
+        print((" cmssw = ", self.cmssw))
 
                     
     def process(self,**kwargs):
@@ -50,7 +50,7 @@ class L4KinFiller(TreeCloner):
         self.connect(tree,input)
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
         savedentries = 0
 
         #
@@ -96,7 +96,7 @@ class L4KinFiller(TreeCloner):
             self.oldBranchesToBeModifiedSimpleVariable[bname] = bvariable
 
         # now actually connect the branches
-        for bname, bvariable in self.oldBranchesToBeModifiedSimpleVariable.items():
+        for bname, bvariable in list(self.oldBranchesToBeModifiedSimpleVariable.items()):
             #print " bname   = ", bname
             #print " bvariable = ", bvariable
             self.otree.Branch(bname,bvariable,bname+'/F')
@@ -124,7 +124,7 @@ class L4KinFiller(TreeCloner):
             itree.GetEntry(i)
 
             if i > 0 and i%step == 0.:
-                print(i,'events processed :: ', nentries)
+                print((i,'events processed :: ', nentries))
 
             ZWW = ROOT.ZWW()
             ZWW.setLepton(itree.std_vector_lepton_pt, itree.std_vector_lepton_eta, itree.std_vector_lepton_phi, itree.std_vector_lepton_flavour, itree.std_vector_lepton_ch, itree.std_vector_lepton_isLooseLepton)
@@ -142,12 +142,12 @@ class L4KinFiller(TreeCloner):
  
             ZWW.isAllOk()
             # now fill the variables like "mll", "dphill", ...
-            for bname, bvariable in self.oldBranchesToBeModifiedSimpleVariable.items():
+            for bname, bvariable in list(self.oldBranchesToBeModifiedSimpleVariable.items()):
                 bvariable[0] = getattr(ZWW, bname)()
             otree.Fill()
             savedentries+=1
 
         self.disconnect()
         print('- Eventloop completed')
-        print('   Saved: ', savedentries, ' events')
+        print(('   Saved: ', savedentries, ' events'))
 

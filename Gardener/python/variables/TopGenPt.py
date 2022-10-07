@@ -57,15 +57,15 @@ class TopGenPt(TreeCloner):
           newbranchesVecotor[bname] = bvariable
 
 
-        for bname, bvariable in newbranchesVecotor.items():
-            print(" bname   = ", bname)
-            print(" bvariable = ", bvariable)
+        for bname, bvariable in list(newbranchesVecotor.items()):
+            print((" bname   = ", bname))
+            print((" bvariable = ", bvariable))
             self.otree.Branch(bname,bvariable,bname+'/F')
 
 
   
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         # input tree and output tree
         itree     = self.itree
@@ -82,7 +82,7 @@ class TopGenPt(TreeCloner):
           itree.GetEntry(i)
 
           if i > 0 and i%step == 0.:
-              print(i,'events processed.')
+              print((i,'events processed.'))
 
           #for bname, bvector in newbranchesVecotor.iteritems():
           #    bvector.clear()
@@ -196,7 +196,7 @@ class TopGenPt(TreeCloner):
            #newbranchesVecotor["LHEquark_top_pt"] = LHEquark_top_pt  
  
            
-          for bname, bvariable in newbranchesVecotor.items():              
+          for bname, bvariable in list(newbranchesVecotor.items()):              
 
               if(bname == "LHEquark_top_pt"): 
                   bvariable[0] = LHEquark_top_pt  

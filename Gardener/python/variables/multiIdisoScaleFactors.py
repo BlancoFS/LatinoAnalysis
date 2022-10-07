@@ -25,12 +25,12 @@ class LeptonSF():
     def _getRootObj(self,d,name):
         o = d.Get(name)
         if not o.__nonzero__():
-            print('Object '+name+' doesn\'t exist in '+d.GetName(), ' BE CAREFUL!')
+            print(('Object '+name+' doesn\'t exist in '+d.GetName(), ' BE CAREFUL!'))
         return o
 
     def __init__ (self,kind,cmssw,WPDic,WPType,WP):
         print("-------- Lepton SF init() ---------")
-        print(kind,WPType,WP)
+        print((kind,WPType,WP))
 
         cmssw_base = os.getenv('CMSSW_BASE')
 
@@ -428,10 +428,10 @@ class MultiIdIsoSFFiller(TreeCloner):
     def checkOptions(self,opts):
 
         self.cmssw = opts.cmssw
-        print(" cmssw = ", self.cmssw)
+        print((" cmssw = ", self.cmssw))
         cmssw_base = os.getenv('CMSSW_BASE')
         self.WPdic = cmssw_base+'/src/'+opts.WPdic
-        print(self.WPdic)
+        print((self.WPdic))
         if os.path.exists(self.WPdic) :
           handle = open(self.WPdic,'r')
           exec(handle)
@@ -497,13 +497,13 @@ class MultiIdIsoSFFiller(TreeCloner):
         for bname in self.namesOldBranchesToBeModifiedVector:
           bvector =  ROOT.std.vector(float) ()
           self.oldBranchesToBeModifiedVector[bname] = bvector
-        for bname, bvector in self.oldBranchesToBeModifiedVector.items(): self.otree.Branch(bname,bvector)
+        for bname, bvector in list(self.oldBranchesToBeModifiedVector.items()): self.otree.Branch(bname,bvector)
 
         #----------------------------------------------------------------------------------------------------
         # START TREE LOOP
         nentries = self.itree.GetEntries()
         savedentries = 0
-        print('Total number of entries: ',nentries)
+        print(('Total number of entries: ',nentries))
         print('- Starting eventloop')
         step = 5000
 
@@ -517,10 +517,10 @@ class MultiIdIsoSFFiller(TreeCloner):
             itree.GetEntry(i)
 
             if i > 0 and i%step == 0.:
-                print(i,'events processed :: ', nentries)
+                print((i,'events processed :: ', nentries))
 
             # Clear all vectors
-            for bname, bvector in self.oldBranchesToBeModifiedVector.items() : bvector.clear()
+            for bname, bvector in list(self.oldBranchesToBeModifiedVector.items()) : bvector.clear()
 
             # Get Run period
             runPeriod = itree.iRunPeriod
@@ -580,7 +580,7 @@ class MultiIdIsoSFFiller(TreeCloner):
 
         self.disconnect()
         print('- Eventloop completed')
-        print('   Saved: ', savedentries, ' events')
+        print(('   Saved: ', savedentries, ' events'))
 
 
  

@@ -90,7 +90,7 @@ class WWVarFiller(TreeCloner):
         self.otree.Branch('Ceta_cut      '    , Ceta_cut       , 'Ceta_cut/F')
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         #what is self.itree? what is self.otree?
         itree     = self.itree
@@ -111,7 +111,7 @@ class WWVarFiller(TreeCloner):
             itree.GetEntry(i)
 
             if i > 0 and i%step == 0.:
-                print(i,'events processed.')
+                print((i,'events processed.'))
 
             pt1  = itree.std_vector_lepton_pt[0]
             pt2  = itree.std_vector_lepton_pt[1]

@@ -98,7 +98,7 @@ class DNNvarFillerv1(TreeCloner):
         self.createVBFDNN()
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         # avoid dots to go faster
         itree     = self.itree
@@ -111,7 +111,7 @@ class DNNvarFillerv1(TreeCloner):
 
             ## print event count
             if i > 0 and i%step == 0.:
-                print(i,'events processed.')
+                print((i,'events processed.'))
 
             # at least 2 leptons!
             vbfddn[0] = -9999.

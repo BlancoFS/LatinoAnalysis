@@ -70,7 +70,7 @@ class ElectronsVarFiller(TreeCloner):
           newbranchesVecotor[bname] = bvector
 
 
-        for bname, bvector in newbranchesVecotor.items():
+        for bname, bvector in list(newbranchesVecotor.items()):
             print((" bname   = ", bname))
             print((" bvector = ", bvector))
             self.otree.Branch(bname,bvector)
@@ -96,7 +96,7 @@ class ElectronsVarFiller(TreeCloner):
             if i > 0 and i%step == 0.:
                 print((i,'events processed.'))
 
-            for bname, bvector in newbranchesVecotor.items():
+            for bname, bvector in list(newbranchesVecotor.items()):
               bvector.clear()
                 
             vectorLength = (getattr(itree, "std_vector_lepton_pt")).size()
@@ -104,10 +104,10 @@ class ElectronsVarFiller(TreeCloner):
             for i in range(0, vectorLength):
               if ((getattr(itree, "std_vector_lepton_eta")).at(i)) < 1.2345 :
               #if ((getattr(itree, "std_vector_electron_deltaEtaIn")).at(i)) < 1.2345 :
-                for bname, bvector in newbranchesVecotor.items():
+                for bname, bvector in list(newbranchesVecotor.items()):
                   bvector.push_back(1)
               else :
-                for bname, bvector in newbranchesVecotor.items():
+                for bname, bvector in list(newbranchesVecotor.items()):
                   bvector.push_back(0)
 
 

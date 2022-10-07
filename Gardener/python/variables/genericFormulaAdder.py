@@ -55,7 +55,7 @@ class genericFormulaAdder(TreeCloner):
           exec(handle)
           handle.close()
         else:
-         print("cannot find file", formulasFile_path)
+         print(("cannot find file", formulasFile_path))
 
         #now convert the formulas to lambdas, so that we don't need to do eval on every event
         for key in list(formulas.keys()):
@@ -76,7 +76,7 @@ class genericFormulaAdder(TreeCloner):
    
         
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         itree     = self.itree
         otree     = self.otree
@@ -89,7 +89,7 @@ class genericFormulaAdder(TreeCloner):
         for event in itree:
 
             if i > 0 and i%step == 0.:
-                print(i,'events processed.')
+                print((i,'events processed.'))
             
             for key in list(formulas.keys()):
               newbranches[key][0] = formulas[key](event)

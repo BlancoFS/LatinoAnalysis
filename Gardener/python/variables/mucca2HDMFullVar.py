@@ -77,9 +77,9 @@ class Mucca2HDMFullVarFiller(TreeCloner):
         if not (hasattr(opts,'kind')):
             raise RuntimeError('Missing parameter')
         self.kind      = opts.kind
-        print(" kind   = ", self.kind)
+        print((" kind   = ", self.kind))
         self.signal    = opts.signal
-        print(" signal = ", self.signal)
+        print((" signal = ", self.signal))
 
 
     def process(self,**kwargs):
@@ -118,7 +118,7 @@ class Mucca2HDMFullVarFiller(TreeCloner):
         self.createMucca2HDMFull()
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         # avoid dots to go faster
         itree = self.itree
@@ -132,7 +132,7 @@ class Mucca2HDMFullVarFiller(TreeCloner):
 
             ## print event count
             if i > 0 and i%step == 0.:
-                print(i,'events processed.')
+                print((i,'events processed.'))
 
             muccamva[0] = -9999.
             

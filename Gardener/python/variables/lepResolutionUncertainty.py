@@ -40,19 +40,19 @@ class LeptonResolutionTreeMaker(TreeCloner):
         print(" >>  checkOptions ")
         leppTresolution = {}
         self.kind            = 1.0 * float(opts.kind)
-        print(" amount of variation = ", self.kind)
+        print((" amount of variation = ", self.kind))
 
         cmssw_base = os.getenv('CMSSW_BASE')
         if opts.resolutionFile == None :
           opts.resolutionFile = cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/lepton_scale_n_smear/leppTresolution_el_76_rereco.py'
 
-        print(" opts.resolutionFile = " , opts.resolutionFile)
+        print((" opts.resolutionFile = " , opts.resolutionFile))
 
         if opts.resolutionFile == None :
           print(" Using the default one")
 
         elif os.path.exists(opts.resolutionFile) :
-          print(" opts.resolutionFile = " , opts.resolutionFile)
+          print((" opts.resolutionFile = " , opts.resolutionFile))
           handle = open(opts.resolutionFile,'r')
           exec(handle)
           handle.close()
@@ -119,7 +119,7 @@ class LeptonResolutionTreeMaker(TreeCloner):
         self.connect(tree,input)
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
         savedentries = 0
 
         #
@@ -149,7 +149,7 @@ class LeptonResolutionTreeMaker(TreeCloner):
           self.oldBranchesToBeModifiedVector[bname] = bvector
 
         # now actually connect the branches
-        for bname, bvector in self.oldBranchesToBeModifiedVector.items():
+        for bname, bvector in list(self.oldBranchesToBeModifiedVector.items()):
           self.otree.Branch(bname,bvector)            
 
         # input tree  
@@ -166,7 +166,7 @@ class LeptonResolutionTreeMaker(TreeCloner):
           itree.GetEntry(i)
 
           if i > 0 and i%step == 0.:
-            print(i,'events processed :: ', nentries)
+            print((i,'events processed :: ', nentries))
               
           # smear lepton pt, the core of this module
           leptonPtChanged = []            
@@ -195,7 +195,7 @@ class LeptonResolutionTreeMaker(TreeCloner):
           
           # now save into the tree the new pt "std_vector_lepton_pt" variable
           # and reorder all th eother variables, to keep the correct order of leptons
-          for bname, bvector in self.oldBranchesToBeModifiedVector.items():
+          for bname, bvector in list(self.oldBranchesToBeModifiedVector.items()):
               bvector.clear()
               if 'std_vector_lepton_pt' in bname:
                   print(bname)

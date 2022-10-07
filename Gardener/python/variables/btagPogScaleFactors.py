@@ -53,7 +53,7 @@ class btagPogScaleFactors(TreeCloner):
           exec(handle)
           handle.close()
         else:  
-          print("cannot find file", opts.efficiencyMCFile)
+          print(("cannot find file", opts.efficiencyMCFile))
 
         #print " isoidScaleFactors = ", isoidScaleFactors
         
@@ -73,7 +73,7 @@ class btagPogScaleFactors(TreeCloner):
         except RuntimeError:
             ROOT.gROOT.LoadMacro(cmssw_base+'/src/LatinoAnalysis/Gardener/python/variables/BTagCalibrationStandalone.cc++g')
         #ROOT.gROOT.ProcessLine('.L BTagCalibrationStandalone.cc+') 
-        print("scale factors from", cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/'+opts.sfFile)
+        print(("scale factors from", cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/'+opts.sfFile))
 
         wp = int(opts.workingPoint)
         self.calib = ROOT.BTagCalibration("cMVAv2", cmssw_base+'/src/LatinoAnalysis/Gardener/python/'+opts.sfFile)
@@ -105,7 +105,7 @@ class btagPogScaleFactors(TreeCloner):
         elif wp == 2:
           self.cut =0.875
         else:
-          print("WP", opts.workingPoint, " is not supported")
+          print(("WP", opts.workingPoint, " is not supported"))
 
 
 
@@ -133,7 +133,7 @@ class btagPogScaleFactors(TreeCloner):
                 return point[2]
 
           # default ... it should never happen!
-          print(" default ???", pt, eta, kindJet)
+          print((" default ???", pt, eta, kindJet))
           return 1.0
  
         # not a lepton ... like some default value
@@ -219,7 +219,7 @@ class btagPogScaleFactors(TreeCloner):
 
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
                 
         # avoid dots to go faster
         itree     = self.itree
@@ -231,7 +231,7 @@ class btagPogScaleFactors(TreeCloner):
             itree.GetEntry(i)
             ## print event count
             if i > 0 and i%step == 0.:
-              print(i,'events processed.')
+              print((i,'events processed.'))
 
 
             pData         = 1.

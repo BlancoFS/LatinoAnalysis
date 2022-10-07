@@ -71,7 +71,7 @@ class MrWWVarFiller(TreeCloner):
         if not (hasattr(opts,'kind')):
             raise RuntimeError('Missing parameter')
         self.kind   = opts.kind
-        print(" kind = ", self.kind)
+        print((" kind = ", self.kind))
 
 
     def process(self,**kwargs):
@@ -109,7 +109,7 @@ class MrWWVarFiller(TreeCloner):
         self.createMrWW()
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         # avoid dots to go faster
         itree     = self.itree
@@ -123,7 +123,7 @@ class MrWWVarFiller(TreeCloner):
 
             ## print event count
             if i > 0 and i%step == 0.:
-                print(i,'events processed.')
+                print((i,'events processed.'))
 
             mrww[0] = -9999.
             

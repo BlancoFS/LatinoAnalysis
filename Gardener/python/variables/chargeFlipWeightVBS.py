@@ -50,7 +50,7 @@ class chargeFlipWeightVBS(TreeCloner):
         self.otree.Branch('chFlipProbaVBS',  chFlipProbaVBS,  'chFlipProbaVBS/F')
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         # avoid dots to go faster
         itree     = self.itree

@@ -538,7 +538,7 @@ class OrderedDict(dict):
         StopIteration
         """
         def make_iter(self=self):
-            keys = iter(self.keys())
+            keys = iter(list(self.keys()))
             while True:
                 key = next(keys)
                 yield (key, self[key])
@@ -575,7 +575,7 @@ class OrderedDict(dict):
         StopIteration
         """
         def make_iter(self=self):
-            keys = iter(self.keys())
+            keys = iter(list(self.keys()))
             while True:
                 yield self[next(keys)]
         return make_iter()
@@ -943,7 +943,7 @@ class Keys(object):
 
     def __contains__(self, item): return item in self._main._sequence
     def __len__(self): return len(self._main._sequence)
-    def __iter__(self): return iter(self._main.keys())
+    def __iter__(self): return iter(list(self._main.keys()))
     def count(self, item): return self._main._sequence.count(item)
     def index(self, item, *args): return self._main._sequence.index(item, *args)
     def reverse(self): self._main._sequence.reverse()
@@ -1027,7 +1027,7 @@ class Items(object):
 
     def __contains__(self, item): return item in list(self._main.items())
     def __len__(self): return len(self._main._sequence) # easier :-)
-    def __iter__(self): return iter(self._main.items())
+    def __iter__(self): return iter(list(self._main.items()))
     def count(self, item): return list(self._main.items()).count(item)
     def index(self, item, *args): return list(self._main.items()).index(item, *args)
     def reverse(self): self._main.reverse()
@@ -1131,7 +1131,7 @@ class Values(object):
 
     def __contains__(self, item): return item in list(self._main.values())
     def __len__(self): return len(self._main._sequence) # easier :-)
-    def __iter__(self): return iter(self._main.values())
+    def __iter__(self): return iter(list(self._main.values()))
     def count(self, item): return list(self._main.values()).count(item)
     def index(self, item, *args): return list(self._main.values()).index(item, *args)
 

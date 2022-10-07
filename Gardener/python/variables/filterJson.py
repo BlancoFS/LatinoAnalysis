@@ -50,7 +50,7 @@ class FilterJSON(TreeCloner):
           self.run_lumi_json = {}
           
         print("---------------------------------------")
-        print(" self.run_lumi_json =", self.run_lumi_json)
+        print((" self.run_lumi_json =", self.run_lumi_json))
         
           
     def process(self,**kwargs):
@@ -67,7 +67,7 @@ class FilterJSON(TreeCloner):
         self.otree.Branch('isJsonOk',  isJsonOk,  'isJsonOk/F')
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
         savedentries = 0
 
         # avoid dots to go faster
@@ -84,7 +84,7 @@ class FilterJSON(TreeCloner):
 
             ## print event count
             if i > 0 and i%step == 0.:
-                print(i,'events processed.')
+                print((i,'events processed.'))
 
             isJsonOk[0] = 0
             
@@ -110,7 +110,7 @@ class FilterJSON(TreeCloner):
           
         self.disconnect()
         print('- Eventloop completed')
-        print('   Passing tag: ', savedentries, ' events out of', nentries)
+        print(('   Passing tag: ', savedentries, ' events out of', nentries))
 
 
 

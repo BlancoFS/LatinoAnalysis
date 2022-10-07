@@ -51,7 +51,7 @@ class allBtagPogScaleFactors(TreeCloner):
           exec(handle)
           handle.close()
         else:
-          print("cannot find file", effFile)
+          print(("cannot find file", effFile))
 
         self.efficiencyMC_CMVA = efficienciesMC_CMVA
         self.efficiencyMC_CSV = efficienciesMC_CSV
@@ -77,9 +77,9 @@ class allBtagPogScaleFactors(TreeCloner):
           self.csvSfFile = 'CSVv2_Moriond17_B_H.csv'
           self.deepCSVSfFile = 'DeepCSV_Moriond17_B_H.csv'
 
-        print("CMVA scale factors from", cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/'+self.cmvaSfFile)
-        print("CSVv2 scale factors from", cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/'+self.csvSfFile)
-        print("DeepCSV scale factors from", cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/'+self.deepCSVSfFile)
+        print(("CMVA scale factors from", cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/'+self.cmvaSfFile))
+        print(("CSVv2 scale factors from", cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/'+self.csvSfFile))
+        print(("DeepCSV scale factors from", cmssw_base+'/src/LatinoAnalysis/Gardener/python/data/'+self.deepCSVSfFile))
 
         ROOT.gSystem.Load('libCondFormatsBTauObjects')
         ROOT.gSystem.Load('libCondToolsBTau')
@@ -158,7 +158,7 @@ class allBtagPogScaleFactors(TreeCloner):
           eta = self.maxeta
 
         if not (wp=='L' or wp=='M' or wp=='T'):
-          print("ERROR: wp ", wp, " do not exist or the format is wrong. Please provide a correct wp.") 
+          print(("ERROR: wp ", wp, " do not exist or the format is wrong. Please provide a correct wp.")) 
           print("Available wps are 'L', 'M' or 'T'.")
 
         if algo == "CMVA":
@@ -172,7 +172,7 @@ class allBtagPogScaleFactors(TreeCloner):
                   return point[2]
 
             # default ... it should never happen!
-            print(" default ???", pt, eta, kindJet)
+            print((" default ???", pt, eta, kindJet))
             return 1.0
 
         elif algo == "CSV":
@@ -188,7 +188,7 @@ class allBtagPogScaleFactors(TreeCloner):
                   return point[2]
 
             # default ... it should never happen!
-            print(" default ???", pt, eta, kindJet)
+            print((" default ???", pt, eta, kindJet))
             return 1.0
 
         elif algo == "deepCSV":
@@ -204,11 +204,11 @@ class allBtagPogScaleFactors(TreeCloner):
                   return point[2]
 
             # default ... it should never happen!
-            print(" default ???", pt, eta, kindJet)
+            print((" default ???", pt, eta, kindJet))
             return 1.0
 
         else: 
-          print("ERROR: algo ", algo, " is not available. Please specify a correct algo.")  
+          print(("ERROR: algo ", algo, " is not available. Please specify a correct algo."))  
           print("Available algos are 'CMVA' and 'CSV'.")
 
         # not a lepton ... like some default value
@@ -312,7 +312,7 @@ class allBtagPogScaleFactors(TreeCloner):
             self.otree.Branch(namebranch,bPogSF_reshape[tagger][rvariation],namebranch+'/F')
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
                 
         # avoid dots to go faster
         itree     = self.itree
@@ -324,7 +324,7 @@ class allBtagPogScaleFactors(TreeCloner):
             itree.GetEntry(i)
             ## print event count
             if i > 0 and i%step == 0.:
-              print(i,'events processed.')
+              print((i,'events processed.'))
 
             self.resetCounters()
   

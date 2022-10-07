@@ -277,28 +277,28 @@ class LeptonSel(TreeCloner):
         for bname in self.namesNewBranchesVector:
           bvector =  ROOT.std.vector(float) ()
           self.newBranchesVector[bname] = bvector
-        for bname, bvector in self.newBranchesVector.items(): self.otree.Branch(bname,bvector)        
+        for bname, bvector in list(self.newBranchesVector.items()): self.otree.Branch(bname,bvector)        
 
         # ... Old Branches: lepton and jets std_vector
         self.oldBranchesToBeModifiedVector = {}
         for bname in self.namesOldBranchesToBeModifiedVector:
           bvector =  ROOT.std.vector(float) ()
           self.oldBranchesToBeModifiedVector[bname] = bvector
-        for bname, bvector in self.oldBranchesToBeModifiedVector.items(): self.otree.Branch(bname,bvector)
+        for bname, bvector in list(self.oldBranchesToBeModifiedVector.items()): self.otree.Branch(bname,bvector)
 
         # .... jet Variables
         self.jetVarDic = OrderedDict()
         for bname in self.jetVarList:
           bvariable = numpy.ones(1, dtype=numpy.float32)
           self.jetVarDic[bname] = bvariable
-        for bname, bvariable in self.jetVarDic.items(): self.otree.Branch(bname,bvariable,bname+'/F') 
+        for bname, bvariable in list(self.jetVarDic.items()): self.otree.Branch(bname,bvariable,bname+'/F') 
 
         # ... Special variables
         self.oldBranchesToBeModifiedSpecialSimpleVariable = {}
         for bname in self.namesOfSpecialSimpleVariable:
           bvariable = numpy.ones(1, dtype=numpy.float32)
           self.oldBranchesToBeModifiedSpecialSimpleVariable[bname] = bvariable
-        for bname, bvariable in self.oldBranchesToBeModifiedSpecialSimpleVariable.items():  self.otree.Branch(bname,bvariable,bname+'/F')
+        for bname, bvariable in list(self.oldBranchesToBeModifiedSpecialSimpleVariable.items()):  self.otree.Branch(bname,bvariable,bname+'/F')
 
         # input tree and output tree
         itree     = self.itree
@@ -398,8 +398,8 @@ class LeptonSel(TreeCloner):
               maxNumLeptons = len(itree.std_vector_lepton_pt)
 
               # Clean All vectors
-              for bname, bvector in self.newBranchesVector.items()             : bvector.clear()
-              for bname, bvector in self.oldBranchesToBeModifiedVector.items() : bvector.clear()
+              for bname, bvector in list(self.newBranchesVector.items())             : bvector.clear()
+              for bname, bvector in list(self.oldBranchesToBeModifiedVector.items()) : bvector.clear()
 
               # Link to good leptons
               goodLepLinks = []
@@ -416,14 +416,14 @@ class LeptonSel(TreeCloner):
               # Compute Veto and/or save Veto lepton pt,eta,phi,flavour +link to position in CleanTag
               for iLep in range(len(LeptonTags['Veto'])) :
                 if LeptonTags['Veto'][iLep] == 1 :                 
-                  for bname, bvector in self.newBranchesVector.items() :
+                  for bname, bvector in list(self.newBranchesVector.items()) :
                     if ("std_vector_vetolepton_pt"      == bname) : bvector.push_back(itree.std_vector_lepton_pt[iLep])
                     if ("std_vector_vetolepton_eta"     == bname) : bvector.push_back(itree.std_vector_lepton_eta[iLep])
                     if ("std_vector_vetolepton_phi"     == bname) : bvector.push_back(itree.std_vector_lepton_phi[iLep])
                     if ("std_vector_vetolepton_flavour" == bname) : bvector.push_back(itree.std_vector_lepton_flavour[iLep])
                     if ("std_vector_vetolepton_cleanId" == bname) : bvector.push_back(goodLepLinks[iLep])
               for remainingLep in range( maxNumLeptons - len(otree.std_vector_vetolepton_cleanId) ) :
-                  for bname, bvector in self.newBranchesVector.items() :
+                  for bname, bvector in list(self.newBranchesVector.items()) :
                     if ("std_vector_vetolepton_pt"      == bname) : bvector.push_back( -9999. )
                     if ("std_vector_vetolepton_eta"     == bname) : bvector.push_back( -9999. )
                     if ("std_vector_vetolepton_phi"     == bname) : bvector.push_back( -9999. )
@@ -431,11 +431,11 @@ class LeptonSel(TreeCloner):
                     if ("std_vector_vetolepton_cleanId" == bname) : bvector.push_back( -9999. )
           
               # Lepton cleaning
-              for bname, bvector in self.oldBranchesToBeModifiedVector.items():
+              for bname, bvector in list(self.oldBranchesToBeModifiedVector.items()):
                  if ("vector_lepton" in bname) or ("vector_electron" in bname) or ("vector_muon" in bname): self.changeOrder( bname, bvector, goodLeps )              
 
               # Save Lepton tags for cleaned leptons
-              for bname, bvector in self.newBranchesVector.items():
+              for bname, bvector in list(self.newBranchesVector.items()):
                 # Fake Obj
                 if ("std_vector_lepton_isLooseLepton" == bname) : 
                   for iLep in goodLeps : bvector.push_back(LeptonTags['Loose'][iLep])
@@ -484,7 +484,7 @@ class LeptonSel(TreeCloner):
                     if abs(itree.std_vector_puppijet_eta[iJet]) <= self.jetCleaning_absEta :
                       goodPuppiJets.append(iJet)
 
-              for bname, bvector in self.oldBranchesToBeModifiedVector.items():
+              for bname, bvector in list(self.oldBranchesToBeModifiedVector.items()):
                    if (("vector_jet" in bname) or (("vector_puppijet") in bname)) and not (("vector_lepton" in bname) or ("vector_electron" in bname) or ("vector_muon" in bname)):
                        if "vector_puppijet" in bname:
                            self.changeOrder( bname, bvector, goodPuppiJets)
@@ -494,7 +494,7 @@ class LeptonSel(TreeCloner):
               # refill the single jet variables
               counter = 0
               varCounter = 0
-              for bname, bvariable in self.jetVarDic.items():
+              for bname, bvariable in list(self.jetVarDic.items()):
                   bvariable[0] = (getattr(self.otree, 'std_vector_jet_'+self.jetVariables[varCounter]))[counter]
                   counter += 1
                   if counter == maxnjets:

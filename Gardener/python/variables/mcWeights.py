@@ -64,7 +64,7 @@ class mcWeightsFiller(TreeCloner):
 
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         #what is self.itree? what is self.otree?
         itree     = self.itree
@@ -84,7 +84,7 @@ class mcWeightsFiller(TreeCloner):
 
         if nentriesWeight > 0 :
           myTreeWeight.GetEntry(0)
-          print('Syst vec size: ',str(myTreeWeight.weightsLHE.size()))
+          print(('Syst vec size: ',str(myTreeWeight.weightsLHE.size())))
           for isyst in range(myTreeWeight.weightsLHE.size()) :
             bvector.push_back(0)
         print('Init done')
@@ -93,7 +93,7 @@ class mcWeightsFiller(TreeCloner):
         for i in range(nentriesWeight):
           myTreeWeight.GetEntry(i)
           if i > 0 and i%step == 0.:
-                print(i,'events processed.')
+                print((i,'events processed.'))
           weightSM   = myTreeWeight.weightSM          
           weightsLHE = myTreeWeight.weightsLHE
 
@@ -108,7 +108,7 @@ class mcWeightsFiller(TreeCloner):
           
           #print list(bvector )
  
-        print(' weight = ',  mcWeight, " = ", positive, " - ", negative)      
+        print((' weight = ',  mcWeight, " = ", positive, " - ", negative))      
         mcNegW[0] = 1. * (positive - negative) / (positive + negative)
 
         print('- Starting eventloop')
@@ -120,7 +120,7 @@ class mcWeightsFiller(TreeCloner):
             itree.GetEntry(i)
 
             if i > 0 and i%step == 0.:
-                print(i,'events processed.')
+                print((i,'events processed.'))
 
             otree.Fill()
 

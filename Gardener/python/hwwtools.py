@@ -34,7 +34,7 @@ def confirm(prompt=None, resp=False):
         prompt = '%s [%s]|%s: ' % (prompt, 'n', 'y')
 
     while True:
-        ans = input(prompt)
+        ans = eval(input(prompt))
         if not ans:
             return resp
         if ans not in ['y', 'Y', 'n', 'N']:
@@ -89,7 +89,7 @@ def filterSamples( samples, voc ):
 
     # convert the vocabulary, which is a mixture of strings and 2d tuples, into a dictionary
     fullvoc = dict([ e if isinstance(e,tuple) else (e,e) for e in voc])
-    for proc,label in fullvoc.items():
+    for proc,label in list(fullvoc.items()):
 
         if label not in samples: continue
 
@@ -171,7 +171,7 @@ def loadOptDefaults(parser, pycfg=None, quiet=False):
         handle.close()
 
         #print(" vars = ", vars)
-        for opt_name, opt_value in vars.items():
+        for opt_name, opt_value in list(vars.items()):
             if opt_name[0] == '-': continue
 
             #print(" opt_name[0] = ", opt_name[0])

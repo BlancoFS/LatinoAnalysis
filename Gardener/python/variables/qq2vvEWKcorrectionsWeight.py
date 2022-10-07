@@ -34,7 +34,7 @@ class qq2vvEWKcorrectionsWeightFiller(TreeCloner):
         self.otree.Branch('ewkW'  , ewkW  , 'ewkW/F')
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries)
+        print(('Total number of entries: ',nentries))
 
         itree     = self.itree
         otree     = self.otree
@@ -54,7 +54,7 @@ class qq2vvEWKcorrectionsWeightFiller(TreeCloner):
             itree.GetEntry(i)
 
             if i > 0 and i%step == 0.:
-                print(i,'events processed.')
+                print((i,'events processed.'))
 
             ptl1 = itree.std_vector_LHElepton_pt[0]
             ptl2 = itree.std_vector_LHElepton_pt[1]

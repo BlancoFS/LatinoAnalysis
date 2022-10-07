@@ -69,7 +69,7 @@ class PUpper(TreeCloner):
             self.datahistRun.append( self._getRootObj(self.datafileRun[0],opts.histname) )
             self.datahistRun.append( self._getRootObj(self.datafileRun[1],opts.histname) )
           else:
-            print('[ERROR] PU Weight : period unknown = ',opts.cmssw) 
+            print(('[ERROR] PU Weight : period unknown = ',opts.cmssw)) 
             exit() 
         else:
           self.minRun.append(1)
@@ -129,7 +129,7 @@ class PUpper(TreeCloner):
 #         maxValue = data_maxValue
           dValue   = data_dValue
    
-          print("Data/MC bin Ratio:",ratio)
+          print(("Data/MC bin Ratio:",ratio))
    
           if (ratio - int(ratio)) != 0 :
               raise RuntimeError(" ERROR: incompatible intervals!")
@@ -151,7 +151,7 @@ class PUpper(TreeCloner):
               integralDATA += puScaleDATA[iRun][iBin]
               integralMC   += puScaleMCtemp[iBin]
   
-          print("Integrals: data = %.3f, mc = %3f" % (integralDATA,integralMC))
+          print(("Integrals: data = %.3f, mc = %3f" % (integralDATA,integralMC)))
    
           for iBin in range(nBin):
               puScaleMC[iRun][iBin] =  puScaleMCtemp[iBin] * integralDATA / integralMC
@@ -159,7 +159,7 @@ class PUpper(TreeCloner):
         # start loop on tree
  
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries)
+        print(('Total number of entries: ',nentries))
         
         # this is for speed
         leaf = self.kind 
@@ -173,7 +173,7 @@ class PUpper(TreeCloner):
 
             ## print event count
             if i > 0 and i%step == 0.:
-                print(i,'events processed.')
+                print((i,'events processed.'))
 
             nRun = 0
             if self.run:

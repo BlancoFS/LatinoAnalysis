@@ -41,7 +41,7 @@ if __name__ == '__main__':
         exec(handle)
         handle.close()
 
-      for sampleName, sample in samples.items():
+      for sampleName, sample in list(samples.items()):
         #print('     -> sampleName = ', sampleName)
         list_of_trees_to_connect = sample['name']      
         for file_name in list_of_trees_to_connect :

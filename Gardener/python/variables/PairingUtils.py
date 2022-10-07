@@ -17,7 +17,7 @@ def get_hard_partons(event, debug=False):
             # check if different from the previous one
             if len(partons)==0 or vec != partons[-1]:
                 if debug:
-                    print("Parton > pid: ", pid, " pt:", pt ," eta:", eta, " phi:", phi)
+                    print(("Parton > pid: ", pid, " pt:", pt ," eta:", eta, " phi:", phi))
                 partons.append(vec)
                 pids.append(int(pid))
     return partons, pids
@@ -36,7 +36,7 @@ def get_jets(event, ptmin=20., debug=False):
             vec.SetPtEtaPhiE(pt, eta, phi, en)
             # check if different from the previous one
             if debug:
-                print("Jet > pt:", pt ," eta:", eta, " phi:", phi, " mass:", mass)
+                print(("Jet > pt:", pt ," eta:", eta, " phi:", phi, " mass:", mass))
             jets.append(vec)
     return jets
 
@@ -56,7 +56,7 @@ def get_jets_byindex(event, indexes, ptmin=20., debug=False):
                 vec.SetPtEtaPhiE(pt, eta, phi, en)
                 # check if different from the previous one
                 if debug:
-                    print("Jet > pt:", pt ," eta:", eta, " phi:", phi, " mass:", mass)
+                    print(("Jet > pt:", pt ," eta:", eta, " phi:", phi, " mass:", mass))
                 jets.append(vec)
     return jets
 

@@ -32,19 +32,19 @@ class JESTreeMaker(TreeCloner):
             self.kind = 1.0
         else :    
             self.kind   = 1.0 * float(opts.kind)
-        print(" kind of variation = ", self.kind)
+        print((" kind of variation = ", self.kind))
 
         self.maxUncertainty = opts.maxUncertainty
-        print(" Using maximum of JES uncertainties = ", self.maxUncertainty)
+        print((" Using maximum of JES uncertainties = ", self.maxUncertainty))
 
         self.cmssw = opts.cmssw
-        print(" cmssw = ", self.cmssw)
+        print((" cmssw = ", self.cmssw))
 
         self.uncertaintySource = opts.uncertaintySource
         if self.uncertaintySource == None:
           print("computing using full uncertainty")
         else:
-          print("computing uncertainty for source", self.uncertaintySource)
+          print(("computing uncertainty for source", self.uncertaintySource))
 
     def changeOrder(self, vectorname, vector, jetOrderList) :
         # take vector and clone vector
@@ -84,7 +84,7 @@ class JESTreeMaker(TreeCloner):
         self.connect(tree,input)
 
         nentries = self.itree.GetEntries()
-        print('Total number of entries: ',nentries) 
+        print(('Total number of entries: ',nentries)) 
 
         #
         # create branches for otree, the ones that will be modified!
@@ -119,7 +119,7 @@ class JESTreeMaker(TreeCloner):
              
 
         # now actually connect the branches
-        for bname, bvector in self.oldBranchesToBeModifiedVector.items():
+        for bname, bvector in list(self.oldBranchesToBeModifiedVector.items()):
             self.otree.Branch(bname,bvector)
         
         self.oldBranchesToBeModifiedSimpleVariable = {}
@@ -128,7 +128,7 @@ class JESTreeMaker(TreeCloner):
           self.oldBranchesToBeModifiedSimpleVariable[bname] = bvariable
 
         # now actually connect the branches for floats
-        for bname, bvariable in self.oldBranchesToBeModifiedSimpleVariable.items():
+        for bname, bvariable in list(self.oldBranchesToBeModifiedSimpleVariable.items()):
             self.otree.Branch(bname,bvariable,bname+'/F')         
 
         # input tree  
@@ -164,7 +164,7 @@ class JESTreeMaker(TreeCloner):
             itree.GetEntry(i)
 
             if i > 0 and i%step == 0.:
-                print(i,'events processed :: ', nentries)
+                print((i,'events processed :: ', nentries))
                 
             # prepare MET
             if self.cmssw == '74x' :
@@ -235,7 +235,7 @@ class JESTreeMaker(TreeCloner):
                 
             jetOrderUp = sorted(list(range(len(jetPtUp))), key=lambda k: jetPtUp[k], reverse=True)
                         
-            for bname, bvector in self.oldBranchesToBeModifiedVector.items():
+            for bname, bvector in list(self.oldBranchesToBeModifiedVector.items()):
                 bvector.clear()
                 if bname == 'std_vector_jet_pt' :
                     for i in range( len(jetOrderUp) ) :

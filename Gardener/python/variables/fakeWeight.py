@@ -48,9 +48,9 @@ class FakeWeightFiller(TreeCloner):
     def checkOptions(self,opts):
 	cmssw_base = os.getenv('CMSSW_BASE')
         self.cmssw = opts.cmssw
-        print(" cmssw = ", self.cmssw)
+        print((" cmssw = ", self.cmssw))
         self.idEleKind = opts.idEleKind
-        print(" idEleKind = ", self.idEleKind)
+        print((" idEleKind = ", self.idEleKind))
 
         if self.cmssw == 'Full2016' and self.idEleKind in ['cut_WP_Tight80X'] :   
 
@@ -499,7 +499,7 @@ class FakeWeightFiller(TreeCloner):
         self.otree.Branch('fakeW4lstatElDown', fakeW4lstatElDown, 'fakeW4lstatElDown/F')
 
         nentries = self.itree.GetEntries()
-        print(' - Input entries:', nentries)
+        print((' - Input entries:', nentries))
         savedentries = 0
                 
         # avoid dots to go faster
@@ -513,7 +513,7 @@ class FakeWeightFiller(TreeCloner):
             itree.GetEntry(i)
 
             # print event count
-            if (i > 0 and i%step == 0.) : print(i,'events processed')
+            if (i > 0 and i%step == 0.) : print((i,'events processed'))
 
             Leptons = {}
             
@@ -603,4 +603,4 @@ class FakeWeightFiller(TreeCloner):
 
         self.disconnect()
         print(' - Event loop completed')
-        print('   Saved entries:', savedentries)
+        print(('   Saved entries:', savedentries))

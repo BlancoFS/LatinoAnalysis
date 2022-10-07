@@ -190,7 +190,7 @@ class BWEwkSingletReweighter(TreeCloner):
           self.oldBranchesToBeModifiedSimpleVariable[bname] = bvariable
 
         # now actually connect the branches
-        for bname, bvariable in self.oldBranchesToBeModifiedSimpleVariable.items():
+        for bname, bvariable in list(self.oldBranchesToBeModifiedSimpleVariable.items()):
             #print(" bname   = ", bname)
             #print(" bvariable = ", bvariable)
             self.otree.Branch(bname,bvariable,bname+'/F')

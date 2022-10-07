@@ -77,7 +77,7 @@ class genVariablesFiller(TreeCloner):
           self.oldBranchesToBeModifiedSimpleVariable[bname] = bvariable
 
         # now actually connect the branches
-        for bname, bvariable in self.oldBranchesToBeModifiedSimpleVariable.items():
+        for bname, bvariable in list(self.oldBranchesToBeModifiedSimpleVariable.items()):
             #print(" bname   = ", bname)
             #print(" bvariable = ", bvariable)
             self.otree.Branch(bname,bvariable,bname+'/F')
@@ -140,7 +140,7 @@ class genVariablesFiller(TreeCloner):
                 GenVar.setLHENeutrinos(itree.std_vector_LHEneutrino_pt, itree.std_vector_LHEneutrino_eta, itree.std_vector_LHEneutrino_phi, itree.std_vector_LHEneutrino_id)
  
              # now fill the variables like "mll", "dphill", ...
-              for bname, bvariable in self.oldBranchesToBeModifiedSimpleVariable.items():
+              for bname, bvariable in list(self.oldBranchesToBeModifiedSimpleVariable.items()):
                 bvariable[0] = getattr(GenVar, bname)()
   
             otree.Fill()
