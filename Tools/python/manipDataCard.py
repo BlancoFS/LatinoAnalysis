@@ -41,13 +41,13 @@ class card():
 		ih2 = 0
 		prevTag = ''
 		currTag = ''
-		for iline, (kline, line) in enumerate(self.lines.iteritems()):
+		for iline, (kline, line) in enumerate(self.lines.items()):
 			fields = line.split()
 			currTag = fields[0]
 			if currTag == 'Observation': currTag = 'observation'
 			if prevTag == 'Observation': prevTag = 'observation'
 			# whereAmI
-			if not kline > len(self.lines.keys())-4:
+			if not kline > len(list(self.lines.keys()))-4:
 				nextfour = [currTag,self.lines[kline+1].split()[0],self.lines[kline+2].split()[0],self.lines[kline+3].split()[0]]
 			else:
 				nextfour = ['','','','']
@@ -157,7 +157,7 @@ class card():
 						sys.exit('No algorithm to process line: %s with key %s'%(line, fields[1]))
 			# other
 			else: #sys.exit('Problem parsing line: %s'%line)
-                          print 'Warning: Problem parsing line: ' , line
+                          print('Warning: Problem parsing line: ' , line)
 
 			prevTag = currTag
 		
@@ -172,11 +172,11 @@ class card():
 	def remShape(self,label,root='ALL'):
 		if not (not label == '' and not root == ''):
 			sys.exit('Arguments don\'t suffice, check these: label: '+str(label)+', root: '+str(root))
-		for key in self.content['header2'].keys():
+		for key in list(self.content['header2'].keys()):
 			fields = self.content['header2'][key]
 			if (fields[1] == label and fields[2] == root) or (fields[1] == label and root == 'ALL'):
 				del self.content['header2'][key]
-				print 'removed:', fields
+				print('removed:', fields)
 
 ##################################################
 	def addCol(self,bin,process,processId,rate,observation):
@@ -193,7 +193,7 @@ class card():
 		#systs
 		for systtype in self.content['systs']:
 			if systtype in ['lnN','lnU','gmN','shape'] or systtype[0:5] == 'shape':
-				for entry in self.content['systs'][systtype].itervalues():
+				for entry in self.content['systs'][systtype].values():
 					entry.append('-')
 		#header1
 		self.content['header1']['imax'] = str(len(set(self.content['block1']['bin'])))
@@ -204,7 +204,7 @@ class card():
 		sets = [['bin','process'],['bin','processId'],['bin'],['process'],['processId']]
 		iset = -999
 		for i,s in enumerate(sets):
-			if (set(s)).issubset(kwargs.keys()):
+			if (set(s)).issubset(list(kwargs.keys())):
 				iset = i
 				break
 		if iset == -999:
@@ -231,7 +231,7 @@ class card():
 				if processid == kwargs['processId']:
 					self.remCol(bin=self.content['block2']['bin'][self.content['block2']['processId'].index(processid)],processId=processid)
 		else:
-			print 'REMOVING: ',kwargs
+			print('REMOVING: ',kwargs)
 			#start
 			index1 = self.commonIndex(part='block1',bin=kwargs[sets[iset][0]])
 			if 'process' in kwargs:
@@ -255,7 +255,7 @@ class card():
 						if (systtype=='gmN') and all([x=='-' for x in self.content['systs'][systtype][tag][1:]]):
 							remtags.append([systtype,tag])
 					for systtype,tag in remtags:
-						print 'removed syst for tag %s: '%tag, self.content['systs'][systtype][tag]
+						print('removed syst for tag %s: '%tag, self.content['systs'][systtype][tag])
 						del self.content['systs'][systtype][tag]
 
 			#block1
@@ -272,7 +272,7 @@ class card():
 		sets = [['bin','process'],['bin','processId']]
 		iset = -999
 		for i,s in enumerate(sets):
-			if (set(s)).issubset(kwargs.keys()):
+			if (set(s)).issubset(list(kwargs.keys())):
 				iset = i
 				break
 		if iset == -999:
@@ -353,7 +353,7 @@ class card():
 			if not (systtype in lookatsysts or systtype[0:5]=='shape'): continue
 			if not systtype in self.content['systs']:
 				self.content['systs'][systtype] = {}
-				nfrom = max([float(x) for x in self.linenumbers.itervalues()])
+				nfrom = max([float(x) for x in self.linenumbers.values()])
 				for entry in passedcontent['systs'][systtype]:
 #					print 'Also found %s info in input set. Skipping.'%systtype
 					self.content['systs'][systtype][entry] = ['-']*(len(self.content['block2']['bin'])-1)+[passedcontent['systs'][systtype][entry]]
@@ -361,7 +361,7 @@ class card():
 					self.linenumbers[(systtype,entry)] = str(nfrom)
 			else:
 				for entry in passedcontent['systs'][systtype]:
-					nfrom = max([float(x) for x in self.linenumbers.itervalues()])
+					nfrom = max([float(x) for x in self.linenumbers.values()])
 					if not entry in self.content['systs'][systtype]:
 #						print 'Also found %s - %s info in input set. Skipping'%(systtype,entry)
 						self.content['systs'][systtype][entry] = ['-']*(len(self.content['block2']['bin'])-1)+[passedcontent['systs'][systtype][entry]]
@@ -422,12 +422,12 @@ class card():
 		'''Method colwidth() is used internally for formatted printing.'''
 		if not part == 'systs':
 			if not field == 0:
-				total = [len(x) for x in [y[(field-1)] for y in self.content[part].itervalues() if (len(y) > (field-1))]]
+				total = [len(x) for x in [y[(field-1)] for y in self.content[part].values() if (len(y) > (field-1))]]
 			else:
 				total = [len(x) for x in self.content[part]]
 		else:
 			if not field == 0:
-				total = [len(x) for x in [y[(field-1)] for y in self.content[part][syst].itervalues() if (len(y) > (field-1))]]
+				total = [len(x) for x in [y[(field-1)] for y in self.content[part][syst].values() if (len(y) > (field-1))]]
 			else:
 				if systfield==0:
 					total = [len(x) for x in self.content[part][syst]]
@@ -445,7 +445,7 @@ class card():
 		i3 = sets.index(['tag','syst','col'])
 		i2 = sets.index(['bin','process'])
 		for i,s in enumerate(sets):
-			if (set(s)).issubset(kwargs.keys()):
+			if (set(s)).issubset(list(kwargs.keys())):
 				iset = i
 				break
 		if (iset < 0) or (iset >= i2 and 'syst' in kwargs): 
@@ -512,7 +512,7 @@ class card():
 		sets = [['systtype','tag'],['tag']]
 		iset = -999
 		for i,s in enumerate(sets):
-			if (set(s)).issubset(kwargs.keys()):
+			if (set(s)).issubset(list(kwargs.keys())):
 				iset = i
 				break
 		if iset == -999:
@@ -543,7 +543,7 @@ class card():
 		sets = [['systtype','tag']]
 		iset = -999
 		for i,s in enumerate(sets):
-			if (set(s)).issubset(kwargs.keys()):
+			if (set(s)).issubset(list(kwargs.keys())):
 				 iset = i
 				 break
 		if iset == -999:
@@ -561,7 +561,7 @@ class card():
 			if not kwargs['systtype'] in self.content['systs']: self.content['systs'][kwargs['systtype']] = {}
 			self.content['systs'][kwargs['systtype']][kwargs['tag']] = ['-']*2
 			if kwargs['systtype'] in [x for x,y in self.linenumbers]: 
-				self.linenumbers[(kwargs['systtype'],kwargs['tag'])] = str(  max(  [float(self.linenumbers[(x,y)]) for x,y in self.linenumbers.keys() if x == kwargs['systtype']]  )+0.01  )
+				self.linenumbers[(kwargs['systtype'],kwargs['tag'])] = str(  max(  [float(self.linenumbers[(x,y)]) for x,y in list(self.linenumbers.keys()) if x == kwargs['systtype']]  )+0.01  )
 			else:
 				self.linenumbers[(kwargs['systtype'],kwargs['tag'])] = str(max([float(self.linenumbers[(x,y)]) for x,y in self.linenumbers if x == 'param'])+10)
 		elif kwargs['systtype'] in ['lnN','lnU','gmN'] or kwargs['systtype'][0:5]=='shape':
@@ -590,11 +590,11 @@ class card():
 			if not part == 'header2':
 				for key in sorted(self.content[part], key=lambda x:float(self.linenumbers[(part,x)])):
 					form = '%%-%is'%(self.colwidth(part,0)+1)
-					print form%(key if not key in self.substitutes else self.substitutes[key]),
+					print(form%(key if not key in self.substitutes else self.substitutes[key]), end=' ')
 					for ifield,field in enumerate(self.content[part][key]):
 						form = '%%%is'%(self.colwidth(part,ifield+1)+1)
-						print form%field,
-					print
+						print(form%field, end=' ')
+					print()
 			else:
 				for key in sorted(self.content[part], key=lambda x:float(self.linenumbers[(part,x)])):
 					for ifield,field in enumerate(self.content[part][key]):
@@ -602,21 +602,21 @@ class card():
 							form = '%%-%is'%(self.colwidth(part,ifield+1)+1)
 						else:
 							form = '%%%is'%(self.colwidth(part,ifield+1)+1)
-						print form%field,
-					print
-			print '-'*30
+						print(form%field, end=' ')
+					print()
+			print('-'*30)
 # systs
-		for syst in sorted(self.content['systs'], key=lambda x:min([self.linenumbers[y] for y in self.linenumbers.keys() if y[0]==x])):
+		for syst in sorted(self.content['systs'], key=lambda x:min([self.linenumbers[y] for y in list(self.linenumbers.keys()) if y[0]==x])):
 			for key in sorted(self.content['systs'][syst], key=lambda x:float(self.linenumbers[(syst,x)])):
 				form = '%%-%is'%(self.colwidth('systs',0,syst,0)+1)
-				print form%key, 
+				print(form%key, end=' ') 
 				form = '%%%is'%(self.colwidth('systs',0,syst,1)+1)
-				print form%syst,
+				print(form%syst, end=' ')
 				for ifield,field in enumerate(self.content['systs'][syst][key]):
 					form = '%%%is'%(self.colwidth('systs',ifield+1,syst)+1)
-					print form%field,
-				print
-			print '-'*30
+					print(form%field, end=' ')
+				print()
+			print('-'*30)
 # reset defaults and close file if needed
 		if not cardNameOut == '':
 			f_out.close()
@@ -628,13 +628,13 @@ class card():
 ####################################################################################################
 ####################################################################################################
 def info(text):
-	print '\033[31m*'*(len(text)+4)
-	print '* '+text+' *'
-	print '*'*(len(text)+4)+'\033[m'
+	print('\033[31m*'*(len(text)+4))
+	print('* '+text+' *')
+	print('*'*(len(text)+4)+'\033[m')
 
 def makebreak(n=3):
 	for i in range(n):
-		print '\033[1;31m'+'&'*180+'\033[m'
+		print('\033[1;31m'+'&'*180+'\033[m')
 
 ####################################################################################################
 def demo0():
@@ -642,40 +642,40 @@ def demo0():
 	####################
 	info('Example printout of scanned card:')
 	dc.write()
-	print
+	print()
 	####################
 	info('Example of reading and setting rate:')
-	print 'read CAT1, signal, rate: \t', dc.getRate(bin='CAT1', process='signal')
-	print 'read CAT1, 0, rate: \t', dc.getRate(bin='CAT1', processId='0')
-	print 'read CAT1, background, rate: \t', dc.getRate(bin='CAT1', process='background')
-	print 'set CAT1, background, rate to 1.111'
+	print('read CAT1, signal, rate: \t', dc.getRate(bin='CAT1', process='signal'))
+	print('read CAT1, 0, rate: \t', dc.getRate(bin='CAT1', processId='0'))
+	print('read CAT1, background, rate: \t', dc.getRate(bin='CAT1', process='background'))
+	print('set CAT1, background, rate to 1.111')
 	dc.setRate(bin='CAT1', process='background',value='1.111')
-	print 'read CAT, background, rate: \t', dc.getRate(bin='CAT1', process='background')
-	print
+	print('read CAT, background, rate: \t', dc.getRate(bin='CAT1', process='background'))
+	print()
 	####################
 	info('Example of reading and setting systematic (lnN):')
-	print 'read CAT1, signal, lnN, lumi:\t', dc.getSyst(bin='CAT1', process='signal', syst='lnN', tag='lumi')
-	print 'read CAT3, signal, lnN, trigEff:\t', dc.getSyst(bin='CAT3', process='signal', syst='lnN', tag='trigEff')
-	print 'read CAT3, 0, lnN, trigEff:\t', dc.getSyst(bin='CAT3', processId='0', syst='lnN', tag='trigEff')
-	print 'set CAT3, 0, lnN, trigEff to 1.111'
+	print('read CAT1, signal, lnN, lumi:\t', dc.getSyst(bin='CAT1', process='signal', syst='lnN', tag='lumi'))
+	print('read CAT3, signal, lnN, trigEff:\t', dc.getSyst(bin='CAT3', process='signal', syst='lnN', tag='trigEff'))
+	print('read CAT3, 0, lnN, trigEff:\t', dc.getSyst(bin='CAT3', processId='0', syst='lnN', tag='trigEff'))
+	print('set CAT3, 0, lnN, trigEff to 1.111')
 	dc.setSyst(bin='CAT3', processId='0', syst='lnN', tag='trigEff',value='1.111')
-	print 'read CAT3, 0, lnN, trigEff:\t', dc.getSyst(bin='CAT3', processId='0', syst='lnN', tag='trigEff')
-	print
+	print('read CAT3, 0, lnN, trigEff:\t', dc.getSyst(bin='CAT3', processId='0', syst='lnN', tag='trigEff'))
+	print()
 	####################
 	info('Example of reading and setting systematic (gmN):')
-	print 'read CAT1, signal, gmN, blablabla: \t', dc.getSyst(bin='CAT1', process='signal', syst='gmN', tag='blablabla')
-	print 
+	print('read CAT1, signal, gmN, blablabla: \t', dc.getSyst(bin='CAT1', process='signal', syst='gmN', tag='blablabla'))
+	print() 
 	####################
 	info('Example of reading and setting systematic (param):')
-	print 'read nzjet_CAT1, column 0: \t', dc.getSyst(syst='param',tag='nzjet_CAT1',col=0)
-	print 'set nzjet_CAT1, column 0 to 9.9999'
+	print('read nzjet_CAT1, column 0: \t', dc.getSyst(syst='param',tag='nzjet_CAT1',col=0))
+	print('set nzjet_CAT1, column 0 to 9.9999')
 	dc.setSyst(syst='param',tag='nzjet_CAT1',col=0,value='9.9999')
-	print 'read nzjet_CAT1, column 0: \t', dc.getSyst(syst='param',tag='nzjet_CAT1',col=0)
-	print
+	print('read nzjet_CAT1, column 0: \t', dc.getSyst(syst='param',tag='nzjet_CAT1',col=0))
+	print()
 	####################
 	info('Example of adding shape:')
 	dc.addShape('signal2','*','bla','blablabla')
-	print
+	print()
 	####################
 	info('Example of adding column:')
 	dc.addCol('CAT5','signal','0','22.55','-1')
@@ -684,14 +684,14 @@ def demo0():
 	info('Example of filling new column:')
 	dc.setSyst(bin='CAT5', process='signal',syst='lnN',tag='trigEff',value='1.033')
 	dc.setSyst(bin='CAT5', process='signal',syst='lnN',tag='lumi',value=dc.getSyst(bin='CAT1',process='signal',syst='lnN',tag='lumi'))
-	print
+	print()
 	####################
 	info('Example printout of edited card (to screen):')
 	dc.write()
 	#####################
 	#info('Example printout of edited card (to dataCard_new.txt):')
 	#dc.write('dataCard_new.txt')
-	print
+	print()
 	####################
 	info('Example getCol()')
 	dc.setCol(content=dc.getCol(bin='CAT1',process='signal',processId='0'),bin='CAT17',process='signal',processId='0')
@@ -702,14 +702,14 @@ def demo1():
 	dc = card('hww-19.47fb.mH110.sf_vh2j_shape.txt')
 	dc2 = card('hwwsf_0j_cut_7TeV.txt')
 	info('examples of reading card')
-	print 'read sf_vh2j, ggH, CMS_8TeV_eff_l, shape', dc.getSyst(bin='sf_vh2j',process='ggH', syst='shapeN2', tag='CMS_8TeV_eff_l')
-	print 'read sf_vh2j, ggH, Gen_pow_WW, shape', dc.getSyst(bin='sf_vh2j',process='WW', syst='shapeN2', tag='Gen_pow_WW')
-	print 'read sf_vh2j, ggH, Gen_pow_WW, shape', dc.getSyst(bin='sf_vh2j',process='VV', syst='shapeN2', tag='Gen_pow_WW')
-	print
+	print('read sf_vh2j, ggH, CMS_8TeV_eff_l, shape', dc.getSyst(bin='sf_vh2j',process='ggH', syst='shapeN2', tag='CMS_8TeV_eff_l'))
+	print('read sf_vh2j, ggH, Gen_pow_WW, shape', dc.getSyst(bin='sf_vh2j',process='WW', syst='shapeN2', tag='Gen_pow_WW'))
+	print('read sf_vh2j, ggH, Gen_pow_WW, shape', dc.getSyst(bin='sf_vh2j',process='VV', syst='shapeN2', tag='Gen_pow_WW'))
+	print()
 	info('examples of adding columns')
-	print 'adding column of dc2 to dc (new names):'
+	print('adding column of dc2 to dc (new names):')
 	dc.setCol(content=dc2.getCol(bin='j0sf7tev',process='ZH'),bin='addedbin',process='addedprocess',processId='99')
-	print 'adding column of dc2 to dc (orig names):'
+	print('adding column of dc2 to dc (orig names):')
 	dc.setCol(content=dc2.getCol(bin='j0sf7tev',process='ZH'))
 	dc.write()
 
