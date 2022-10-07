@@ -10,7 +10,7 @@ from PhysicsTools.NanoAODTools.postprocessing.framework.datamodel import Collect
 from PhysicsTools.NanoAODTools.postprocessing.framework.eventloop import Module
 
 if __name__ == '__main__':
-    print '''
+    print('''
 ___________________________________________________________________________________
                     ______     ____
 \          //  //  |_____/    |____|   \|/
@@ -18,7 +18,7 @@ ________________________________________________________________________________
   \//  \ //  //      //___    ||  |-|
    \    \/  //      //____|   ||__| |
 ___________________________________________________________________________________
-'''
+''')
 
 
 class WGammaStarV2(Module):
@@ -39,7 +39,7 @@ class WGammaStarV2(Module):
               self.Daughters(part, i, genParticles, daughters) 
                  
     def printParticle(self, p):
-      print p.pdgId,p.status,p.pt
+      print(p.pdgId,p.status,p.pt)
 
     def findGStarPair (self, leptons):
       # get the charged leptons

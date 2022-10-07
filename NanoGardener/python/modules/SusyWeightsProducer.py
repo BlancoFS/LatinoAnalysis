@@ -50,7 +50,7 @@ class SusyWeightsProducer(Module):
                 for susyModel in SUSYISRCorrections[isrObs]['susyModels'] :
                     if susyModel in inputFileName :
                         for isrVer in SUSYISRCorrections[isrObs]['version']:
-                            if self.cmssw in SUSYISRCorrections[isrObs]['version'][isrVer]['production'].keys():
+                            if self.cmssw in list(SUSYISRCorrections[isrObs]['version'][isrVer]['production'].keys()):
 
                                 self.isrObservable = isrObs
                         
@@ -83,7 +83,7 @@ class SusyWeightsProducer(Module):
                         normFactor = histoISR.Integral(0, self.isrBins+1)/reweightedNormalization
 
                         self.isrN.update({str(xb-1)+"-"+str(yb-1):normFactor})
-                        print 'SusyWeightsProducer: overall ISR normalization factor for mass point (',str(xb-1),',',str(yb-1),'):', normFactor
+                        print('SusyWeightsProducer: overall ISR normalization factor for mass point (',str(xb-1),',',str(yb-1),'):', normFactor)
 
             self.massScanIsFilled = True
 
@@ -102,7 +102,7 @@ class SusyWeightsProducer(Module):
         baseW = 1000.*Xsec/nevents
 
         isrW = self.isrN[str(int(event.susyMprompt))+'-'+str(int(event.susyMLSP))]
-        for ib in reversed(xrange(self.isrBins+1)) :
+        for ib in reversed(range(self.isrBins+1)) :
             if getattr(event, self.isrObservable) >= self.isrEdge[ib] :
                 isrW *= self.isrCorrection[ib]
                 break
