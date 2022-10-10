@@ -76,7 +76,7 @@ class NanoProdMaker():
      prodFile=self._cmsswBasedir+'/src/'+self._Productions[iProd]['samples']
      if os.path.exists(prodFile):
        handle = open(prodFile,'r')
-       exec(handle)
+       exec(handle.read())
        self._Samples     = Samples
        handle.close()
      keys2del = []

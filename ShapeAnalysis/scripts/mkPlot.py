@@ -147,19 +147,19 @@ if __name__ == '__main__':
       # NB: in samples.py the function "nanoGetSampleFiles" must handle this, if needed
       _samples_noload = True
       handle = open(opt.samplesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
    
     cuts = {}
     if os.path.exists(opt.cutsFile) :
       handle = open(opt.cutsFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     variables = {}
     if os.path.exists(opt.variablesFile) :
       handle = open(opt.variablesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     nuisances = {}
@@ -167,7 +167,7 @@ if __name__ == '__main__':
       print(" Please provide the nuisances structure if you want to add nuisances ")
     elif os.path.exists(opt.nuisancesFile) :
       handle = open(opt.nuisancesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     import LatinoAnalysis.ShapeAnalysis.utils as utils
@@ -208,7 +208,7 @@ if __name__ == '__main__':
     legend = {}
     if os.path.exists(opt.plotFile) :
       handle = open(opt.plotFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
 #=====================

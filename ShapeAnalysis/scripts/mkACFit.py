@@ -41,7 +41,7 @@ if __name__ == '__main__':
     variables = {}
     if os.path.exists(opt.variablesFile) :
       handle = open(opt.variablesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
     if len(opt.varList)>0:
       var2del=[]
@@ -54,13 +54,13 @@ if __name__ == '__main__':
     samples = {}
     if os.path.exists(opt.samplesFile) :
       handle = open(opt.samplesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     cuts = {}
     if os.path.exists(opt.cutsFile) :
       handle = open(opt.cutsFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
     if len(opt.cutList)>0:
       cut2del=[] 

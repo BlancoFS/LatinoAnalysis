@@ -227,19 +227,19 @@ if __name__ == '__main__':
    samples = {}
    if os.path.exists(opt.samplesFile) :
      handle = open(opt.samplesFile,'r')
-     exec(handle)
+     exec(handle.read())
      handle.close()
 
    variables = {}
    if os.path.exists(opt.variablesFile) :
      handle = open(opt.variablesFile,'r')
-     exec(handle)
+     exec(handle.read())
      handle.close()
    
    cuts = {}
    if os.path.exists(opt.cutsFile) :
      handle = open(opt.cutsFile,'r')
-     exec(handle)
+     exec(handle.read())
      handle.close()
    
    if len(opt.cardList)>0:
@@ -265,7 +265,7 @@ if __name__ == '__main__':
       
    if os.path.exists(opt.nuisancesFile) :
      handle = open(opt.nuisancesFile,'r')
-     exec(handle)
+     exec(handle.read())
      handle.close()
    
    
@@ -273,7 +273,7 @@ if __name__ == '__main__':
    nuisancesToPrune = []
    if os.path.exists(opt.nameFileConfiguration):
      handle = open(opt.nameFileConfiguration,'r')
-     exec(handle)
+     exec(handle.read())
      handle.close()
 
    

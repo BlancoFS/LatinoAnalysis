@@ -175,7 +175,7 @@ if __name__ == '__main__':
     legend = {}
     if os.path.exists(opt.plotFile) :
       handle = open(opt.plotFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
 
@@ -183,7 +183,7 @@ if __name__ == '__main__':
     cuts = {}
     if os.path.exists(opt.cutsFile) :
       handle = open(opt.cutsFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     # And COMBINATION 
@@ -191,7 +191,7 @@ if __name__ == '__main__':
     cutsVal = {}
     if os.path.exists(opt.combcfg) :
       handle = open(opt.combcfg,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
       variables['comb'] = {}
       for iComb in combs : cutsVal[iComb] = {}
@@ -201,7 +201,7 @@ if __name__ == '__main__':
 
       if os.path.exists(opt.variablesFile) :
         handle = open(opt.variablesFile,'r')
-        exec(handle)
+        exec(handle.read())
         handle.close()
       for iCut in cuts : cutsVal[iCut] = {}
     
@@ -209,7 +209,7 @@ if __name__ == '__main__':
 
     # acoupling = {}     
     h=open(opt.accfg,'r')
-    exec(h)
+    exec(h.read())
 
     # Cuts Preselection
     if len(opt.cutList)>0:

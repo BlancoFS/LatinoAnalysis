@@ -382,7 +382,7 @@ if __name__ == '__main__':
     variables = {}
     if os.path.exists(opt.variablesFile) :
       handle = open(opt.variablesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
     if len(opt.varList)>0:
       var2del=[]
@@ -393,7 +393,7 @@ if __name__ == '__main__':
     cuts = {}
     if os.path.exists(opt.cutsFile) :
       handle = open(opt.cutsFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
     if len(opt.cutList)>0:
       cut2del=[]
@@ -404,7 +404,7 @@ if __name__ == '__main__':
 
     # acoupling = {}     
     h=open(opt.accfg,'r')
-    exec(h)
+    exec(h.read())
 
     AC_cmd='python '+os.environ['CMSSW_BASE']+'/src/CombinedEWKAnalysis/CommonTools/test/buildWorkspace_AC.py' 
 

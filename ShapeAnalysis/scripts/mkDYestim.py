@@ -43,26 +43,26 @@ if __name__ == '__main__':
     variables = {}
     if os.path.exists(opt.variablesFile) :
       handle = open(opt.variablesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     samples = {}
     if os.path.exists(opt.samplesFile) :
       handle = open(opt.samplesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     cuts = {}
     if os.path.exists(opt.cutsFile) :
       handle = open(opt.cutsFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     RAndKff = {}
     DYestim = {}
     if os.path.exists(opt.dycfg) :
       handle = open(opt.dycfg,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     print(RAndKff)

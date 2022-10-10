@@ -219,7 +219,7 @@ if __name__ == '__main__':
     print(opt.variablesFile)
     if os.path.exists(opt.variablesFile) :
       handle = open(opt.variablesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
       #in case some variables need a compiled function
       for variableName, variable in variables.items():
@@ -231,7 +231,7 @@ if __name__ == '__main__':
     samples = {}
     if os.path.exists(opt.samplesFile) :
       handle = open(opt.samplesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
       #in case some samples need a compiled function
       for sampleName, sample in samples.items():
@@ -244,7 +244,7 @@ if __name__ == '__main__':
     cuts = {}
     if os.path.exists(opt.cutsFile) :
       handle = open(opt.cutsFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     nuisances = {}
@@ -252,7 +252,7 @@ if __name__ == '__main__':
       print(" Please provide the nuisances structure if you want to add nuisances ")      
     elif os.path.exists(opt.nuisancesFile) :
         handle = open(opt.nuisancesFile,'r')
-        exec(handle)
+        exec(handle.read())
         handle.close()
          
 

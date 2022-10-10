@@ -325,7 +325,7 @@ if __name__ == '__main__':
     samples = OrderedDict()
     if os.path.exists(opt.samplesFile) :
       handle = open(opt.samplesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     factory._samples = samples
@@ -338,7 +338,7 @@ if __name__ == '__main__':
 
     elif os.path.exists(opt.structureFile) :
       handle = open(opt.structureFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
 

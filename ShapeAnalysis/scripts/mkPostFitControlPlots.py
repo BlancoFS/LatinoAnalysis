@@ -193,7 +193,7 @@ the nuisance should be added in quadrature
     legend = {}
     if os.path.exists(opt.plotFile) :
       handle = open(opt.plotFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
   
     factory._plot = plot

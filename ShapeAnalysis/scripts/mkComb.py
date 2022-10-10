@@ -35,26 +35,26 @@ if __name__ == '__main__':
     samples = {}
     if os.path.exists(opt.samplesFile) :
       handle = open(opt.samplesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
 
     variables = {}
     if os.path.exists(opt.variablesFile) :
       handle = open(opt.variablesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     cuts = {}
     if os.path.exists(opt.cutsFile) :
       handle = open(opt.cutsFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     combs = {}
     if os.path.exists(opt.combcfg) :
       handle = open(opt.combcfg,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     for iComb in combs :

@@ -56,7 +56,7 @@ if __name__ == '__main__':
       samples = OrderedDict()
       if os.path.exists(opt.inputFileSamples) :
         handle = open(opt.inputFileSamples,'r')
-        exec(handle)
+        exec(handle.read())
         handle.close()
 
       #for sampleName, sample in samples.iteritems():
@@ -139,7 +139,7 @@ if __name__ == '__main__':
       nuisances = OrderedDict()
       if os.path.exists(opt.inputFileNuisances) :
         handle = open(opt.inputFileNuisances,'r')
-        exec(handle)
+        exec(handle.read())
         handle.close()
 
        
@@ -203,7 +203,7 @@ if __name__ == '__main__':
       cuts = OrderedDict()
       if os.path.exists(opt.inputFileCuts) :
         handle = open(opt.inputFileCuts,'r')
-        exec(handle)
+        exec(handle.read())
         handle.close()
 
       if opt.outputFileCuts != None :

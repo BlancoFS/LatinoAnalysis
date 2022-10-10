@@ -39,7 +39,7 @@ if __name__ == '__main__':
     # Load Cfg + Filter
     if os.path.exists(CMSSW+'/src/'+options.datacfg):
       handle = open(CMSSW+'/src/'+options.datacfg)
-      exec(handle)
+      exec(handle.read())
       handle.close()
       prodList = List_Filter(Productions,options.prods).get()
     else:
@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
     if os.path.exists(CMSSW+'/src/'+options.modcfg):
       handle = open(CMSSW+'/src/'+options.modcfg)
-      exec(handle)
+      exec(handle.read())
       handle.close()
       stepList = List_Filter(Steps,'baseW').get()
     else:
@@ -57,7 +57,7 @@ if __name__ == '__main__':
 
     if os.path.exists(CMSSW+'/src/'+options.sitescfg):
       handle = open(CMSSW+'/src/'+options.sitescfg)
-      exec(handle)
+      exec(handle.read())
       handle.close()
     else:
       print('ERROR: Please specify the site config with -S <fileName>')

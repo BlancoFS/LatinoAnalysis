@@ -888,7 +888,7 @@ if __name__ == '__main__':
       variables = {}
       if os.path.exists(opt.variablesFile) :
         handle = open(opt.variablesFile,'r')
-        exec(handle)
+        exec(handle.read())
         handle.close()
       if factory._variable in  list(variables.keys()) :
         if 'range' in variables[factory._variable] :
@@ -930,7 +930,7 @@ if __name__ == '__main__':
     cutsToMerge = {}
     if os.path.exists(opt.inputCutsList) :
       handle = open(opt.inputCutsList,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
     
     groupPlot = OrderedDict()
@@ -938,7 +938,7 @@ if __name__ == '__main__':
     legend = {}
     if os.path.exists(opt.plotFile) :
       handle = open(opt.plotFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
    
    

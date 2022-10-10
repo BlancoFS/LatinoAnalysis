@@ -452,7 +452,7 @@ if __name__ == '__main__':
     variables = {}
     if os.path.exists(opt.variablesFile) :
       handle = open(opt.variablesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
     if len(opt.varList)>0:
       var2del=[]
@@ -463,7 +463,7 @@ if __name__ == '__main__':
     cuts = {}
     if os.path.exists(opt.cutsFile) :
       handle = open(opt.cutsFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
     if len(opt.cutList)>0:
       cut2del=[]
@@ -474,7 +474,7 @@ if __name__ == '__main__':
     samples = {}
     if os.path.exists(opt.samplesFile) :
       handle = open(opt.samplesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
 #   treeBaseDir =''
@@ -519,7 +519,7 @@ if __name__ == '__main__':
       legend = {}
       if os.path.exists(opt.plotFile) :
         handle = open(opt.plotFile,'r')
-        exec(handle)
+        exec(handle.read())
         handle.close()
 
       # ~~~~
@@ -530,7 +530,7 @@ if __name__ == '__main__':
 
       if os.path.exists(opt.structureFile) :
         handle = open(opt.structureFile,'r')
-        exec(handle)
+        exec(handle.read())
         handle.close()
 
       # ~~~~
@@ -540,7 +540,7 @@ if __name__ == '__main__':
       else:
         if os.path.exists(opt.nuisancesFile) :
           handle = open(opt.nuisancesFile,'r')
-          exec(handle)
+          exec(handle.read())
           handle.close()
 
     if opt.type == 'fits'   :

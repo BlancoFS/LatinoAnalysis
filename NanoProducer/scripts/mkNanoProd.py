@@ -53,7 +53,7 @@ if __name__ == '__main__':
     # Load Cfg + Filter
     if os.path.exists(CMSSW+'/src/'+options.datacfg):
       handle = open(CMSSW+'/src/'+options.datacfg)
-      exec(handle)
+      exec(handle.read())
       handle.close()
       prodList = List_Filter(Productions,options.prods).get()
     else:

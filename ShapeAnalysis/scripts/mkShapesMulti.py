@@ -286,7 +286,7 @@ if __name__ == '__main__':
     samples = collections.OrderedDict()
     if os.path.exists(opt.samplesFile) :
       handle = open(opt.samplesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
       #in case some samples need a compiled function
       for sampleName, sample in samples.items():
@@ -298,7 +298,7 @@ if __name__ == '__main__':
     aliases = collections.OrderedDict()
     if opt.aliasesFile and os.path.exists(opt.aliasesFile):
       handle = open(opt.aliasesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     #in case some aliases need a compiled function 
@@ -312,13 +312,13 @@ if __name__ == '__main__':
     cuts = collections.OrderedDict()
     if os.path.exists(opt.cutsFile) :
       handle = open(opt.cutsFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     variables = collections.OrderedDict()
     if os.path.exists(opt.variablesFile) :
       handle = open(opt.variablesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
       #in case some variables need a compiled function
       for variableName, variable in variables.items():
@@ -332,7 +332,7 @@ if __name__ == '__main__':
       print(" Please provide the nuisances structure if you want to add nuisances ")
     elif os.path.exists(opt.nuisancesFile) :
       handle = open(opt.nuisancesFile,'r')
-      exec(handle)
+      exec(handle.read())
       handle.close()
 
     for nuis in nuisances.values():
