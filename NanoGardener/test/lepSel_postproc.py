@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 '''
 put this file in LatinoAnalysis/NanoGardener/test/
 '''

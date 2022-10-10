@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from LatinoAnalysis.NanoGardener.data.BranchMapping_cfg import branch_mapping
 import LatinoAnalysis.Tools.userConfig as userConfig

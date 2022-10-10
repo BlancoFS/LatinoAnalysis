@@ -1074,6 +1074,20 @@ Steps = {
                   'subTargets' : ['l2Kin', 'l3Kin'],
             },
 
+
+
+  'MCl1loose2022v9' :  {
+                  'isChain'    : True  ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : False ,
+                  'selection'  : '"((nElectron+nMuon)>0)"' ,
+                  'subTargets' : ['leptonMaker','lepSel','jetSelCustom',
+                                  'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars','WGammaStar', 'ggHTheoryUncertainty', 'qqHTheoryUncertainty', 'DressedLeptons','EFTGen'],
+                  },
+
+
+
+
 ## ------- T&P Skims
 
  'MCTandP' : { 

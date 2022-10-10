@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # This script aims to find an effective correction to enhance the Drell-Yan (DY) MC
 # description of the process.

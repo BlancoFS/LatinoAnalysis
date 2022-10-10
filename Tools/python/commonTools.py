@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys, re, os, os.path, string
 import subprocess
 from http.cookiejar import CookieJar

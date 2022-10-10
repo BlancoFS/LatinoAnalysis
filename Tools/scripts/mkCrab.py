@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from optparse import OptionParser
 from LatinoAnalysis.Tools.commonTools import *
 from LatinoAnalysis.Tools.crabTools import *

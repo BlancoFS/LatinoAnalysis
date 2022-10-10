@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys, re, os, os.path, math, copy
 argv = sys.argv
 sys.argv = argv[:1]

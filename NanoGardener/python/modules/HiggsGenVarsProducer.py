@@ -21,9 +21,9 @@ class HiggsGenVarsProducer(Module):
     def endFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
         pass
     def getParentID(self,particle,genParticles):
-        if particle.genPartIdxMother is -1: #No parent in record, return ID of original particle
+        if particle.genPartIdxMother == -1: #No parent in record, return ID of original particle
             return particle.pdgId
-        elif genParticles[particle.genPartIdxMother].pdgId is particle.pdgId: #'Parent' is self, keep iterating
+        elif genParticles[particle.genPartIdxMother].pdgId == particle.pdgId: #'Parent' is self, keep iterating
             return self.getParentID(genParticles[particle.genPartIdxMother],genParticles)
         else: #Found physical parent
             return genParticles[particle.genPartIdxMother].pdgId
