@@ -39,8 +39,8 @@ class PostProcMaker():
         self._aaaXrootd = 'root://xrootd-cms.infn.it/'
 
         self._haddnano = 'PhysicsTools/NanoAODTools/scripts/haddnano.py'
-        if '/usr/lib64/python2.7/site-packages' not in sys.path:
-            sys.path.append('/usr/lib64/python2.7/site-packages')
+        if '/usr/lib64/python3.6/site-packages' not in sys.path:
+            sys.path.append('/usr/lib64/python3.6/site-packages')
             import gfal2
         self.ctx = gfal2.creat_context()
 
@@ -109,13 +109,18 @@ class PostProcMaker():
             cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         out, err = proc.communicate()
         # No Proxy at all ?
+        print("\n")
+        print(proc.communicate())
+        print(out)
+        print(err)
+        print("\n")
         if 'Proxy not found' in err:
             print('WARNING: No GRID proxy -> Get one first with:')
             print('voms-proxy-init -voms cms -rfc --valid 168:0')
             exit()
         # More than 24h ?
         timeLeft = 0
-        for line in out.split("\n"):
+        for line in out.split("\\"):
             if 'timeleft' in line:
                 timeLeft = int(line.split(':')[1])
 
