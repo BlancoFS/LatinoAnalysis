@@ -234,7 +234,7 @@ class batchJobs:
                 cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
             out, err = proc.communicate()
             proxypath = " xxx "
-            for line in out.split('\n'):
+            for line in str(out).split('\n'):
                 if "path" in line:
                     proxypath = line.split(':')[1]
             os.system('cp '+proxypath+' /afs/cern.ch/user/' +
