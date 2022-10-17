@@ -115,7 +115,7 @@ class PostProcMaker():
             exit()
         # More than 24h ?
         timeLeft = 0
-        for line in out.decode().split("\\"):
+        for line in out.decode().split("\n"):
             if 'timeleft' in line:
                 timeLeft = int(line.split(':')[1])
 
