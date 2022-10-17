@@ -536,7 +536,7 @@ class batchJobs:
             print(out.decode().strip())
 
             matches = re.match(
-                '.*submitted to cluster ([0-9]*)\.', out.split('\n')[-2])
+                '.*submitted to cluster ([0-9]*)\.', out.decode().split('\n')[-2])
             if not matches:
                 sys.stderr.write(
                     'Failed to retrieve the job id. Job submission may have failed.\n')
@@ -550,7 +550,7 @@ class batchJobs:
                                         stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
                 out, err = proc.communicate()
                 try:
-                    qlist = json.loads(out.strip())
+                    qlist = json.loads(out.decode().strip())
                 except:
                     sys.stderr.write(
                         'Failed to retrieve job info. Job submission may have failed.\n')
@@ -606,13 +606,13 @@ def batchStatus():
     # Submit host name to identify the environment
     hostName = os.uname()[1]
 
-    DirList = string.split(out)
+    DirList = string.split(out.decode())
     for iDir in DirList:
         fileCmd = 'ls '+jobDir+'/'+iDir+'/'+'*.sh | grep -v crab3cfg'
         proc = subprocess.Popen(
             fileCmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         out, err = proc.communicate()
-        FileList = string.split(out)
+        FileList = string.split(out.decode())
         Done = {}
         Pend = {}
         Runn = {}
@@ -691,13 +691,13 @@ def batchClean():
     proc = subprocess.Popen(fileCmd, stderr=subprocess.PIPE,
                             stdout=subprocess.PIPE, shell=True)
     out, err = proc.communicate()
-    DirList = string.split(out)
+    DirList = string.split(out.decode())
     for iDir in DirList:
         fileCmd = 'ls '+jobDir+'/'+iDir+'/'+'*.sh'
         proc = subprocess.Popen(
             fileCmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         out, err = proc.communicate()
-        FileList = string.split(out)
+        FileList = string.split(out.decode())
         for iFile in FileList:
             doneFile = iFile.replace('.sh', '.done')
             if os.path.isfile(doneFile):
@@ -718,7 +718,7 @@ def batchResub(Dir='ALL', queue='longlunch', requestCpus=1, IiheWallTime='168:00
         proc = subprocess.Popen(
             fileCmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         out, err = proc.communicate()
-        DirList = string.split(out)
+        DirList = string.split(out.decode())
     else:
         DirList = [Dir]
 
@@ -747,7 +747,7 @@ def batchResub(Dir='ALL', queue='longlunch', requestCpus=1, IiheWallTime='168:00
         proc = subprocess.Popen(
             fileCmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         out, err = proc.communicate()
-        FileList = string.split(out)
+        FileList = string.split(out.decode())
         for iFile in FileList:
             jidFile = iFile.replace('.todo', '.jid')
             if 'iihe' in os.uname()[1]:
@@ -763,7 +763,7 @@ def batchResub(Dir='ALL', queue='longlunch', requestCpus=1, IiheWallTime='168:00
         proc = subprocess.Popen(
             fileCmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         out, err = proc.communicate()
-        FileList = string.split(out)
+        FileList = string.split(out.decode())
         for iFile in FileList:
             jidFile = iFile.replace('.sh', '.jid')
             doneFile = iFile.replace('.sh', '.done')
@@ -779,7 +779,7 @@ def batchResub(Dir='ALL', queue='longlunch', requestCpus=1, IiheWallTime='168:00
         proc = subprocess.Popen(
             fileCmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         out, err = proc.communicate()
-        FileList = string.split(out)
+        FileList = string.split(out.decode())
         for iFile in FileList:
             subDir = os.path.dirname(iFile)
             jName = os.path.basename(iFile).split('.')[0]
@@ -918,11 +918,11 @@ def batchResub(Dir='ALL', queue='longlunch', requestCpus=1, IiheWallTime='168:00
             jds += ')\n'
             proc = subprocess.Popen(
                 ['condor_submit'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-            out, err = proc.communicate(jds)
+            out, err = proc.communicate(jds.encode())
             if proc.returncode != 0:
-                sys.stderr.write(err)
+                sys.stderr.write(err.decode())
                 raise RuntimeError('Job submission failed.')
-            print(out.strip())
+            print(out.decode().strip())
 
             matches = re.match(
                 '.*submitted to cluster ([0-9]*)\.', out.split('\n')[-2])
@@ -939,7 +939,7 @@ def batchResub(Dir='ALL', queue='longlunch', requestCpus=1, IiheWallTime='168:00
                                         stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
                 out, err = proc.communicate()
                 try:
-                    qlist = json.loads(out.strip())
+                    qlist = json.loads(out.decode().strip())
                 except:
                     sys.stderr.write(
                         'Failed to retrieve job info. Job submission may have failed.\n')
