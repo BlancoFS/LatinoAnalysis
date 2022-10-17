@@ -83,7 +83,7 @@ class Worker(threading.Thread):
         print('task initiated --> '+str(list(cuts.keys()))+' , '+str(list(samples.keys()))+' , '+str(samples[theKey]['name']))
 
         logfile = open("log/log" + str(number) + "_" + str(list(cuts.keys())[0]) + "_" + str(list(samples.keys())[0]) + ".txt","w")
-        command = "python "+sub_file.name
+        command = "python3 "+sub_file.name
         process = subprocess.Popen(command, shell=True, stdout=logfile, stderr=logfile)
         process.wait()
         self.status = process.returncode

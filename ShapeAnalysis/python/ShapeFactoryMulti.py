@@ -901,7 +901,7 @@ class ShapeFactory:
                     cmd = ['xrdcp', '-f', outFile.GetName(), 'root://eoscms.cern.ch/' +
                            realOutDir + '/' + os.path.basename(outputFileName)]
                     print(' '.join(cmd))
-                    subprocess.Popen(cmd).communicate()
+                    subprocess.Popen(cmd.encode()).communicate()
                 else:
                     shutil.copyfile(outFile.GetName(), outputFileName)
             except:
