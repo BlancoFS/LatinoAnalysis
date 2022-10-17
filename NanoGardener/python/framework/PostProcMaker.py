@@ -109,13 +109,13 @@ class PostProcMaker():
             cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         out, err = proc.communicate()
         # No Proxy at all ?
-        if 'Proxy not found' in str(err):
+        if 'Proxy not found' in err.decode():
             print('WARNING: No GRID proxy -> Get one first with:')
             print('voms-proxy-init -voms cms -rfc --valid 168:0')
             exit()
         # More than 24h ?
         timeLeft = 0
-        for line in str(out).split("\\"):
+        for line in out.decode().split("\\"):
             if 'timeleft' in line:
                 timeLeft = int(line.split(':')[1])
 
@@ -314,8 +314,8 @@ class PostProcMaker():
                 import gfal2
                 useGfal2Py = True
             except ImportError:
-                if '/usr/lib64/python2.7/site-packages' not in sys.path:
-                    sys.path.append('/usr/lib64/python2.7/site-packages')
+                if '/usr/lib64/python3.6/site-packages' not in sys.path:
+                    sys.path.append('/usr/lib64/python3.6/site-packages')
                 try:
                     import gfal2
                 except ImportError:
@@ -481,7 +481,7 @@ class PostProcMaker():
                         os.path.basename(iFile).replace('.root', '_Skim.root')
                     # Interactive
                     if self._jobMode == 'Interactive':
-                        command = 'cd '+wDir+' ; cp '+self._cmsswBasedir+'/src/'+self._haddnano+' . ; '+preBash+' python '+pyFile \
+                        command = 'cd '+wDir+' ; cp '+self._cmsswBasedir+'/src/'+self._haddnano+' . ; '+preBash+' python3 '+pyFile \
                             + ' ; ls -l ; '+stageOutCmd+' ; '+rmGarbageCmd
                         if not self._pretend:
                             os.system(command)
@@ -498,7 +498,7 @@ class PostProcMaker():
                     elif self._jobMode == 'Crab':
                         self._crab.AddInputFile(pyFile)
                         self._crab.AddCommand(
-                            iStep, iTarget, 'python '+os.path.basename(pyFile))
+                            iStep, iTarget, 'python3 '+os.path.basename(pyFile))
                         self._crab.AddJobOutputFile(iStep, iTarget, outFile)
                         # TMP FIX to garbage command because of not working PhysicsTools.NanoAODTools.postprocessing.framework.postprocessor import
                         # rmGarbageCmd = 'rm '+outFile#+' ; rm '+ os.path.basename(iFile).replace('.root','_Skim.root')
@@ -592,7 +592,7 @@ class PostProcMaker():
         fPy = open(fPyName, 'a')
 
         # Common Header
-        fPy.write('#!/usr/bin/env python \n')
+        fPy.write('#!/usr/bin/env python3 \n')
         fPy.write('import os, sys \n')
         fPy.write('import subprocess\n')
         fPy.write('import shutil\n')
@@ -655,7 +655,7 @@ class PostProcMaker():
             '                out, err = subprocess.Popen(["xrdfs", source[:source.find("/", 7)], "stat", source[source.find("/", 7) + 1:]], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()\n')
         fPy.write('                try:\n')
         fPy.write(
-            '                    size = int(out.split("\\n")[2].split()[1])\n')
+            '                    size = int(out.decode().split("\\n")[2].split()[1])\n')
         fPy.write('                except:\n')
         fPy.write('                    if hasattr(userConfig, "postProcSkipSizeValidation") and userConfig.postProcSkipSizeValidation:\n')
         fPy.write('                        sys.stderr.write("Failed to obtain original file size but skipping validation as requested by user\\n")\n')

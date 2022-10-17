@@ -308,7 +308,7 @@ class batchJobs:
             else:
                 subDirExtra = ''
             jFile = open(self.subDir+subDirExtra+'/'+jName+'.sh', 'a')
-            command = 'python '+self.subDir+subDirExtra+'/'+jName+'.py'
+            command = 'python3 '+self.subDir+subDirExtra+'/'+jName+'.py'
             jFile.write(command+'\n')
             jFile.close()
 
