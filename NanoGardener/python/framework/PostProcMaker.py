@@ -109,18 +109,13 @@ class PostProcMaker():
             cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         out, err = proc.communicate()
         # No Proxy at all ?
-        print("\n")
-        print(proc.communicate())
-        print(out)
-        print(err)
-        print("\n")
-        if 'Proxy not found' in err:
+        if 'Proxy not found' in str(err):
             print('WARNING: No GRID proxy -> Get one first with:')
             print('voms-proxy-init -voms cms -rfc --valid 168:0')
             exit()
         # More than 24h ?
         timeLeft = 0
-        for line in out.split("\\"):
+        for line in str(out).split("\\"):
             if 'timeleft' in line:
                 timeLeft = int(line.split(':')[1])
 
@@ -165,9 +160,13 @@ class PostProcMaker():
         prodFile = self._cmsswBasedir+'/src/' + \
             self._Productions[iProd]['samples']
         if os.path.exists(prodFile):
-            handle = open(prodFile, 'r')
-            exec(handle)
+            #handle = open(prodFile, 'r')
+            handle = open(prodFile)
+            lcls = locals()
+            exec(handle.read(), globals(), lcls)
+            Samples = lcls["Samples"]
             self._Samples = Samples
+            print(Samples)
             handle.close()
         keys2del = []
         if len(self._selTree) > 0:
@@ -228,7 +227,7 @@ class PostProcMaker():
         proc = subprocess.Popen(
             fileCmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         out, err = proc.communicate()
-        FileExistList = string.split(out)
+        FileExistList = str.split(str(out))
         # Now Check
         toSkip = []
         if not self._redo:
@@ -303,10 +302,8 @@ class PostProcMaker():
             dasCmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         out, err = proc.communicate()
         if not proc.returncode == 0:
-            print(out)
-            print(err)
             exit()
-        FileList = string.split(out)
+        FileList = str.split(str(out))
         return FileList
 
     def getFilesFromPath(self, paths, srmprefix):
@@ -346,10 +343,10 @@ class PostProcMaker():
                     command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
                 out, err = proc.communicate()
                 if not proc.returncode == 0:
-                    print(out)
-                    print(err)
+                    print(str(out))
+                    print(str(err))
                     exit()
-                files = string.split(out)
+                files = string.split(str(out))
 
             for file in files:
                 FileList.append(path+"/"+file)
