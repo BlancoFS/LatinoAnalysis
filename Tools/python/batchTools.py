@@ -234,7 +234,7 @@ class batchJobs:
                 cmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
             out, err = proc.communicate()
             proxypath = " xxx "
-            for line in str(out).split('\n'):
+            for line in out.decode().split('\n'):
                 if "path" in line:
                     proxypath = line.split(':')[1]
             os.system('cp '+proxypath+' /afs/cern.ch/user/' +
@@ -525,14 +525,15 @@ class batchJobs:
                 jds += self.subDir+subDirExtra+'/'+jName + '\n'
             jds += ')\n'
 
+            print(jds)
             proc = subprocess.Popen(
                 ['condor_submit'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-            out, err = proc.communicate(jds)
+            out, err = proc.communicate(jds.encode())
             if proc.returncode != 0:
-                sys.stderr.write(err)
+                sys.stderr.write(err.decode())
                 raise RuntimeError('Job submission failed.')
 
-            print(out.strip())
+            print(out.decode().strip())
 
             matches = re.match(
                 '.*submitted to cluster ([0-9]*)\.', out.split('\n')[-2])

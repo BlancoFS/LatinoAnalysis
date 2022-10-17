@@ -227,7 +227,7 @@ class PostProcMaker():
         proc = subprocess.Popen(
             fileCmd, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
         out, err = proc.communicate()
-        FileExistList = str.split(str(out))
+        FileExistList = str.split(out.decode())
         # Now Check
         toSkip = []
         if not self._redo:
@@ -303,7 +303,7 @@ class PostProcMaker():
         out, err = proc.communicate()
         if not proc.returncode == 0:
             exit()
-        FileList = str.split(str(out))
+        FileList = str.split(out.decode())
         return FileList
 
     def getFilesFromPath(self, paths, srmprefix):
@@ -343,10 +343,10 @@ class PostProcMaker():
                     command, stderr=subprocess.PIPE, stdout=subprocess.PIPE, shell=True)
                 out, err = proc.communicate()
                 if not proc.returncode == 0:
-                    print(str(out))
-                    print(str(err))
+                    print(out.decode())
+                    print(err.decode())
                     exit()
-                files = string.split(str(out))
+                files = str.split(out.decode())
 
             for file in files:
                 FileList.append(path+"/"+file)
