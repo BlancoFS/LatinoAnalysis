@@ -380,6 +380,7 @@ class batchJobs:
                     jdsFile.write('executable = '+self.subDir +
                                   subDirExtra+'/'+jName+'.sh\n')
                     jdsFile.write('universe = vanilla\n')
+                    jdsFile.write('requirements = (OpSysAndVer =?= "CentOS8")\n')
                     #jdsFile.write('use_x509userproxy = true\n')
                     jdsFile.write('output = '+self.subDir +
                                   subDirExtra+'/'+jName+'.out\n')
@@ -457,6 +458,7 @@ class batchJobs:
                 jdsFile.write('executable = '+self.subDir +
                               subDirExtra+'/'+jName+'.sh\n')
                 jdsFile.write('universe = vanilla\n')
+                jdsFile.write('requirements = (OpSysAndVer =?= "CentOS8")\n')
                 jdsFile.write('output = '+self.subDir +
                               subDirExtra+'/'+jName+'.out\n')
                 jdsFile.write('error = '+self.subDir +
@@ -507,6 +509,7 @@ class batchJobs:
 
             jds = 'executable = $(JName).sh\n'
             jds += 'universe = vanilla\n'
+            jds += 'requirements = (OpSysAndVer =?= "CentOS8")\n'
             jds += 'output = $(JName).out\n'
             jds += 'error = $(JName).err\n'
             jds += 'log = $(JName).log\n'
@@ -800,6 +803,7 @@ def batchResub(Dir='ALL', queue='longlunch', requestCpus=1, IiheWallTime='168:00
                 jdsFile = open(subDir+'/'+jName+'.jds', 'w')
                 jdsFile.write('executable = '+subDir+'/'+jName+'.sh\n')
                 jdsFile.write('universe = vanilla\n')
+                jdsFile.write('requirements = (OpSysAndVer =?= "CentOS8")\n')
                 jdsFile.write('output = '+subDir+'/'+jName+'.out\n')
                 jdsFile.write('error = '+subDir+'/'+jName+'.err\n')
                 jdsFile.write('log = '+subDir+'/'+jName+'.log\n')
@@ -860,6 +864,7 @@ def batchResub(Dir='ALL', queue='longlunch', requestCpus=1, IiheWallTime='168:00
                 jdsFile = open(subDir+'/'+jName+'.jds', 'w')
                 jdsFile.write('executable = '+subDir+'/'+jName+'.sh\n')
                 jdsFile.write('universe = vanilla\n')
+                jdsFile.write('requirements = (OpSysAndVer =?= "CentOS8")\n')
                 jdsFile.write('output = '+subDir+'/'+jName+'.out\n')
                 jdsFile.write('error = '+subDir+'/'+jName+'.err\n')
                 jdsFile.write('log = '+subDir+'/'+jName+'.log\n')
