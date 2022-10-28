@@ -909,6 +909,7 @@ def batchResub(Dir='ALL', queue='longlunch', requestCpus=1, IiheWallTime='168:00
         if scheduler == 'condor':
             jds = 'executable = '+subDir+'/$(JName).sh\n'
             jds += 'universe = vanilla\n'
+            jds += 'requirements = (OpSysAndVer =?= "CentOS8")\n'
             jds += 'output = '+subDir+'/$(JName).out\n'
             jds += 'error = '+subDir+'/$(JName).err\n'
             jds += 'log = '+subDir+'/$(JName).log\n'
