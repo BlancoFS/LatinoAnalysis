@@ -70,9 +70,9 @@ class LeptonMaker(Module):
         # do NOT access other branches in python between the check/call to initReaders and the call to C++ worker code
         
         #--- Set vars
-        nEl = int(self.nElectron)
-        nMu = int(self.nMuon)
-        nJt = int(self.nJet)
+        nEl = int(self.nElectron.Get()[0])
+        nMu = int(self.nMuon.Get()[0])
+        nJt = int(self.nJet.Get()[0])
         nLep = nMu + nEl
 
         if nLep < len(self.min_lep_pt): return False
