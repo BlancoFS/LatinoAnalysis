@@ -246,14 +246,14 @@ def getSampleFiles(inputDir,Sample,absPath=False,rooFilePrefix='latino_',FromPos
       fileCmd = lsCmd+Dir+'/ | grep '+rooFilePrefix+Sample+'.root' 
     proc    = subprocess.Popen(fileCmd, stderr = subprocess.PIPE,stdout = subprocess.PIPE, shell = True)
     out,err = proc.communicate()
-    Files   = string.split(out)
+    Files   = str.split(out.decode())
     if len(Files) == 0 :
       fileCmd = lsCmd+Dir+'/'+rooFilePrefix+Sample+'__part*.root'
       if 'root://' in inputDir:
         fileCmd = lsCmd+Dir+'/ | grep '+rooFilePrefix+Sample+'__part | grep root'
       proc    = subprocess.Popen(fileCmd, stderr = subprocess.PIPE,stdout = subprocess.PIPE, shell = True)
       out,err = proc.communicate()
-      Files   = string.split(out)
+      Files   = str.split(out.decode())
     if len(Files) == 0 and not FromPostProc :
       print('ERROR: No files found for sample ',Sample,' in directory ',Dir)
       exit() 
