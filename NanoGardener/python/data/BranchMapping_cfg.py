@@ -657,41 +657,9 @@ from LatinoAnalysis.NanoGardener.data.TrigMaker_cfg import NewVar_MC_dict
 _ElepT_branches.extend(NewVar_MC_dict['F'])
 _MupT_branches.extend(NewVar_MC_dict['F'])
 
-## DYMVA and MonoHiggsMVA
-for cfg in ["DYMVA_2016_cfg", "DYMVA_2017_cfg", "DYMVA_2018_cfg", "MonoHiggsMVA_cfg"]:
-  mod = importlib.import_module('LatinoAnalysis.NanoGardener.data.' + cfg)
-  for key in mod.mvaDic.keys():
-    if key not in _ElepT_branches:
-      _ElepT_branches.append(key)
-    if key not in _MupT_branches:
-      _MupT_branches.append(key)
-    if key not in _MET_branches:
-      _MET_branches.append(key)
-    if key not in _JES_branches:
-      _JES_branches.append(key)
-    if key not in _JER_branches:
-      _JER_branches.append(key)
-
-for cfg in ["DYMVA_2016_alt_cfg", "DYMVA_2017_alt_cfg", "DYMVA_2018_alt_cfg"]:
-  mod = importlib.import_module('LatinoAnalysis.NanoGardener.data.' + cfg)
-  for key in mod.mvaDic.keys():
-    if key not in _ElepT_branches:
-      _ElepT_branches.append(key)
-    if key not in _MupT_branches:
-      _MupT_branches.append(key)
-    if key not in _MET_branches:
-      _MET_branches.append(key)
-    if key not in _JES_branches:
-      _JES_branches.append(key)
-    if key not in _JER_branches:
-      _JER_branches.append(key)
-
-vbsjjlnu_mod = importlib.import_module('LatinoAnalysis.NanoGardener.data.VBSjjlnu_vars')
-for branches in [_ElepT_branches,_MupT_branches, _MET_branches, _JES_branches,_JER_branches, _Fatjet_syst_branches ]:
-  branches += vbsjjlnu_mod.VBSjjlnu_all_branches
 
 ## formulas MC
-for cfg in ['formulasToAdd_MC_Full2016v6', 'formulasToAdd_MC_Full2016v7', 'formulasToAdd_MC_Full2017v6', 'formulasToAdd_MC_Full2017v7', 'formulasToAdd_MC_Full2018v6', 'formulasToAdd_MC_Full2018v7', 'formulasToAdd_MC_MonoH']:
+for cfg in ['formulasToAdd_MC_Full2022v9']:
   mod = importlib.import_module('LatinoAnalysis.NanoGardener.data.' + cfg)
   for key in mod.formulas.keys():
     if key == "METFilter_MC": continue
