@@ -31,9 +31,17 @@
 #   A1 https://indico.cern.ch/event/673253/contributions/2756806/attachments/1541203/2416962/20171016_VJetsXsecsUpdate_PH-GEN.pdf                                                                                                             
 #       X       Unknown! - Cross section not yet there                                                                                                                                                                                        
 
-## W+jets                                                                                                                                                                                                                                     
+
+
+## Early Winter2022 samples - nanoAODv10                                                                                                                                                                                                                                     
+
 samples['WW_TuneCP5_13p6TeV-pythia8']                   .extend( ['xsec=80.42', 'kfact=1.00',           'ref=E'] )
 samples['TTTo2L2Nu']                                    .extend( ['xsec=96.9', 'kfact=1.00',           'ref=E'] )
 samples['DYJetsToLL_M-10to50']                          .extend( ['xsec=19317.5', 'kfact=1.00',           'ref=E'] )
 samples['WZ']                                           .extend( ['xsec=29.12', 'kfact=1.00',           'ref=E'] )
 samples['ZZ']                                           .extend( ['xsec=12.85', 'kfact=1.00',           'ref=E'] )
+
+
+
+
+
