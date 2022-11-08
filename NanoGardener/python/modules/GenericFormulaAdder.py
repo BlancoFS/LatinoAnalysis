@@ -15,7 +15,7 @@ class GenericFormulaAdder(Module):
       self._branch_map = branch_map 
       if os.path.exists(formulasFile_path) :
         handle = open(formulasFile_path,'r')
-        exec(handle)
+        exec(handle.read())
         handle.close()
         setattr(self, "formulas", formulas)
       else:
