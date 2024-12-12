@@ -26,13 +26,14 @@ class LeptonSFMaker(Module):
     def __init__(self, cmssw, WP_path = 'LatinoAnalysis/NanoGardener/python/data/LeptonSel_cfg.py', branch_map=''):
         self.cmssw = cmssw
         self._branch_map = branch_map
-        self.minpt_mu = 10.0001
+        self.minpt_mu = 5.0001
         self.maxpt_mu = 199.9999
         self.mineta_mu = -2.3999
         self.maxeta_mu = 2.3999
 
-        self.minpt_ele = 10.0001
-        self.maxpt_ele = 199.9999
+        self.minpt_ele = 7.0001
+        self.minpt_ele_reco = 10.0001
+        self.maxpt_ele = 499.9999
         self.mineta_ele = -2.4999
         self.maxeta_ele = 2.4999
 
@@ -120,12 +121,14 @@ class LeptonSFMaker(Module):
                     self.SF_dict['muon'][wp]['tkSF']['data'] = []
                     self.SF_dict['muon'][wp]['tkSF']['beginRP'] = []
                     self.SF_dict['muon'][wp]['tkSF']['endRP'] = []
-                    self.SF_dict['muon'][wp]['tkSF']['SFerror'] = self.MuonWP[self.cmssw]['TightObjWP'][wp]['tkSFerror']
+                    #self.SF_dict['muon'][wp]['tkSF']['SFerror'] = self.MuonWP[self.cmssw]['TightObjWP'][wp]['tkSFerror']
+                    self.SF_dict['muon'][wp]['tkSF']['SFerror'] = 0.0
                     for rpr in self.MuonWP[self.cmssw]['TightObjWP'][wp]['tkSF']:
                         self.SF_dict['muon'][wp]['tkSF']['beginRP'].append(int(rpr.split('-')[0]))
                         self.SF_dict['muon'][wp]['tkSF']['endRP'].append(int(rpr.split('-')[1]))
                         tk_file = self.open_root(cmssw_base + '/src/' + self.MuonWP[self.cmssw]['TightObjWP'][wp]['tkSF'][rpr])
-                        self.SF_dict['muon'][wp]['tkSF']['data'].append(self.conv_graph2list(self.get_root_obj(tk_file, 'ratio_eff_vtx_dr030e030_corr')))
+                        key_name = "NUM" + self.MuonWP[self.cmssw]['TightObjWP'][wp]['tkSF'][rpr].split("NUM")[1].split(".root")[0]
+                        self.SF_dict['muon'][wp]['tkSF']['data'].append(self.get_root_obj(tk_file, key_name))
                         tk_file.Close()
                 if SFkey == 'idSF':
                     self.SF_dict['muon'][wp]['idSF']['data'] = []
@@ -150,7 +153,8 @@ class LeptonSFMaker(Module):
                             self.SF_dict['muon'][wp]['idSF']['beginRP'].append(int(rpr.split('-')[0]))
                             self.SF_dict['muon'][wp]['idSF']['endRP'].append(int(rpr.split('-')[1]))
                             data_file = self.open_root(cmssw_base + '/src/' + self.MuonWP[self.cmssw]['TightObjWP'][wp]['idSF'][rpr][0])
-                            self.SF_dict['muon'][wp]['idSF']['data'].append(self.get_root_obj(data_file, 'NUM_TightHWW_DEN_TrackerMuons_eta_pt'))
+                            key_name = "NUM" + self.MuonWP[self.cmssw]['TightObjWP'][wp]['idSF'][rpr][0].split("NUM")[1].split(".root")[0]
+                            self.SF_dict['muon'][wp]['idSF']['data'].append(self.get_root_obj(data_file, key_name))
                             data_file.Close()
 
                 if SFkey == 'isoSF':
@@ -176,7 +180,8 @@ class LeptonSFMaker(Module):
                             self.SF_dict['muon'][wp]['isoSF']['beginRP'].append(int(rpr.split('-')[0]))
                             self.SF_dict['muon'][wp]['isoSF']['endRP'].append(int(rpr.split('-')[1]))
                             data_file = self.open_root(cmssw_base + '/src/' + self.MuonWP[self.cmssw]['TightObjWP'][wp]['isoSF'][rpr][0])
-                            self.SF_dict['muon'][wp]['isoSF']['data'].append(self.get_root_obj(data_file, 'NUM_TightHWW_ISO_DEN_TightHWW_eta_pt'))
+                            key_name = "NUM" + self.MuonWP[self.cmssw]['TightObjWP'][wp]['isoSF'][rpr][0].split("NUM")[1].split(".root")[0]
+                            self.SF_dict['muon'][wp]['isoSF']['data'].append(self.get_root_obj(data_file, key_name))
                             data_file.Close()
 
                 if SFkey == 'tthMvaSF':
@@ -324,13 +329,19 @@ class LeptonSFMaker(Module):
         tkSF = 0.
         tkSF_err = 1.
         if abs(pdgId) == 11:
+            if pt<10.0001:
+                pt = 10.0001
             tkSF, tkSF_up, tkSF_dwn = self.get_SF_corrlib(self.SF_dict[kin_str][wp]['tkSF']['data'][run_idx], pt, eta)
 
         if abs(pdgId) == 13:
-            tkSF, tkSF_up, tkSF_dwn = self.get_nvtxGraph_VnUnD(self.SF_dict[kin_str][wp]['tkSF']['data'][run_idx], nvtx)
-            tkSF_err = self.SF_dict[kin_str][wp]['tkSF']['SFerror']
+            tkSF, tkSF_err = self.get_hist_VnE(self.SF_dict[kin_str][wp]['tkSF']['data'][run_idx], abs(eta), pt)
             tkSF_up = tkSF_err
             tkSF_dwn = tkSF_err
+            
+            #tkSF, tkSF_up, tkSF_dwn = self.get_nvtxGraph_VnUnD(self.SF_dict[kin_str][wp]['tkSF']['data'][run_idx], nvtx)
+            #tkSF_err = self.SF_dict[kin_str][wp]['tkSF']['SFerror']
+            #tkSF_up = tkSF_err
+            #tkSF_dwn = tkSF_err
 
         return tkSF, tkSF_up, tkSF_dwn
 
@@ -351,17 +362,48 @@ class LeptonSFMaker(Module):
         if abs(pdgId) == 11:
             for dot in self.SF_dict[kin_str][wp]['wpSF']['data'][run_idx]:
                 if (pt >= float(dot[2]) and pt <= float(dot[3])) and (eta >= float(dot[0]) and eta <= float(dot[1])):
-                    data = float(dot[4]) 
-                    mc = float(dot[7])   
 
-                    data_stat = float(dot[5])
-                    data_syst = float(dot[6])
-                    mc_stat   = float(dot[8])                    
-                    mc_syst   = float(dot[9])
 
-                    tkSF = data/mc
-                    tkSF_err = math.sqrt( (data_stat/data)**2 + (mc_stat/mc)**2 ) * tkSF
-                    tkSF_sys = math.sqrt( (data_syst/data)**2 + (mc_syst/mc)**2 ) * tkSF
+                    data = float(dot[4])
+                    mc   = float(dot[6])
+                    
+                    data_stat      = float(dot[5])
+                    mc_stat        = float(dot[7])
+                    
+                    syst1    = float(dot[8])
+                    syst2    = float(dot[9])
+                    systMC       = float(dot[10])
+
+                    if data!=0.0:
+                        dSyst1    = abs(syst1 - data) / data
+                        dSyst2    = abs(syst2 - data) / data
+                        dStat_data = data_stat / data
+                    else:
+                        dSyst1 = 0.0
+                        dSyst2 = 0.0
+                        dStat_data = 0.0
+
+                    if mc!=0.0:
+                        dSystMC = abs(systMC - mc) / mc
+                        dStat_mc = mc_stat / mc
+                    else:
+                        dSystMC = 0.0
+                        dStat_mc = 0.0
+
+                    if mc!=0.0:
+                        tkSF = data/mc
+                        tkSF_err = dStat_mc**2 + dStat_data**2
+                        tkSF_sys = 0.0
+                        if dSyst1>dStat_data:
+                            tkSF_sys += dSyst1**2
+                        if dSyst2>dStat_data:
+                            tkSF_sys += dSyst2**2
+                        if dSystMC>dStat_mc:
+                            tkSF_sys += dSystMC**2  
+                        
+                        tkSF_err = tkSF * math.sqrt(tkSF_err)
+                        tkSF_sys = tkSF * math.sqrt(tkSF_sys)
+
                     return tkSF, tkSF_err, tkSF_err, tkSF_sys
 
         if abs(pdgId) == 13:
@@ -400,7 +442,7 @@ class LeptonSFMaker(Module):
                 tkSF_iso_dwn = tkSF_iso - (data_iso - sigma_iso_dwn_d)/(mc_iso + sigma_iso_up_m)
             
             else:
-                tkSF_iso, tkSF_err = self.get_hist_VnE(self.SF_dict[kin_str][wp]['isoSF']['data'][run_idx], eta, pt)
+                tkSF_iso, tkSF_err = self.get_hist_VnE(self.SF_dict[kin_str][wp]['isoSF']['data'][run_idx], abs(eta), pt)
                 tkSF_iso_up = tkSF_err
                 tkSF_iso_dwn = tkSF_err
             #tkSF_iso_sys = math.sqrt( float(dot[8])**2 + float(dot[9])**2 + float(dot[10])**2 + float(dot[11])**2)
@@ -421,7 +463,7 @@ class LeptonSFMaker(Module):
                 tkSF_id_dwn = tkSF_id - (data_id - sigma_id_dwn_d)/(mc_id + sigma_id_up_m)
             
             else:
-                tkSF_id, tkSF_err = self.get_hist_VnE(self.SF_dict[kin_str][wp]['idSF']['data'][run_idx], eta, pt)
+                tkSF_id, tkSF_err = self.get_hist_VnE(self.SF_dict[kin_str][wp]['idSF']['data'][run_idx], abs(eta), pt)
                 tkSF_id_up = tkSF_err
                 tkSF_id_dwn = tkSF_err
 

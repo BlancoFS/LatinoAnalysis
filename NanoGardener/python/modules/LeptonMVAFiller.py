@@ -83,8 +83,8 @@ class LeptonMVAFiller(Module):
         self.out = mappedOutputTree(wrappedOutputTree, mapname=self._branch_map)
 
         # New Branch
-        self.out.branch('Lepton_mvaTTH_UL', 'F', lenVar='nLepton')
-
+        self.out.branch('Electron_mvaTTH_UL', 'F', lenVar='nElectron')
+        self.out.branch('Muon_mvaTTH_UL', 'F', lenVar='nMuon')
 
     def endFile(self, inputFile, outputFile, inputTree, wrappedOutputTree):
         pass
@@ -103,13 +103,11 @@ class LeptonMVAFiller(Module):
            bname = br.GetName()
            if re.match('\AElectron_', bname): self.electron_var[bname] = tree.arrayReader(bname)
            if re.match('\AMuon_',     bname): self.muon_var[bname]     = tree.arrayReader(bname)
-           if re.match('\ALepton_',   bname): self.lepton_var[bname]   = tree.arrayReader(bname)
            if re.match('\AJet_',      bname): self.jet_var[bname]      = tree.arrayReader(bname)
 
         # Float/int/double reader
         self.nElectron = tree.valueReader('nElectron')
         self.nMuon     = tree.valueReader('nMuon')
-        self.nLepton   = tree.valueReader('nLepton')
         self.nJet      = tree.valueReader('nJet')
 
         self._ttreereaderversion = tree._ttreereaderversion
@@ -121,7 +119,8 @@ class LeptonMVAFiller(Module):
         event = mappedEvent(event, mapname=self._branch_map)
 
         # Count number of leptons
-        nLep = int(event.nLepton)
+        #nLep = int(event.nLepton)
+        nLep = int(event.nElectron)
 
         # Preparing output
         output_MVA = []
@@ -133,9 +132,9 @@ class LeptonMVAFiller(Module):
             val = 0
             
             # Check lepton flavor
-            if abs(event.Lepton_pdgId[iLep]) == 11:
+            if abs(event.Electron_pdgId[iLep]) == 11:
                 # ID to locate the Lepton_ object in the Electron_ collection
-                eleID = event.Lepton_electronIdx[iLep]
+                eleID = iLep
                 
                 for iMva in self.mvaDic:
                     if "Muon" in iMva: continue
@@ -172,17 +171,31 @@ class LeptonMVAFiller(Module):
                     val = self.mvaDic[iMva]['reader'].EvaluateMVA(self.mvaDic[iMva]['type'])
                     output_MVA.append(val)
 
+            else:
+                print("This is not a electron I can consider")
 
-            elif abs(event.Lepton_pdgId[iLep]) == 13:
+        # Fill branch
+        self.out.fillBranch('Electron_mvaTTH_UL', output_MVA)
+
+        nLep = int(event.nMuon)
+        output_MVA = []
+        # Loop over leptons
+        for iLep in range(0, nLep):
+            
+            # Initialize MVA value
+            val = 0
+            
+            # Check lepton flavor
+            if abs(event.Muon_pdgId[iLep]) == 13:
                 # ID to locate the Lepton_ object in the Muon_ collection
-                muonID = event.Lepton_muonIdx[iLep]
-
+                muonID = iLep
+                
                 for iMva in self.mvaDic:
                     if "Electron" in iMva: continue
                     # Spectators variables
-                    jVar=0
+                    jVar = 0
                     for iVar in self.mvaDic[iMva]['spectatorVars']:
-                        iVar_copy = iVar # iVar copy is needed since in the training, I used twice Muon_looseID :(
+                        iVar_copy = iVar # iVar copy is needed since in the training I used twice Muon_looseID :(
                         if 'Bis' in iVar: iVar_copy = iVar.replace('Bis','')
                         value = 0
                         if any(i in iVar for i in self.mvaDic[iMva]['charVariables']): # special 'ord' treatment for uchar variables
@@ -208,16 +221,14 @@ class LeptonMVAFiller(Module):
                             value = eval(var)
                         self.mvaDic[iMva]['inputs'][jVar][0] = value
                         jVar += 1
-
+                
                     val = self.mvaDic[iMva]['reader'].EvaluateMVA(self.mvaDic[iMva]['type'])
                     output_MVA.append(val)
 
             else:
-                print("This is not a lepton I can consider")
-
-        # Fill branch
-        self.out.fillBranch('Lepton_mvaTTH_UL', output_MVA)
-
+                print("This is not a muon I can consider")
+                
+        self.out.fillBranch('Muon_mvaTTH_UL', output_MVA)
         return True
 
 

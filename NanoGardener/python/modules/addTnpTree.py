@@ -54,6 +54,20 @@ class addTnpTree(Module):
             if brname.startswith(self.flavor + "_"):
                 self.lepBranches.append( (brname.replace("%s_"%self.flavor,""), brtype) )
 
+        print("\n")
+        print(brname.replace("%s_"%self.flavor,""))
+        print(brtype)
+
+        if self.flavor == "Electron" and "mvaTTH_UL" not in self.lepBranches:
+            print("\n")
+            print("Adding mvaTTH_UL!!!!\n")
+            self.lepBranches.append(("mvaTTH_UL", "Float_t"))
+
+        if self.flavor == "Muon" and "mvaTTH_UL" not in self.lepBranches:
+            print("\n")
+            print("Adding mvaTTH_UL!!!!\n")
+            self.lepBranches.append(("mvaTTH_UL", "Float_t"))
+
         for branch in self.lepBranches:
             self.out.branch('Tag_%s'%branch[0], _rootLeafType2rootBranchType[branch[1]])
             self.out.branch('Probe_%s'%branch[0], _rootLeafType2rootBranchType[branch[1]])

@@ -615,7 +615,6 @@ def addSystChainMembers_CombJJLNu():
 
   return dictionary 
 
-
 def prepare_CombJJLNu_syst(basename, selection):
   dictionary = {}
   for syst in ["JES", "JER", "MupT", "ElepT", "MET", "fatjetJES", "fatjetJMS", "fatjetJMR", "fatjetJER"]:
@@ -823,10 +822,39 @@ Steps = {
                   'do4MC'      : True  ,
                   'do4Data'    : False ,
                   'selection'  : '"((nElectron+nMuon)>0)"' ,
-                  'subTargets' : ['leptonMaker','lepSel','jetSelUL2016fix', 'CleanFatJet',
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL2016fix', 'CleanFatJet',
                                   'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars', 'wwNLL','WGammaStar', 'ggHTheoryUncertainty', 'qqHTheoryUncertainty','DressedLeptons','EFTGen'],
                   },
-
+  'MCl1loose2016v9_fakeSelKinMC' :  {
+                  'isChain'    : True  ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : False ,
+                  'selection'  : '"((nElectron+nMuon)>0 && (MET_pt<20 || PuppiMET_pt<20))"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL2016fix', 'CleanFatJet',
+                                  'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars', 'wwNLL','WGammaStar', 'ggHTheoryUncertainty', 'qqHTheoryUncertainty', 'DressedLeptons','EFTGen',
+                                  'baseW','rochesterMC','trigMC','puW','l2Kin', 'l3Kin', 'l4Kin','formulasMCnoSF'
+                                ],
+                  },
+  'MCl1loose2016v9_addTnPEle' :  {
+                  'isChain'    : True  ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : False ,
+                  'selection'  : '"((nElectron+nMuon)>1)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL2016fix', 'CleanFatJet',
+                                  'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars', 'wwNLL','WGammaStar', 'ggHTheoryUncertainty', 'qqHTheoryUncertainty', 'DressedLeptons','EFTGen',
+                                  'addTnPEle'
+                                ],
+                  },
+  'MCl1loose2016v9_addTnPMuon' :  {
+                  'isChain'    : True  ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : False ,
+                  'selection'  : '"((nElectron+nMuon)>1)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL2016fix', 'CleanFatJet',
+                                  'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars', 'wwNLL','WGammaStar', 'ggHTheoryUncertainty', 'qqHTheoryUncertainty', 'DressedLeptons','EFTGen',
+                                  'addTnPMuon'
+                                ],
+                  },
   # FIXME: check btagPerJet2016, btagPerEvent
   # FIXME: Cfg 'trigMC','LeptonSF','puW'
   'MCCorr2016' : {
@@ -1043,11 +1071,55 @@ Steps = {
                   'do4MC'      : True  ,
                   'do4Data'    : False ,
                   'selection'  : '"((nElectron+nMuon)>0)"' ,
-                  'subTargets' : ['leptonMaker','lepSel','jetSelUL', 'CleanFatJet',
-                                  'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars', 'wwNLL','WGammaStar', 'ggHTheoryUncertainty', 'qqHTheoryUncertainty','DressedLeptons','EFTGen'],
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL', 'CleanFatJet',
+                                  'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars', 'wwNLL','WGammaStar', 
+                                  'ggHTheoryUncertainty', 'qqHTheoryUncertainty','DressedLeptons','EFTGen'],
                   },
 
+  'MCl1loose2017v9_fakeSelKinMC' :  {
+                  'isChain'    : True  ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : False ,
+                  'selection'  : '"((nElectron+nMuon)>0 && (MET_pt<20 || PuppiMET_pt<20))"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL', 'CleanFatJet',
+                                  'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars', 'wwNLL','WGammaStar', 
+                                  'ggHTheoryUncertainty', 'qqHTheoryUncertainty','DressedLeptons','EFTGen',
+                                  'baseW','rochesterMC','trigMC','puW','l2Kin', 'l3Kin', 'l4Kin','formulasMCnoSF'],
+                  },
 
+  'MCl1loose2017v9_addTnPEle' :  {
+                  'isChain'    : True  ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : False ,
+                  'selection'  : '"((nElectron+nMuon)>1)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL', 'CleanFatJet',
+                                  'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars', 'wwNLL','WGammaStar', 
+                                  'ggHTheoryUncertainty', 'qqHTheoryUncertainty','DressedLeptons','EFTGen','addTnPEle'],
+                  },
+
+  'MCl1loose2017v9_addTnPMuon' :  {
+                  'isChain'    : True  ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : False ,
+                  'selection'  : '"((nElectron+nMuon)>1)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL', 'CleanFatJet',
+                                  'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars', 'wwNLL','WGammaStar',
+                                  'ggHTheoryUncertainty', 'qqHTheoryUncertainty','DressedLeptons','EFTGen','addTnPMuon'],
+                  },
+  ###########
+  'MCl1loose2017v9_MCCorr2017v9NoJERInHorn_l4loose' :  {
+                  'isChain'    : True  ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : False ,
+                  'selection'  : '"((nElectron+nMuon)>=4)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL', 'CleanFatJet',
+                                  'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars', 'wwNLL','WGammaStar', 'ggHTheoryUncertainty', 'qqHTheoryUncertainty', 'DressedLeptons','EFTGen',
+                                  'baseW','JERsMCUL_highPt','FatJERsMCUL_highPt','PrefCorr2017','btagPerJet_DeepCSV_UL', 'btagPerJet_DeepJet_UL','JetPUID_SF_UL',
+                                  'rochesterMC','trigMC','LeptonSF','puW','l2Kin', 'l3Kin', 'l4Kin','formulasMC','EmbeddingVeto',
+                                  'wwNLOEWK','wwNLOEWK2','wzNLOEWK','zzNLOEWK','zNLOEWK', 'wNLOEWK','qqHTheoryUncertainty','CleanFatJet', 'BoostedWtagSF',
+                                ],
+                  },
+  ###########
   'MCCorr2017' : {
                      'isChain'    : True  ,
                      'do4MC'      : True  ,
@@ -1202,10 +1274,52 @@ Steps = {
                   'do4MC'      : True  ,
                   'do4Data'    : False ,
                   'selection'  : '"((nElectron+nMuon)>0)"' ,
-                  'subTargets' : ['leptonMaker','lepSel','jetSelUL', 'CleanFatJet',
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL', 'CleanFatJet',
                                   'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars', 'wwNLL','WGammaStar', 'ggHTheoryUncertainty', 'qqHTheoryUncertainty', 'DressedLeptons','EFTGen'],
                   },
-
+  'MCl1loose2018v9_fakeSelKinMC' :  {
+                  'isChain'    : True  ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : False ,
+                  'selection'  : '"((nElectron+nMuon)>0 && (MET_pt<20 || PuppiMET_pt<20))"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL', 'CleanFatJet',
+                                  'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars', 'wwNLL','WGammaStar', 'ggHTheoryUncertainty', 'qqHTheoryUncertainty', 'DressedLeptons','EFTGen',
+                                  'baseW','rochesterMC','trigMC','puW','l2Kin', 'l3Kin', 'l4Kin','formulasMCnoSF'
+                                ],
+                  },
+  'MCl1loose2018v9_addTnPEle' :  {
+                  'isChain'    : True  ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : False ,
+                  'selection'  : '"((nElectron+nMuon)>1)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL', 'CleanFatJet',
+                                  'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars', 'wwNLL','WGammaStar', 'ggHTheoryUncertainty', 'qqHTheoryUncertainty', 'DressedLeptons','EFTGen',
+                                  'addTnPEle'
+                                ],
+                  },
+  'MCl1loose2018v9_addTnPMuon' :  {
+                  'isChain'    : True  ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : False ,
+                  'selection'  : '"((nElectron+nMuon)>1)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL', 'CleanFatJet',
+                                  'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars', 'wwNLL','WGammaStar', 'ggHTheoryUncertainty', 'qqHTheoryUncertainty', 'DressedLeptons','EFTGen',
+                                  'addTnPMuon'
+                                ],
+                  },
+  #####################
+  'MCl1loose2018v9_MCCorr2018v9NoJERInHorn_l2loose' :  {
+                  'isChain'    : True  ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : False ,
+                  'selection'  : '"((nElectron+nMuon)>=2)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL', 'CleanFatJet',
+                                  'PromptParticlesGenVars','GenVar','GenLeptonMatch', 'HiggsGenVars', 'TopGenVars', 'wwNLL','WGammaStar', 'ggHTheoryUncertainty', 'qqHTheoryUncertainty', 'DressedLeptons','EFTGen',
+                                  'baseW','JERsMCUL_highPt','FatJERsMCUL_highPt','btagPerJet_DeepCSV_UL', 'btagPerJet_DeepJet_UL','JetPUID_SF_UL',
+                                  'rochesterMC','trigMC','LeptonSF','puW','l2Kin', 'l3Kin', 'l4Kin','formulasMC','EmbeddingVeto',
+                                  'wwNLOEWK','wwNLOEWK2','wzNLOEWK','zzNLOEWK','zNLOEWK', 'wNLOEWK','qqHTheoryUncertainty','CleanFatJet', 'BoostedWtagSF',# 'l3tightOR2018v9'
+                                ],
+                  },
   'MCl1loose2018v9_WS' :  {
                   'isChain'    : True  ,
                   'do4MC'      : True  ,
@@ -1306,7 +1420,7 @@ Steps = {
                      'subTargets' : ['baseW','JERsMCUL_highPt','FatJERsMCUL_highPt','btagPerJet_DeepCSV_UL', 'btagPerJet_DeepJet_UL','JetPUID_SF_UL',
                                      'rochesterMC','trigMC','LeptonSF','puW','l2Kin', 'l3Kin', 'l4Kin','formulasMC','EmbeddingVeto',
                                      'wwNLOEWK','wwNLOEWK2','wzNLOEWK','zzNLOEWK','zNLOEWK', 'wNLOEWK','qqHTheoryUncertainty',
-                                     'CleanFatJet', 'BoostedWtagSF', 'leptonMVAFiller']
+                                     'CleanFatJet', 'BoostedWtagSF']
                 },
 
 
@@ -1866,8 +1980,29 @@ Steps = {
                   'do4MC'      : False ,
                   'do4Data'    : True  ,
                   'selection'  : '"((nElectron+nMuon)>0)"' ,
-                  'subTargets' : ['leptonMaker','lepSel','jetSelUL2016fix','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA'],
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL2016fix','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA'],
                  },
+  'DATAl1loose2016v9_fakeSel': {
+                  'isChain'    : True  ,
+                  'do4MC'      : False ,
+                  'do4Data'    : True  ,
+                  'selection'  : '"((nElectron+nMuon)>0 && (MET_pt<20 || PuppiMET_pt<20))"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL2016fix','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA'],
+                },
+  'DATAl1loose2016v9_addTnPEle': {
+                  'isChain'    : True  ,
+                  'do4MC'      : False ,
+                  'do4Data'    : True  ,
+                  'selection'  : '"((nElectron+nMuon)>1)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL2016fix','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA','addTnPEle'],
+                },
+  'DATAl1loose2016v9_addTnPMuon': {
+                  'isChain'    : True  ,
+                  'do4MC'      : False ,
+                  'do4Data'    : True  ,
+                  'selection'  : '"((nElectron+nMuon)>1)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL2016fix','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA','addTnPMuon'],
+                },
 
   'DATAl1loose2017': {
                   'isChain'    : True  ,
@@ -1914,8 +2049,38 @@ Steps = {
                   'do4MC'      : False ,
                   'do4Data'    : True  ,
                  'selection'  : '"((nElectron+nMuon)>0)"' ,
-                  'subTargets' : ['leptonMaker','lepSel','jetSelUL','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA'],
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA'],
                 },
+  'DATAl1loose2017v9_fakeSel': {
+                  'isChain'    : True  ,
+                  'do4MC'      : False ,
+                  'do4Data'    : True  ,
+                  'selection'  : '"((nElectron+nMuon)>0 && (MET_pt<20 || PuppiMET_pt<20))"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA'],
+                },
+  'DATAl1loose2017v9_addTnPEle': {
+                  'isChain'    : True  ,
+                  'do4MC'      : False ,
+                  'do4Data'    : True  ,
+                 'selection'  : '"((nElectron+nMuon)>1)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA','addTnPEle'],
+                },
+  'DATAl1loose2017v9_addTnPMuon': {
+                  'isChain'    : True  ,
+                  'do4MC'      : False ,
+                  'do4Data'    : True  ,
+                 'selection'  : '"((nElectron+nMuon)>1)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA','addTnPMuon'],
+                },
+  ############
+  'DATAl1loose2017v9_fakeW_l4loose': {
+                  'isChain'    : True  ,
+                  'do4MC'      : False ,
+                  'do4Data'    : True  ,
+                  'selection'  : '"((nElectron+nMuon)>=4)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA', 'fakeWstep','formulasFAKE'],
+  },
+  ############
 
 # 'DATAl1loose2017': {
 #                 'isChain'    : True  ,
@@ -1978,8 +2143,37 @@ Steps = {
                   'do4MC'      : False ,
                   'do4Data'    : True  ,
                   'selection'  : '"((nElectron+nMuon)>0)"' ,
-                  'subTargets' : ['leptonMaker','lepSel','jetSelUL','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA'],
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA'],
                 },
+  'DATAl1loose2018v9_fakeSel': {
+                  'isChain'    : True  ,
+                  'do4MC'      : False ,
+                  'do4Data'    : True  ,
+                  'selection'  : '"((nElectron+nMuon)>0 && (MET_pt<20 || PuppiMET_pt<20))"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA'],
+                },
+  'DATAl1loose2018v9_addTnPEle': {
+                  'isChain'    : True  ,
+                  'do4MC'      : False ,
+                  'do4Data'    : True  ,
+                  'selection'  : '"((nElectron+nMuon)>1)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA','addTnPEle'],
+                },
+  'DATAl1loose2018v9_addTnPMuon': {
+                  'isChain'    : True  ,
+                  'do4MC'      : False ,
+                  'do4Data'    : True  ,
+                  'selection'  : '"((nElectron+nMuon)>1)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA','addTnPMuon'],
+                },
+  ##########################
+  'DATAl1loose2018v9_fakeW_l2loose': {
+                  'isChain'    : True  ,
+                  'do4MC'      : False ,
+                  'do4Data'    : True  ,
+                  'selection'  : '"((nElectron+nMuon)>=2)"' ,
+                  'subTargets' : ['leptonMaker','leptonMVAFiller','lepSel','jetSelUL','CleanFatJet', 'rochesterDATA' , 'l2Kin', 'l3Kin', 'l4Kin','trigData', 'formulasDATA', 'fakeWstep','formulasFAKE'],
+  },
 
   'DATAl1loose2018v9_puIDtest': {
                   'isChain'    : True  ,
@@ -5691,7 +5885,8 @@ Steps = {
         'isChain': True,
         'do4MC': True,
         'do4Data': False,
-        'subTargets': ['JESup_suffix', 'JESdo_suffix', 'JERup_suffix', 'JERdo_suffix', 'METup_suffix', 'METdo_suffix', 'ElepTup_suffix', 'ElepTdo_suffix', 'MupTup_suffix', 'MupTdo_suffix'],
+        #'subTargets': ['JESup_suffix', 'JESdo_suffix', 'JERup_suffix', 'JERdo_suffix', 'METup_suffix', 'METdo_suffix', 'ElepTup_suffix', 'ElepTdo_suffix', 'MupTup_suffix', 'MupTdo_suffix'],
+        'subTargets': ['JERup_suffix', 'JERdo_suffix', 'METup_suffix', 'METdo_suffix', 'ElepTup_suffix', 'ElepTdo_suffix', 'MupTup_suffix', 'MupTdo_suffix'],
         'outputbranchsel': os.getenv('CMSSW_BASE') + '/src/LatinoAnalysis/NanoGardener/python/data/keepsysts.txt'
     },
 
@@ -6182,6 +6377,17 @@ Steps = {
                                   "' ,
                   'subTargets' : ['JJHEFT'],
                  },
+
+  'l3tightOR2018v9' : {
+                  'isChain'    : False  ,
+                  'do4MC'      : True  ,
+                  'do4Data'    : True  ,
+                  'selection'  : '" (nLepton>=3 && Lepton_pt[0]>10 && Lepton_pt[1]>5 && Lepton_pt[2]>5 ) \
+                  && (Lepton_isTightElectron_looseElectron_tthMVA[0] > 0.5 || (Lepton_isTightMuon_Loose_HZZ[0] > 0.5 || Lepton_isTightMuon_Loose_HZZ_noIso[0]>0.5) ) \
+                  && (Lepton_isTightElectron_looseElectron_tthMVA[1] > 0.5 || (Lepton_isTightMuon_Loose_HZZ[1] > 0.5 || Lepton_isTightMuon_Loose_HZZ_noIso[0]>0.5) ) \
+                  && (Lepton_isTightElectron_looseElectron_tthMVA[2] > 0.5 || (Lepton_isTightMuon_Loose_HZZ[2] > 0.5 || Lepton_isTightMuon_Loose_HZZ_noIso[0]>0.5) )"' ,
+    #'subTargets' : [],
+  },
 
 ## ------- 1-Lepton: tightOR (For LNuQQ samples)
 

@@ -358,37 +358,55 @@ class l3KinProducer(Module):
 
     def AZH_mA_minus_mH_onebjet(self):
         if self.AZH_isOk_onebjet:
-            return (self.ZH3l_XLepton[0] + self.AZH_Neutrino_best_onebjet + self.bJetLeptonic_best_onebjet + self.bJetHadronic_best_onebjet + self.WJet1_best_onebjet + self.WJet2_best_onebjet + self.Zlepton1 + self.Zlepton2).M()-(self.ZH3l_XLepton[0] + self.AZH_Neutrino_best_onebjet + self.bJetLeptonic_best_onebjet + self.bJetHadronic_best_onebjet + self.WJet1_best_onebjet + self.WJet2_best_onebjet).M()
+            try:
+                return (self.ZH3l_XLepton[0] + self.AZH_Neutrino_best_onebjet + self.bJetLeptonic_best_onebjet + self.bJetHadronic_best_onebjet + self.WJet1_best_onebjet + self.WJet2_best_onebjet + self.Zlepton1 + self.Zlepton2).M()-(self.ZH3l_XLepton[0] + self.AZH_Neutrino_best_onebjet + self.bJetLeptonic_best_onebjet + self.bJetHadronic_best_onebjet + self.WJet1_best_onebjet + self.WJet2_best_onebjet).M()
+            except:
+                return -9999
         else:
             return -9999
 
     def AZH_Amass_onebjet(self):
         if self.AZH_isOk_onebjet:
-            return (self.ZH3l_XLepton[0] + self.AZH_Neutrino_best_onebjet + self.bJetLeptonic_best_onebjet + self.bJetHadronic_best_onebjet + self.WJet1_best_onebjet + self.WJet2_best_onebjet + self.Zlepton1 + self.Zlepton2).M()
+            try:
+                return (self.ZH3l_XLepton[0] + self.AZH_Neutrino_best_onebjet + self.bJetLeptonic_best_onebjet + self.bJetHadronic_best_onebjet + self.WJet1_best_onebjet + self.WJet2_best_onebjet + self.Zlepton1 + self.Zlepton2).M()
+            except:
+                return -9999
         else:
             return -9999
 
     def AZH_Hmass_onebjet(self):
         if self.AZH_isOk_onebjet:
-            return (self.ZH3l_XLepton[0] + self.AZH_Neutrino_best_onebjet + self.bJetLeptonic_best_onebjet + self.bJetHadronic_best_onebjet + self.WJet1_best_onebjet + self.WJet2_best_onebjet).M()
+            try:
+                return (self.ZH3l_XLepton[0] + self.AZH_Neutrino_best_onebjet + self.bJetLeptonic_best_onebjet + self.bJetHadronic_best_onebjet + self.WJet1_best_onebjet + self.WJet2_best_onebjet).M()
+            except:
+                return -9999
         else:
             return -9999
 
     def AZH_ChiSquare_onebjet(self):
         if self.AZH_isOk_onebjet:
-            return self.ChisqMin_onebjet
+            try:
+                return self.ChisqMin_onebjet
+            except:
+                return -9999
         else:
             return -9999
 
     def AZH_Tophadronic_onebjet(self):
         if self.AZH_isOk_onebjet:
-            return (self.bJetHadronic_best_onebjet + self.WJet1_best_onebjet + self.WJet2_best_onebjet).M()
+            try:
+                return (self.bJetHadronic_best_onebjet + self.WJet1_best_onebjet + self.WJet2_best_onebjet).M()
+            except:
+                return -999
         else:
             return -9999
 
     def AZH_Topleptonic_onebjet(self):
         if self.AZH_isOk_onebjet:
-            return (self.ZH3l_XLepton[0] + self.AZH_Neutrino_best_onebjet + self.bJetLeptonic_best_onebjet).M()
+            try:
+                return (self.ZH3l_XLepton[0] + self.AZH_Neutrino_best_onebjet + self.bJetLeptonic_best_onebjet).M()
+            except:
+                return -9999
         else:
             return -9999
 

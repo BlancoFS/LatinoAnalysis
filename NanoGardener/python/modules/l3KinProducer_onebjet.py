@@ -482,30 +482,30 @@ class l3KinProducer(Module):
           self.AZH_Neutrino_best_onebjet = None
           self.ChisqMin_onebjet = 99999
           self.Chisq_onebjet = 0
-             for AZH_Neutrino in [self.AZH_Neutrino1, self.AZH_Neutrino2]: 
-               self.ibJet2 = 0
-               for ij in range(len(self.ZH3l_CleanJet_4vecId)):
-                   if self.ZH3l_CleanJet_4vecId[ij] != self.AZH_bJet_4vecId[0] and self.ZH3l_CleanJetbtag_4vecId[ij] > self.ZH3l_CleanJetbtag_4vecId[self.ibjet2]:
+          for AZH_Neutrino in [self.AZH_Neutrino1, self.AZH_Neutrino2]: 
+              self.ibJet2 = 0
+              for ij in range(len(self.ZH3l_CleanJet_4vecId)):
+                  if self.ZH3l_CleanJet_4vecId[ij] != self.AZH_bJet_4vecId[0] and self.ZH3l_CleanJetbtag_4vecId[ij] > self.ZH3l_CleanJetbtag_4vecId[self.ibjet2]:
                       self.ibJet2 = ij
-               bJetPair[2] = {self.AZH_bJet_4vecId[0], self.ZH3l_CleanJet_4vecId[ibJet2]}
-               WJets = [j for j in self.ZH3l_CleanJet_4vecId if j not in bJetPair]
-               for i in range(2):
-                 for WJet1_onebjet, WJet2_onebjet in combinations(WJets, 2):
-                     bJetHadronic_onebjet = bJetPair[i]
-                     bJetLeptonic_onebjet = bJetPair[1-i]
-                     WMassLeptonic_onebjet = (self.ZH3l_XLepton[0] + AZH_Neutrino).M()
-                     WMassHadronic_onebjet = (WJet1_onebjet + WJet2_onebjet).M()
-                     TopMassLeptonic_onebjet = (self.ZH3l_XLepton[0] + AZH_Neutrino + bJetLeptonic_onebjet).M()
-                     TopMassHadronic_onebjet = (WJet1_onebjet + WJet2_onebjet + bJetHadronic_onebjet).M()
-                     self.Chisq_onebjet = TMath.Power((TopMassLeptonic_onebjet-self.Topmassleptonic_true)/self.sigmaleptonic,2) + TMath.Power((TopMassHadronic_onebjet-self.Topmasshadronic_true)/self.sigmahadronic,2)
-                     if self.Chisq_onebjet < self.ChisqMin_onebjet:
-                           self.ChisqMin_onebjet = self.Chisq_onebjet
-                           self.WJet1_best_onebjet = WJet1_onebjet
-                           self.WJet2_best_onebjet = WJet2_onebjet
-                           self.bJetHadronic_best_onebjet = bJetHadronic_onebjet
-                           self.bJetLeptonic_best_onebjet = bJetLeptonic_onebjet
-                           self.AZH_Neutrino_best_onebjet = AZH_Neutrino
-
+              bJetPair[2] = {self.AZH_bJet_4vecId[0], self.ZH3l_CleanJet_4vecId[ibJet2]}
+              WJets = [j for j in self.ZH3l_CleanJet_4vecId if j not in bJetPair]
+              for i in range(2):
+                  for WJet1_onebjet, WJet2_onebjet in combinations(WJets, 2):
+                      bJetHadronic_onebjet = bJetPair[i]
+                      bJetLeptonic_onebjet = bJetPair[1-i]
+                      WMassLeptonic_onebjet = (self.ZH3l_XLepton[0] + AZH_Neutrino).M()
+                      WMassHadronic_onebjet = (WJet1_onebjet + WJet2_onebjet).M()
+                      TopMassLeptonic_onebjet = (self.ZH3l_XLepton[0] + AZH_Neutrino + bJetLeptonic_onebjet).M()
+                      TopMassHadronic_onebjet = (WJet1_onebjet + WJet2_onebjet + bJetHadronic_onebjet).M()
+                      self.Chisq_onebjet = TMath.Power((TopMassLeptonic_onebjet-self.Topmassleptonic_true)/self.sigmaleptonic,2) + TMath.Power((TopMassHadronic_onebjet-self.Topmasshadronic_true)/self.sigmahadronic,2)
+                      if self.Chisq_onebjet < self.ChisqMin_onebjet:
+                          self.ChisqMin_onebjet = self.Chisq_onebjet
+                          self.WJet1_best_onebjet = WJet1_onebjet
+                          self.WJet2_best_onebjet = WJet2_onebjet
+                          self.bJetHadronic_best_onebjet = bJetHadronic_onebjet
+                          self.bJetLeptonic_best_onebjet = bJetLeptonic_onebjet
+                          self.AZH_Neutrino_best_onebjet = AZH_Neutrino
+                          
 #-----------------------------------------------------------------------------------------------------------------
 
         for nameBranchKey in self.newbranches.keys():

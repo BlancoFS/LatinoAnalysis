@@ -26,12 +26,12 @@ class TrigMaker(Module):
         self.firstEvent = True
  
         self.mu_maxPt = 200
-        self.mu_minPt = 10
+        self.mu_minPt = 5
         self.mu_maxEta = 2.4
         self.mu_minEta = -2.4
 
         self.el_maxPt = 100
-        self.el_minPt = 10
+        self.el_minPt = 7
         self.el_maxEta = 2.5
         self.el_minEta = -2.5
         self.cfg_path = cfg_path 

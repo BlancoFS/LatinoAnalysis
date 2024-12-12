@@ -22,7 +22,6 @@ METFilter_DATA   =  METFilter_Common + '*' + '(event.Flag_eeBadScFilter)'
 
 formulas['METFilter_DATA'] = METFilter_DATA
 
-
 muWPlist = [wp for wp in MuonWP['Full2018v9']['TightObjWP']]
 eleWPlist = [wp for wp in ElectronWP['Full2018v9']['TightObjWP']]
 

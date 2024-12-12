@@ -18,11 +18,12 @@ class rochester_corr(Module):
     '''
 
     def __init__(self,isdata = False , year=2016 , cmssw='Full2016v9HIPM' , lepColl="Lepton",metColls=['MET','PuppiMET','RawMET','TkMET','ChsMET']):
-        cmssw_base = os.getenv('CMSSW_BASE')
+        cmssw_base = "/afs/cern.ch/work/s/sblancof/private/Run2Analysis/sendEOSJobs/HZZ_polarization/CMSSW_10_6_10"
         self.isdata = isdata
         print "Loading macros from "+cmssw_base+"/src/LatinoAnalysis/NanoGardener/python/modules/RoccoR.cc"
         try:
-            ROOT.gROOT.LoadMacro(cmssw_base+'/src/LatinoAnalysis/NanoGardener/python/modules/RoccoR.cc+g')                                                                    
+            #ROOT.gROOT.LoadMacro(cmssw_base+'/src/LatinoAnalysis/NanoGardener/python/modules/RoccoR.cc+g')
+            ROOT.gROOT.ProcessLineSync(".L " + cmssw_base+"/src/LatinoAnalysis/NanoGardener/python/modules/RoccoR.cc+")
         except RuntimeError: 
             ROOT.gROOT.LoadMacro(cmssw_base+'/src/LatinoAnalysis/NanoGardener/python/modules/RoccoR.cc++g')      
         print "Loaded"  
@@ -127,7 +128,8 @@ class rochester_corr(Module):
                 #print charge, pt, eta, phi, nl, genpt, u1, u2                                                                                                                                                
 
                 if self.isdata == True :
-                    #for each data muon in the loop, use this function to get a scale factor for its momentum                                                                                                 
+                    #for each data muon in the loop, use this function to get a scale factor for its momentum
+                    
                     dataSF = self.rc.kScaleDT(charge,pt,eta,phi)
                     #dataSFerr= self.rc.kScaleDTerror(charge,pt,eta,phi)
                     if dataSF < 0.5 or dataSF > 1.5 or math.isnan(dataSF) == 1 :

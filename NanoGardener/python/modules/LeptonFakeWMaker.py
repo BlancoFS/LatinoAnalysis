@@ -423,7 +423,7 @@ class FakeWeight():
                 FPFF *= -1.
                 PFFF *= -1.
 
-            result = PPPF+PPFP+PFPP+FPPP + FFPP+PPFF+PFPF+FPFP+FPPF+PFFP + FFFP+FFPF+FPFF+FPFF+PFFF + FFFF
+            result = PPPF+PPFP+PFPP+FPPP + FFPP+PPFF+PFPF+FPFP+FPPF+PFFP + FFFP+FFPF+FPFF+PFFF + FFFF
 
             return result
 

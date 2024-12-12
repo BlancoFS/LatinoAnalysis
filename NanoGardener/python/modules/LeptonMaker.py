@@ -14,7 +14,7 @@ class LeptonMaker(Module):
     put this file in LatinoAnalysis/NanoGardener/python/modules/
     Add extra variables to NANO tree
     '''
-    def __init__(self, min_lep_pt = [10]):
+    def __init__(self, min_lep_pt = [5]):
         self.min_lep_pt = min_lep_pt
         self.min_lep_pt_idx = range(len(min_lep_pt))
         print_str = ''

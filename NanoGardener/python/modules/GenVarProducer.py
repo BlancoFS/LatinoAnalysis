@@ -21,18 +21,15 @@ from PhysicsTools.NanoAODTools.postprocessing.framework.eventloop import Module
 
 import os.path
 
-
 class GenVarProducer(Module):
     def __init__(self):
 
         # change this part into correct path structure... 
         cmssw_base = os.getenv('CMSSW_BASE')
         try:
-            ROOT.gROOT.LoadMacro(cmssw_base+'/src/LatinoAnalysis/Gardener/python/variables/GenVar.C+g')
+            ROOT.gROOT.LoadMacro('/afs/cern.ch/work/s/sblancof/private/Run2Analysis/sendEOSJobs/HZZ_polarization/CMSSW_10_6_10/src/LatinoAnalysis/Gardener/python/variables/GenVar.C+g')
         except RuntimeError:
-            ROOT.gROOT.LoadMacro(cmssw_base+'/src/LatinoAnalysis/Gardener/python/variables/GenVar.C++g')
-
-
+            ROOT.gROOT.LoadMacro('/afs/cern.ch/work/s/sblancof/private/Run2Analysis/sendEOSJobs/HZZ_polarization/CMSSW_10_6_10/src/LatinoAnalysis/Gardener/python/variables/GenVar.C++g')
       
     def beginJob(self):
         pass
@@ -156,9 +153,6 @@ class GenVarProducer(Module):
         #
     
         # FIXME missing LHE part
-          
-          
-
         GenVar = ROOT.GenVar()
        
         # if no gen information, don't fill the variable

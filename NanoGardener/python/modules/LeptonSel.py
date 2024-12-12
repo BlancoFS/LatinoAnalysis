@@ -47,9 +47,9 @@ class LeptonSel(Module):
         if len(self.MuonWP[self.cmssw]['WgStarObjWP']) > 1: raise IOError('More then one Muon WgStar def given in LeptonSel_cfg')
         self.LepFilter = LepFilter
         self.nLF = nLF
-        self.Lep_minPt = [8.0]*self.nLF
+        self.Lep_minPt = [5.0]*self.nLF
         self.JC_maxdR = 0.3 
-        self.JC_minPtLep = 10.
+        self.JC_minPtLep = 5.
         self.JC_absEta   = 5.0
 
         print('LeptonSel: keeping only '+ self.LepFilter + ' lepton(s), and saving only events with at least ' + str(self.nLF) + ' ' + self.LepFilter + ' lepton(s)')
